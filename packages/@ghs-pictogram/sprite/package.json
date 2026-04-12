@@ -1,0 +1,13 @@
+{
+  "name": "@ghs-pictogram/sprite",
+  "version": "0.0.0",
+  "description": "GHS hazard pictogram SVG sprite — all pictograms as <symbol> elements in a single file",
+  "exports": {
+    "./sprite.svg": "./sprite.svg",
+    "./sprite-ids.json": "./sprite-ids.json"
+  },
+  "files": [
+    "sprite.svg",
+    "sprite-ids.json"
+  ]
+}

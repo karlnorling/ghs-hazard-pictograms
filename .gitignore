@@ -11,3 +11,15 @@
 
 #!.yarn/cache
 .pnp.*
+node_modules
+
+# Build output
+dist/
+
+# Generated data cache (re-created by yarn update)
+data/
+
+*storybook.log
+storybook-static
+
+.DS_Store

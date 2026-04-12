@@ -1,0 +1,11 @@
+{
+  "name": "@ghs-pictogram/assets",
+  "version": "0.0.0",
+  "description": "GHS hazard pictogram static image assets (SVG, PNG, JPG, WebP)",
+  "exports": {
+    "./assets/*": "./assets/*"
+  },
+  "files": [
+    "assets/"
+  ]
+}
