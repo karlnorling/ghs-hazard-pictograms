@@ -8,7 +8,6 @@
  * Run indirectly via `yarn update` (bin/update.ts).
  */
 
-import fetch from 'node-fetch';
 import { parse } from 'node-html-parser';
 
 // ---------------------------------------------------------------------------
