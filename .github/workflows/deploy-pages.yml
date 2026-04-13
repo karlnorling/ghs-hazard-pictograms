@@ -32,6 +32,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Compile workspace packages
+        run: yarn compile
+
       - name: Build Storybook
         run: yarn workspace @ghs-storybook/app build-storybook
         env:
