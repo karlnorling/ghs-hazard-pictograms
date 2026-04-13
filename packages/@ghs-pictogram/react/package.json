@@ -30,7 +30,7 @@
     "@types/jest": "^30.0.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19",
-    "jest": "^30.0.5",
+    "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
