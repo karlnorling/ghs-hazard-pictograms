@@ -4,64 +4,81 @@ import * as React from 'react';
 // ---------------------------------------------------------------------------
 // CSS sprite usage
 //
-// The sprite.css file uses background-image with relative URLs pointing to
-// individual SVG files inside assets/. In a real application you would import
-// the stylesheet directly:
-//
+// In a real application import the stylesheet from the package:
 //   import 'ghs-hazard-pictograms/css/sprite.css';
 //
-// and then apply the generated class names:
-//
-//   <span class="ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos"
-//         style="display:inline-block;width:120px;height:120px" />
-//
-// In this Storybook, we inject CSS rules that reference the SVGs via a
-// relative path from the storybook dev server.
+// Then apply the generated class names to any block element sized with
+// width / height. Storybook injects the rules dynamically below so you
+// can see the effect without importing the file.
 // ---------------------------------------------------------------------------
 
-// CSS class names for the 9 core GHS pictograms (from sprite.css)
-const GHS_CSS_ITEMS = [
+// ---------------------------------------------------------------------------
+// Pictogram data
+// ---------------------------------------------------------------------------
+
+interface CSSItem {
+  /** CSS class name (without leading dot) */
+  className: string;
+  /** Path to the SVG relative to the assets package root */
+  svgPath: string;
+  /** Human-readable label */
+  label: string;
+  category: 'ghs' | 'transport';
+}
+
+export const CSS_ITEMS: CSSItem[] = [
+  // GHS01–09
   {
     className: 'ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos',
     svgPath: 'physical_hazards_pictograms/ghs01_explosive/GHS-pictogram-explos.svg',
     label: 'GHS01 Explosive',
+    category: 'ghs',
   },
   {
     className: 'ghs-physical_hazards_pictograms_ghs02_flammable_ghs-pictogram-flamme',
     svgPath: 'physical_hazards_pictograms/ghs02_flammable/GHS-pictogram-flamme.svg',
     label: 'GHS02 Flammable',
+    category: 'ghs',
   },
   {
     className: 'ghs-physical_hazards_pictograms_ghs03_oxidizing_ghs-pictogram-rondflam',
     svgPath: 'physical_hazards_pictograms/ghs03_oxidizing/GHS-pictogram-rondflam.svg',
     label: 'GHS03 Oxidizing',
+    category: 'ghs',
   },
   {
     className: 'ghs-physical_hazards_pictograms_ghs04_compressedgas_ghs-pictogram-bottle',
     svgPath: 'physical_hazards_pictograms/ghs04_compressedgas/GHS-pictogram-bottle.svg',
     label: 'GHS04 Compressed Gas',
+    category: 'ghs',
   },
   {
     className: 'ghs-physical_hazards_pictograms_ghs05_corrosive_ghs-pictogram-acid',
     svgPath: 'physical_hazards_pictograms/ghs05_corrosive/GHS-pictogram-acid.svg',
     label: 'GHS05 Corrosive',
+    category: 'ghs',
   },
   {
     className: 'ghs-health_hazards_pictograms_ghs06_toxic_ghs-pictogram-skull',
     svgPath: 'health_hazards_pictograms/ghs06_toxic/GHS-pictogram-skull.svg',
     label: 'GHS06 Toxic',
+    category: 'ghs',
   },
   {
     className:
       'ghs-health_hazards_pictograms_ghs07_healthhazard_hazardoustoozonelayer_ghs-pictogram-exclam',
     svgPath:
       'health_hazards_pictograms/ghs07_healthhazard_hazardoustoozonelayer/GHS-pictogram-exclam.svg',
-    label: 'GHS07 Health Hazard / Ozone',
+    label: 'GHS07 Health Hazard',
+    category: 'ghs',
   },
   {
-    className: 'ghs-health_hazards_pictograms_ghs08_serioushealthhazard_ghs-pictogram-silhouette',
-    svgPath: 'health_hazards_pictograms/ghs08_serioushealthhazard/GHS-pictogram-silhouette.svg',
+    className:
+      'ghs-health_hazards_pictograms_ghs08_serioushealthhazard_ghs-pictogram-silhouette',
+    svgPath:
+      'health_hazards_pictograms/ghs08_serioushealthhazard/GHS-pictogram-silhouette.svg',
     label: 'GHS08 Serious Health Hazard',
+    category: 'ghs',
   },
   {
     className:
@@ -69,38 +86,147 @@ const GHS_CSS_ITEMS = [
     svgPath:
       'environmental_hazards_pictograms/ghs09_hazardoustotheenvironment/GHS-pictogram-pollu.svg',
     label: 'GHS09 Environmental Hazard',
+    category: 'ghs',
+  },
+  // Transport hazard classes
+  {
+    className: 'ghs-transport_pictograms_class_1__explosives_adr_1',
+    svgPath: 'transport_pictograms/class_1__explosives/ADR_1.svg',
+    label: 'Divisions 1.1–1.3',
+    category: 'transport',
+  },
+  {
+    className: 'ghs-transport_pictograms_class_1__explosives_adr_1.4',
+    svgPath: 'transport_pictograms/class_1__explosives/ADR_1.4.svg',
+    label: 'Division 1.4',
+    category: 'transport',
+  },
+  {
+    className: 'ghs-transport_pictograms_class_1__explosives_adr_1.5',
+    svgPath: 'transport_pictograms/class_1__explosives/ADR_1.5.svg',
+    label: 'Division 1.5',
+    category: 'transport',
+  },
+  {
+    className: 'ghs-transport_pictograms_class_1__explosives_adr_1.6',
+    svgPath: 'transport_pictograms/class_1__explosives/ADR_1.6.svg',
+    label: 'Division 1.6',
+    category: 'transport',
+  },
+  {
+    className: 'ghs-transport_pictograms_class_2__gases_adr_2.1',
+    svgPath: 'transport_pictograms/class_2__gases/ADR_2.1.svg',
+    label: 'Division 2.1',
+    category: 'transport',
+  },
+  {
+    className: 'ghs-transport_pictograms_class_2__gases_adr_2.2',
+    svgPath: 'transport_pictograms/class_2__gases/ADR_2.2.svg',
+    label: 'Division 2.2',
+    category: 'transport',
+  },
+  {
+    className: 'ghs-transport_pictograms_class_2__gases_adr_2.3',
+    svgPath: 'transport_pictograms/class_2__gases/ADR_2.3.svg',
+    label: 'Division 2.3',
+    category: 'transport',
+  },
+  {
+    className:
+      'ghs-transport_pictograms_classes_3_and_4__flammable_liquids_and_solids_adr_3',
+    svgPath:
+      'transport_pictograms/classes_3_and_4__flammable_liquids_and_solids/ADR_3.svg',
+    label: 'Class 3',
+    category: 'transport',
+  },
+  {
+    className: 'ghs-transport_pictograms_other_ghs_transport_classes_adr_5.1',
+    svgPath: 'transport_pictograms/other_ghs_transport_classes/ADR_5.1.svg',
+    label: 'Division 5.1',
+    category: 'transport',
+  },
+  {
+    className:
+      'ghs-transport_pictograms_other_ghs_transport_classes_un_transport_pictogram_-_5.2_(black)',
+    svgPath:
+      'transport_pictograms/other_ghs_transport_classes/UN_transport_pictogram_-_5.2_(black).svg',
+    label: 'Division 5.2',
+    category: 'transport',
+  },
+  {
+    className:
+      'ghs-transport_pictograms_other_ghs_transport_classes_un_transport_pictogram_-_6',
+    svgPath:
+      'transport_pictograms/other_ghs_transport_classes/UN_transport_pictogram_-_6.svg',
+    label: 'Division 6.1',
+    category: 'transport',
+  },
+  {
+    className:
+      'ghs-transport_pictograms_other_ghs_transport_classes_un_transport_pictogram_-_8',
+    svgPath:
+      'transport_pictograms/other_ghs_transport_classes/UN_transport_pictogram_-_8.svg',
+    label: 'Class 8',
+    category: 'transport',
+  },
+  {
+    className: 'ghs-transport_pictograms_non-ghs_transport_pictograms_adr_6.2',
+    svgPath: 'transport_pictograms/non-ghs_transport_pictograms/ADR_6.2.svg',
+    label: 'Class 6.2',
+    category: 'transport',
+  },
+  {
+    className: 'ghs-transport_pictograms_non-ghs_transport_pictograms_adr_7a',
+    svgPath: 'transport_pictograms/non-ghs_transport_pictograms/ADR_7A.svg',
+    label: 'Class 7',
+    category: 'transport',
+  },
+  {
+    className: 'ghs-transport_pictograms_non-ghs_transport_pictograms_adr_9',
+    svgPath: 'transport_pictograms/non-ghs_transport_pictograms/ADR_9.svg',
+    label: 'Class 9',
+    category: 'transport',
   },
 ];
 
+const GHS_ONLY = CSS_ITEMS.filter((i) => i.category === 'ghs');
+const TRANSPORT_ONLY = CSS_ITEMS.filter((i) => i.category === 'transport');
+
 // ---------------------------------------------------------------------------
-// Inject CSS rules into the document so the classes work in Storybook.
-// In a real app you would import sprite.css instead.
+// CSS injection
+//
+// Dots and parentheses in class names must be escaped in CSS selectors.
+// In HTML class attributes they are used unescaped.
 // ---------------------------------------------------------------------------
 
-const StyleInjector = ({ size }: { size: number }) => {
-  // Build the base URL to the assets directory (served as static by Storybook)
-  const rules = GHS_CSS_ITEMS.map(
-    ({ className, svgPath }) =>
-      `.${className} { background-image: url('/assets/${svgPath}'); background-size: contain; background-repeat: no-repeat; background-position: center; }`,
-  ).join('\n');
+const escapeSelector = (cls: string) =>
+  cls.replace(/[.()\[\]]/g, (ch) => `\\${ch}`);
 
-  // Also set a size class
+const StyleInjector = ({ items, size }: { items: CSSItem[]; size: number }) => {
+  const rules = items
+    .map(
+      ({ className, svgPath }) =>
+        `.${escapeSelector(className)} { background-image: url('/assets/${svgPath}'); background-size: contain; background-repeat: no-repeat; background-position: center; }`,
+    )
+    .join('\n');
+
   const sizeRule = `.ghs-icon { display: inline-block; width: ${size}px; height: ${size}px; }`;
 
   return <style>{`${rules}\n${sizeRule}`}</style>;
 };
 
 // ---------------------------------------------------------------------------
-// Story component
+// Grid component
 // ---------------------------------------------------------------------------
 
 interface GridProps {
   size?: number;
+  items?: CSSItem[];
 }
 
-const GHSCSSGrid = ({ size = 120 }: GridProps) => (
+const CSSGrid = ({ size = 120, items = CSS_ITEMS }: GridProps) => (
   <>
-    <StyleInjector size={size} />
+    <StyleInjector items={items} size={size} />
     <div
       style={{
         display: 'grid',
@@ -109,81 +235,22 @@ const GHSCSSGrid = ({ size = 120 }: GridProps) => (
         padding: '1rem',
       }}
     >
-      {GHS_CSS_ITEMS.map(({ className, label }) => (
+      {items.map(({ className, label }) => (
         <div
           key={className}
           style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}
         >
-          <span className={`ghs-icon ${className}`} role="img" aria-label={label} title={label} />
+          <span
+            className={`ghs-icon ${className}`}
+            role="img"
+            aria-label={label}
+            title={label}
+          />
           <span style={{ fontSize: '0.75rem', textAlign: 'center', color: '#555' }}>{label}</span>
         </div>
       ))}
     </div>
   </>
-);
-
-// Code reference panel (pure documentation, no rendering)
-const CodeExample = () => (
-  <div style={{ fontFamily: 'monospace', fontSize: '0.85rem', lineHeight: 1.6 }}>
-    <p style={{ fontFamily: 'sans-serif', marginBottom: '0.5rem' }}>
-      1. Import the stylesheet in your application entry point:
-    </p>
-    <pre
-      style={{
-        background: '#f4f4f4',
-        padding: '1rem',
-        borderRadius: '4px',
-        overflow: 'auto',
-      }}
-    >
-      {`import 'ghs-hazard-pictograms/css/sprite.css';`}
-    </pre>
-
-    <p style={{ fontFamily: 'sans-serif', margin: '1rem 0 0.5rem' }}>
-      2. Apply the generated class name to any element:
-    </p>
-    <pre
-      style={{
-        background: '#f4f4f4',
-        padding: '1rem',
-        borderRadius: '4px',
-        overflow: 'auto',
-      }}
-    >
-      {`<!-- HTML -->
-<span class="ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos"
-      style="display:inline-block;width:120px;height:120px"
-      role="img"
-      aria-label="GHS01 Explosive"
-      title="GHS01 Explosive" />
-
-<!-- React -->
-<span
-  className="ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos"
-  style={{ display: 'inline-block', width: 120, height: 120 }}
-  role="img"
-  aria-label="GHS01 Explosive"
-  title="GHS01 Explosive"
-/>`}
-    </pre>
-
-    <p style={{ fontFamily: 'sans-serif', margin: '1rem 0 0.5rem' }}>
-      3. Use the CSS helper (optional):
-    </p>
-    <pre
-      style={{
-        background: '#f4f4f4',
-        padding: '1rem',
-        borderRadius: '4px',
-        overflow: 'auto',
-      }}
-    >
-      {`import { getCssClassName } from 'ghs-hazard-pictograms/css';
-
-const cls = getCssClassName('ghs01-explosive');
-// → 'ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos'`}
-    </pre>
-  </div>
 );
 
 // ---------------------------------------------------------------------------
@@ -192,27 +259,9 @@ const cls = getCssClassName('ghs01-explosive');
 
 const meta: Meta<GridProps> = {
   title: 'GHS Pictograms/CSS Sprite',
-  component: GHSCSSGrid,
+  component: CSSGrid,
   parameters: {
     layout: 'padded',
-    docs: {
-      description: {
-        component: `
-CSS background-image sprite — import \`ghs-hazard-pictograms/css/sprite.css\` and
-apply a generated \`.ghs-*\` class to any block element sized with \`width\` / \`height\`.
-
-\`\`\`css
-/* What sprite.css generates per pictogram */
-.ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos {
-  background-image: url('../physical_hazards_pictograms/ghs01_explosive/GHS-pictogram-explos.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-\`\`\`
-        `.trim(),
-      },
-    },
   },
   argTypes: {
     size: { control: { type: 'number', min: 32, max: 512, step: 8 } },
@@ -221,27 +270,35 @@ apply a generated \`.ghs-*\` class to any block element sized with \`width\` / \
 
 export default meta;
 
+// ---------------------------------------------------------------------------
+// Grid stories
+// ---------------------------------------------------------------------------
+
+export const AllGHS: StoryObj<GridProps> = {
+  name: 'GHS01–09 All',
+  render: ({ size }) => <CSSGrid size={size} items={GHS_ONLY} />,
+  args: { size: 120 },
+};
+
+export const AllTransport: StoryObj<GridProps> = {
+  name: 'Transport All',
+  render: ({ size }) => <CSSGrid size={size} items={TRANSPORT_ONLY} />,
+  args: { size: 120 },
+};
+
 export const AllPictograms: StoryObj<GridProps> = {
-  name: 'All GHS Pictograms',
+  render: ({ size }) => <CSSGrid size={size} items={CSS_ITEMS} />,
   args: { size: 120 },
 };
 
 export const Large: StoryObj<GridProps> = {
+  name: 'All Large',
+  render: ({ size }) => <CSSGrid size={size} items={CSS_ITEMS} />,
   args: { size: 200 },
 };
 
 export const Small: StoryObj<GridProps> = {
+  name: 'All Small',
+  render: ({ size }) => <CSSGrid size={size} items={CSS_ITEMS} />,
   args: { size: 64 },
-};
-
-export const UsageGuide: StoryObj = {
-  parameters: {
-    layout: 'padded',
-    docs: {
-      description: {
-        story: 'Step-by-step code examples for integrating the CSS sprite into your project.',
-      },
-    },
-  },
-  render: () => <CodeExample />,
 };

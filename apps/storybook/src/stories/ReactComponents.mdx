@@ -1,0 +1,165 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ReactStories from './ReactComponents.stories';
+
+<Meta of={ReactStories} />
+
+# React Components
+
+Inline SVG components for all 24 GHS and transport hazard pictograms. Each component is tree-shakeable, fully accessible, and accepts the same `PictogramProps` interface.
+
+## Installation
+
+```sh
+npm install @ghs-pictogram/react
+# or
+yarn add @ghs-pictogram/react
+```
+
+## Basic usage
+
+```tsx
+import { Ghs01Explosive } from '@ghs-pictogram/react';
+
+export default function Label() {
+  return <Ghs01Explosive width={120} height={120} />;
+}
+```
+
+---
+
+## GHS01–09 Hazard Pictograms
+
+The nine core globally harmonised system pictograms covering physical, health, and environmental hazards.
+
+<Canvas of={ReactStories.AllGHS} />
+
+---
+
+## Transport Hazard Pictograms
+
+UN/ADR transport hazard class pictograms covering explosives (Class 1), gases (Class 2), flammable liquids (Class 3), oxidisers (Class 5), toxic substances (Class 6), radioactives (Class 7), corrosives (Class 8), and miscellaneous (Class 9).
+
+<Canvas of={ReactStories.AllTransport} />
+
+---
+
+## Props reference — `PictogramProps`
+
+Every component accepts the following props. Use the controls panel below to experiment interactively.
+
+<Canvas of={ReactStories.Explosive} />
+<Controls of={ReactStories.Explosive} />
+
+| Prop          | Type                  | Default                      | Description                                              |
+| ------------- | --------------------- | ---------------------------- | -------------------------------------------------------- |
+| `width`       | `number \| string`    | SVG intrinsic width          | Width of the `<svg>` element                             |
+| `height`      | `number \| string`    | SVG intrinsic height         | Height of the `<svg>` element                            |
+| `title`       | `string`              | Pictogram name               | Accessible title injected as `<title>` inside the SVG   |
+| `description` | `string`              | Hazard description           | Accessible description injected as `<desc>`              |
+| `className`   | `string`              | —                            | CSS class forwarded to the root `<svg>`                  |
+| `style`       | `React.CSSProperties` | —                            | Inline styles forwarded to the root `<svg>`              |
+| `aria-label`  | `string`              | —                            | Overrides `aria-labelledby` with a direct label          |
+
+---
+
+## Accessibility
+
+Every component renders with `role="img"`, `aria-labelledby` pointing to an injected `<title>` and `<desc>` element. Screen readers announce the pictogram name and hazard description automatically.
+
+Override the defaults when you need domain-specific copy:
+
+<Canvas of={ReactStories.CustomA11y} />
+
+```tsx
+<Ghs06Toxic
+  title="Danger: Toxic substance"
+  description="Acutely toxic — wear PPE before handling."
+  width={120}
+/>
+```
+
+---
+
+## GHS01–09 Individual Pictograms
+
+| Story | Component | Description |
+| ----- | --------- | ----------- |
+| GHS01 Explosive | `Ghs01Explosive` | Explosives, self-reactive substances, organic peroxides |
+| GHS02 Flammable | `Ghs02Flammable` | Flammable gases, aerosols, liquids, solids |
+| GHS03 Oxidizing | `Ghs03Oxidizing` | Oxidising gases, liquids, solids |
+| GHS04 Compressed Gas | `Ghs04CompressedGas` | Compressed, liquefied, or dissolved gases |
+| GHS05 Corrosive | `Ghs05Corrosive` | Skin corrosion / burns, serious eye damage |
+| GHS06 Toxic | `Ghs06Toxic` | Acute toxicity (oral, dermal, inhalation) |
+| GHS07 Health Hazard | `Ghs07HealthHazardHazardousToOzoneLayer` | Irritant, sensitiser, narcotic; hazardous to ozone layer |
+| GHS08 Serious Health Hazard | `Ghs08SeriousHealthHazard` | Carcinogen, mutagen, reproductive toxicant |
+| GHS09 Environmental Hazard | `Ghs09HazardousToTheEnvironment` | Aquatic toxicity (acute and chronic) |
+
+<Canvas of={ReactStories.Explosive} />
+<Canvas of={ReactStories.Flammable} />
+<Canvas of={ReactStories.Oxidizing} />
+<Canvas of={ReactStories.CompressedGas} />
+<Canvas of={ReactStories.Corrosive} />
+<Canvas of={ReactStories.Toxic} />
+<Canvas of={ReactStories.HealthHazard} />
+<Canvas of={ReactStories.SeriousHealthHazard} />
+<Canvas of={ReactStories.EnvironmentalHazard} />
+
+---
+
+## Transport Individual Pictograms
+
+UN/ADR transport hazard classes exposed as React components.
+
+```tsx
+import {
+  Divisions1113,
+  Division14,
+  Division15,
+  Division16,
+  Division21,
+  Division22,
+  Division23,
+  Class3,
+  Division51,
+  Division52,
+  Division61,
+  Class8,
+  Class62,
+  Class7,
+  Class9,
+} from '@ghs-pictogram/react';
+```
+
+| Story | Component | Hazard class |
+| ----- | --------- | ------------ |
+| Divisions 1.1–1.3 | `Divisions1113` | Explosives with mass explosion / fragment hazard |
+| Division 1.4 | `Division14` | Explosives — minor blast hazard only |
+| Division 1.5 | `Division15` | Very insensitive explosives |
+| Division 1.6 | `Division16` | Extremely insensitive detonating articles |
+| Division 2.1 | `Division21` | Flammable gases |
+| Division 2.2 | `Division22` | Non-flammable, non-toxic gases |
+| Division 2.3 | `Division23` | Toxic gases |
+| Class 3 | `Class3` | Flammable liquids and solids |
+| Division 5.1 | `Division51` | Oxidising substances |
+| Division 5.2 | `Division52` | Organic peroxides |
+| Division 6.1 | `Division61` | Toxic substances |
+| Class 6.2 | `Class62` | Infectious substances |
+| Class 7 | `Class7` | Radioactive material |
+| Class 8 | `Class8` | Corrosives |
+| Class 9 | `Class9` | Miscellaneous dangerous substances |
+
+<Canvas of={ReactStories.Div1113} />
+<Canvas of={ReactStories.Div14} />
+<Canvas of={ReactStories.Div15} />
+<Canvas of={ReactStories.Div16} />
+<Canvas of={ReactStories.Div21} />
+<Canvas of={ReactStories.Div22} />
+<Canvas of={ReactStories.Div23} />
+<Canvas of={ReactStories.ClassThree} />
+<Canvas of={ReactStories.Div51} />
+<Canvas of={ReactStories.Div52} />
+<Canvas of={ReactStories.Div61} />
+<Canvas of={ReactStories.ClassSix2} />
+<Canvas of={ReactStories.ClassSeven} />
+<Canvas of={ReactStories.ClassEight} />
+<Canvas of={ReactStories.ClassNine} />

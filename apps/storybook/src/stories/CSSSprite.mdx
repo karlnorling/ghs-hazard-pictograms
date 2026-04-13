@@ -1,0 +1,156 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as CSSSpriteStories from './CSSSprite.stories';
+
+<Meta of={CSSSpriteStories} />
+
+# CSS Sprite
+
+Import `sprite.css` to get a set of `.ghs-*` utility classes. Apply a class to any block element and size it with `width` / `height` — no JavaScript required.
+
+## Installation
+
+```sh
+npm install @ghs-pictogram/css
+```
+
+## Setup
+
+Import the stylesheet once in your entry point:
+
+```js
+// JavaScript / TypeScript entry point
+import '@ghs-pictogram/css/sprite.css';
+```
+
+```css
+/* Or from a CSS file */
+@import '@ghs-pictogram/css/sprite.css';
+```
+
+## Usage
+
+Apply the generated class to any element with explicit dimensions:
+
+```html
+<!-- HTML -->
+<span
+  class="ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos"
+  style="display:inline-block; width:120px; height:120px"
+  role="img"
+  aria-label="GHS01 Explosive"
+  title="GHS01 Explosive"
+></span>
+```
+
+```tsx
+{/* React / JSX */}
+<span
+  className="ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos"
+  style={{ display: 'inline-block', width: 120, height: 120 }}
+  role="img"
+  aria-label="GHS01 Explosive"
+  title="GHS01 Explosive"
+/>
+```
+
+### CSS helper (optional)
+
+The `@ghs-pictogram/css` package exports a helper to look up class names programmatically:
+
+```ts
+import { getCssClassName } from '@ghs-pictogram/css';
+
+const cls = getCssClassName('ghs01-explosive');
+// → 'ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos'
+
+element.className = `${cls} my-icon`;
+```
+
+---
+
+## Generated CSS pattern
+
+Each pictogram generates one rule referencing the SVG from the assets package:
+
+```css
+.ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos {
+  background-image: url('../assets/assets/physical_hazards_pictograms/ghs01_explosive/GHS-pictogram-explos.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+```
+
+---
+
+## GHS01–09 Pictograms
+
+<Canvas of={CSSSpriteStories.AllGHS} />
+
+---
+
+## Transport Pictograms
+
+<Canvas of={CSSSpriteStories.AllTransport} />
+
+---
+
+## All Pictograms
+
+<Canvas of={CSSSpriteStories.AllPictograms} />
+
+---
+
+## Class name reference
+
+### GHS01–09
+
+| Pictogram | CSS class name |
+| --------- | -------------- |
+| GHS01 Explosive | `ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos` |
+| GHS02 Flammable | `ghs-physical_hazards_pictograms_ghs02_flammable_ghs-pictogram-flamme` |
+| GHS03 Oxidizing | `ghs-physical_hazards_pictograms_ghs03_oxidizing_ghs-pictogram-rondflam` |
+| GHS04 Compressed Gas | `ghs-physical_hazards_pictograms_ghs04_compressedgas_ghs-pictogram-bottle` |
+| GHS05 Corrosive | `ghs-physical_hazards_pictograms_ghs05_corrosive_ghs-pictogram-acid` |
+| GHS06 Toxic | `ghs-health_hazards_pictograms_ghs06_toxic_ghs-pictogram-skull` |
+| GHS07 Health Hazard | `ghs-health_hazards_pictograms_ghs07_healthhazard_hazardoustoozonelayer_ghs-pictogram-exclam` |
+| GHS08 Serious Health Hazard | `ghs-health_hazards_pictograms_ghs08_serioushealthhazard_ghs-pictogram-silhouette` |
+| GHS09 Environmental Hazard | `ghs-environmental_hazards_pictograms_ghs09_hazardoustotheenvironment_ghs-pictogram-pollu` |
+
+### Transport hazard classes
+
+| Pictogram | CSS class name |
+| --------- | -------------- |
+| Divisions 1.1–1.3 | `ghs-transport_pictograms_class_1__explosives_adr_1` |
+| Division 1.4 | `ghs-transport_pictograms_class_1__explosives_adr_1.4` |
+| Division 1.5 | `ghs-transport_pictograms_class_1__explosives_adr_1.5` |
+| Division 1.6 | `ghs-transport_pictograms_class_1__explosives_adr_1.6` |
+| Division 2.1 | `ghs-transport_pictograms_class_2__gases_adr_2.1` |
+| Division 2.2 | `ghs-transport_pictograms_class_2__gases_adr_2.2` |
+| Division 2.3 | `ghs-transport_pictograms_class_2__gases_adr_2.3` |
+| Class 3 | `ghs-transport_pictograms_classes_3_and_4__flammable_liquids_and_solids_adr_3` |
+| Division 5.1 | `ghs-transport_pictograms_other_ghs_transport_classes_adr_5.1` |
+| Division 5.2 | `ghs-transport_pictograms_other_ghs_transport_classes_un_transport_pictogram_-_5.2_(black)` |
+| Division 6.1 | `ghs-transport_pictograms_other_ghs_transport_classes_un_transport_pictogram_-_6` |
+| Class 8 | `ghs-transport_pictograms_other_ghs_transport_classes_un_transport_pictogram_-_8` |
+| Class 6.2 | `ghs-transport_pictograms_non-ghs_transport_pictograms_adr_6.2` |
+| Class 7 | `ghs-transport_pictograms_non-ghs_transport_pictograms_adr_7a` |
+| Class 9 | `ghs-transport_pictograms_non-ghs_transport_pictograms_adr_9` |
+
+> **Note:** Transport class names with `.` or `(` characters must be escaped in CSS selectors as `\.` and `\(`. In HTML class attributes no escaping is needed.
+
+---
+
+## Accessibility
+
+CSS background-images are not exposed to the accessibility tree. Always pair the element with `role="img"` and an `aria-label` (or `title`):
+
+```html
+<span
+  class="ghs-physical_hazards_pictograms_ghs06_toxic_ghs-pictogram-skull"
+  style="display:inline-block; width:80px; height:80px"
+  role="img"
+  aria-label="GHS06 Toxic — acute toxicity"
+  title="GHS06 Toxic"
+></span>
+```

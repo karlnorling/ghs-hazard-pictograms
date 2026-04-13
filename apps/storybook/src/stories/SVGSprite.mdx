@@ -1,0 +1,154 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SVGSpriteStories from './SVGSprite.stories';
+
+<Meta of={SVGSpriteStories} />
+
+# SVG Sprite
+
+A single `sprite.svg` file contains all 24 pictograms as `<symbol>` elements. Reference any symbol with `<use href="#symbol-id">` — one HTTP request serves every icon.
+
+## Installation
+
+```sh
+npm install @ghs-pictogram/sprite
+```
+
+## When to use
+
+| Approach | Best for |
+| -------- | -------- |
+| **SVG sprite** | Plain HTML, no framework, or when you need a single network request |
+| React components | React/JSX — richer props, full TypeScript, tree-shakeable |
+| CSS sprite | Class-name driven usage, CMS output, no JavaScript |
+
+---
+
+## Usage
+
+### External file reference (recommended)
+
+The simplest approach — serve `sprite.svg` as a static file and reference symbols by ID:
+
+```html
+<svg width="120" height="120" role="img" aria-label="GHS01 Explosive">
+  <title>GHS01 Explosive</title>
+  <use href="/assets/sprites/sprite.svg#physical-hazards-pictograms-ghs01-explosive-ghs-pictogram-explos" />
+</svg>
+```
+
+### Inline sprite (reference many times from one embed)
+
+Embed the sprite once at the top of your page to avoid cross-origin `<use>` issues and save repeated requests:
+
+```html
+<!-- Inline once, invisibly -->
+<div aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+  <!-- paste contents of sprite.svg here -->
+</div>
+
+<!-- Reference any symbol anywhere on the page -->
+<svg width="120" height="120" role="img" aria-label="GHS01 Explosive">
+  <title>GHS01 Explosive</title>
+  <use href="#physical-hazards-pictograms-ghs01-explosive-ghs-pictogram-explos" />
+</svg>
+```
+
+### React with bundler import
+
+If your bundler supports SVG imports, resolve the sprite URL at build time:
+
+```tsx
+import spriteUrl from '@ghs-pictogram/sprite/sprite.svg';
+
+function Explosive() {
+  return (
+    <svg width={120} height={120} role="img" aria-label="GHS01 Explosive">
+      <title>GHS01 Explosive</title>
+      <use href={`${spriteUrl}#physical-hazards-pictograms-ghs01-explosive-ghs-pictogram-explos`} />
+    </svg>
+  );
+}
+```
+
+---
+
+## GHS01–09 Symbols
+
+<Canvas of={SVGSpriteStories.AllGHS} />
+
+---
+
+## Transport Symbols
+
+<Canvas of={SVGSpriteStories.AllTransport} />
+
+---
+
+## All Pictograms
+
+<Canvas of={SVGSpriteStories.AllSymbols} />
+
+---
+
+## Interactive single icon
+
+Pick any symbol from the dropdown and adjust the size with the slider.
+
+<Canvas of={SVGSpriteStories.SingleIcon} />
+<Controls of={SVGSpriteStories.SingleIcon} />
+
+---
+
+## Symbol ID reference
+
+Symbol IDs follow the pattern derived from the asset directory structure. Use the exact ID in the `href` attribute.
+
+### GHS01–09
+
+| Pictogram | Symbol ID |
+| --------- | --------- |
+| GHS01 Explosive | `physical-hazards-pictograms-ghs01-explosive-ghs-pictogram-explos` |
+| GHS02 Flammable | `physical-hazards-pictograms-ghs02-flammable-ghs-pictogram-flamme` |
+| GHS03 Oxidizing | `physical-hazards-pictograms-ghs03-oxidizing-ghs-pictogram-rondflam` |
+| GHS04 Compressed Gas | `physical-hazards-pictograms-ghs04-compressedgas-ghs-pictogram-bottle` |
+| GHS05 Corrosive | `physical-hazards-pictograms-ghs05-corrosive-ghs-pictogram-acid` |
+| GHS06 Toxic | `health-hazards-pictograms-ghs06-toxic-ghs-pictogram-skull` |
+| GHS07 Health Hazard | `health-hazards-pictograms-ghs07-healthhazard-hazardoustoozonelayer-ghs-pictogram-exclam` |
+| GHS08 Serious Health Hazard | `health-hazards-pictograms-ghs08-serioushealthhazard-ghs-pictogram-silhouette` |
+| GHS09 Environmental Hazard | `environmental-hazards-pictograms-ghs09-hazardoustotheenvironment-ghs-pictogram-pollu` |
+
+### Transport hazard classes
+
+| Pictogram | Symbol ID |
+| --------- | --------- |
+| Divisions 1.1–1.3 | `transport-pictograms-class-1--explosives-adr-1` |
+| Division 1.4 | `transport-pictograms-class-1--explosives-adr-1-4` |
+| Division 1.5 | `transport-pictograms-class-1--explosives-adr-1-5` |
+| Division 1.6 | `transport-pictograms-class-1--explosives-adr-1-6` |
+| Division 2.1 | `transport-pictograms-class-2--gases-adr-2-1` |
+| Division 2.2 | `transport-pictograms-class-2--gases-adr-2-2` |
+| Division 2.3 | `transport-pictograms-class-2--gases-adr-2-3` |
+| Class 3 | `transport-pictograms-classes-3-and-4--flammable-liquids-and-solids-adr-3` |
+| Division 5.1 | `transport-pictograms-other-ghs-transport-classes-adr-5-1` |
+| Division 5.2 | `transport-pictograms-other-ghs-transport-classes-un-transport-pictogram---5-2-(black)` |
+| Division 6.1 | `transport-pictograms-other-ghs-transport-classes-un-transport-pictogram---6` |
+| Class 8 | `transport-pictograms-other-ghs-transport-classes-un-transport-pictogram---8` |
+| Class 6.2 | `transport-pictograms-non-ghs-transport-pictograms-adr-6-2` |
+| Class 7 | `transport-pictograms-non-ghs-transport-pictograms-adr-7a` |
+| Class 9 | `transport-pictograms-non-ghs-transport-pictograms-adr-9` |
+
+---
+
+## Accessibility
+
+The SVG sprite itself is presentational. Add `role="img"`, `aria-label`, and a `<title>` child to each referencing `<svg>`:
+
+```html
+<svg width="120" height="120"
+     role="img"
+     aria-label="GHS06 Toxic — skull and crossbones">
+  <title>GHS06 Toxic</title>
+  <desc>Acute toxicity symbol — skull and crossbones on diamond background.</desc>
+  <use href="/assets/sprites/sprite.svg#health-hazards-pictograms-ghs06-toxic-ghs-pictogram-skull" />
+</svg>
+```
