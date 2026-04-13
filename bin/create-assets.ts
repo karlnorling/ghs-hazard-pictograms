@@ -14,7 +14,7 @@
 import fs from 'fs';
 import path from 'path';
 import { parse } from 'node-html-parser';
-import { glob } from 'glob';
+import { globSync } from 'glob';
 import { optimize } from 'svgo';
 import sharp from 'sharp';
 import type { ScrapedData } from './scrape';
@@ -230,7 +230,7 @@ const ASSETS_ROOT = path.join('packages', '@ghs-pictogram', 'assets', 'assets');
  */
 const createSVGMap = async (): Promise<void> => {
   const svgMap: Record<string, string> = {};
-  const svgFiles = glob.sync(path.join(ASSETS_ROOT, '**', '*.svg'));
+  const svgFiles = globSync(path.join(ASSETS_ROOT, '**', '*.svg'));
 
   for (const file of svgFiles) {
     const svgContent = await fs.promises.readFile(file, 'utf-8');
