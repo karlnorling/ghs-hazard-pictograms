@@ -15,21 +15,36 @@ import { pictograms } from '@ghs-pictogram/core';
 // ---------------------------------------------------------------------------
 
 /**
- * Derives the CSS class name for a given asset path by applying the same
- * sanitisation logic used in the sprite generator.
+ * Derives the short CSS class name for a given asset path.
  *
- * @param assetPath - Relative asset path, e.g. `"physical_hazards/ghs01/foo.svg"`.
+ * - GHS core pictograms: `ghs-ghsNN` (e.g. `ghs-ghs01`) — derived from the parent
+ *   directory name which starts with the GHS code.
+ * - Transport pictograms: `ghs-{slug}` (e.g. `ghs-adr-1-4`, `ghs-un-8`) — derived
+ *   from the SVG filename with common prefixes stripped.
+ *
+ * @param assetPath - Relative asset path, e.g. `"physical_hazards_pictograms/ghs01_explosive/GHS-pictogram-explos.svg"`.
  * @returns CSS class name string (prefixed with `ghs-`).
  */
 function cssClassForPath(assetPath: string): string {
-  return (
-    'ghs-' +
-    assetPath
-      .replace(/[/\\?%*:|"<>]/g, '_')
-      .replace(/\s/g, '')
-      .toLowerCase()
-      .replace(/\.svg$/, '')
-  );
+  const parts = assetPath.replace(/\\/g, '/').split('/');
+  const parentDir = parts[parts.length - 2] ?? '';
+  const filename = (parts[parts.length - 1] ?? '').replace(/\.svg$/i, '');
+
+  // GHS core: parent directory starts with "ghsNN" (e.g. "ghs01_explosive")
+  const ghsMatch = parentDir.match(/^(ghs\d+)/i);
+  if (ghsMatch) {
+    return 'ghs-' + ghsMatch[1].toLowerCase();
+  }
+
+  // Transport: derive from filename, strip verbose UN prefix and sanitise
+  const slug = filename
+    .replace(/^UN_transport_pictogram_-_/i, 'un-')
+    .replace(/\(([^)]+)\)/g, '-$1')
+    .replace(/[^a-z0-9]+/gi, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase();
+
+  return 'ghs-' + slug;
 }
 
 // ---------------------------------------------------------------------------
