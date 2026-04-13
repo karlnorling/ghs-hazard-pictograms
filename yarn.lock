@@ -5330,7 +5330,6 @@ __metadata:
     eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-plugin-storybook: "npm:^10.3.5"
-    glob: "npm:^13.0.6"
     husky: "npm:^9.1.7"
     marked: "npm:^15.0.12"
     node-html-parser: "npm:^7.0.1"
@@ -5377,7 +5376,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^13.0.0, glob@npm:^13.0.1, glob@npm:^13.0.6":
+"glob@npm:^13.0.0, glob@npm:^13.0.1":
   version: 13.0.6
   resolution: "glob@npm:13.0.6"
   dependencies:
