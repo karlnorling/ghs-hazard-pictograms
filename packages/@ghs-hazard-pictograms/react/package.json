@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/react",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "GHS hazard pictogram React components",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/core",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "GHS hazard pictogram data, types, and lookup helpers",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",

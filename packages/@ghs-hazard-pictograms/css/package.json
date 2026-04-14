@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/css",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "GHS hazard pictogram CSS sprite utilities",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
