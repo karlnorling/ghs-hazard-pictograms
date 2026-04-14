@@ -1,5 +1,13 @@
 # @ghs-hazard-pictograms/core
 
+## 1.0.1
+
+### Patch Changes
+
+- Add per-package README files targeted at npmjs.org documentation.
+
+  Each package now ships a README with installation instructions, quick-start examples, full API reference, and links to sibling packages.
+
 ## 1.0.0
 
 ### Major Changes
