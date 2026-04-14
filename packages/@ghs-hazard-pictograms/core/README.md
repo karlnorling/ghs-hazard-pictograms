@@ -21,9 +21,9 @@ import { getPictogram, getGHSPictograms, getAllPictograms } from '@ghs-hazard-pi
 
 // Look up a single pictogram by slug ID
 const explosive = getPictogram('ghs01-explosive');
-console.log(explosive?.name);        // "Explosive"
-console.log(explosive?.code);        // "GHS01"
-console.log(explosive?.category);    // "physical_hazards"
+console.log(explosive?.name); // "Explosive"
+console.log(explosive?.code); // "GHS01"
+console.log(explosive?.category); // "physical_hazards"
 
 // Render the inline SVG directly
 document.getElementById('icon')!.innerHTML = explosive!.svg;
@@ -77,10 +77,10 @@ getPictogram(id: string): Pictogram | undefined
 Looks up a pictogram by its slug ID. Returns `undefined` if not found.
 
 ```ts
-getPictogram('ghs01-explosive')
-getPictogram('ghs09-hazardous-to-the-environment')
-getPictogram('divisions-1-1-1-3')   // transport
-getPictogram('un-class-8')           // transport
+getPictogram('ghs01-explosive');
+getPictogram('ghs09-hazardous-to-the-environment');
+getPictogram('divisions-1-1-1-3'); // transport
+getPictogram('un-class-8'); // transport
 ```
 
 ---
@@ -144,20 +144,20 @@ Available sizes: **240, 512, 768, 1024, 2048** px².
 
 ```ts
 type PictogramCategory =
-  | 'physical_hazards'           // GHS01–GHS05 (explosive, flammable, oxidising, compressed gas, corrosive)
-  | 'health_hazards'             // GHS06–GHS08 (toxic, health hazard, serious health hazard)
-  | 'physical_and_health_hazards'// GHS05 Corrosive (listed in both sections)
-  | 'environmental_hazards'      // GHS09 (hazardous to the aquatic environment)
-  | 'transport';                 // UN transport hazard class pictograms (divisions 1.1–9)
+  | 'physical_hazards' // GHS01–GHS05 (explosive, flammable, oxidising, compressed gas, corrosive)
+  | 'health_hazards' // GHS06–GHS08 (toxic, health hazard, serious health hazard)
+  | 'physical_and_health_hazards' // GHS05 Corrosive (listed in both sections)
+  | 'environmental_hazards' // GHS09 (hazardous to the aquatic environment)
+  | 'transport'; // UN transport hazard class pictograms (divisions 1.1–9)
 ```
 
 ## Related packages
 
-| Package | Description |
-|---|---|
-| [`@ghs-hazard-pictograms/react`](https://www.npmjs.com/package/@ghs-hazard-pictograms/react) | Ready-to-use React components for each pictogram |
-| [`@ghs-hazard-pictograms/css`](https://www.npmjs.com/package/@ghs-hazard-pictograms/css) | CSS sprite sheet with short utility class names |
-| [`@ghs-hazard-pictograms/assets`](https://www.npmjs.com/package/@ghs-hazard-pictograms/assets) | Static SVG/PNG/JPG/WebP image files |
+| Package                                                                                        | Description                                      |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| [`@ghs-hazard-pictograms/react`](https://www.npmjs.com/package/@ghs-hazard-pictograms/react)   | Ready-to-use React components for each pictogram |
+| [`@ghs-hazard-pictograms/css`](https://www.npmjs.com/package/@ghs-hazard-pictograms/css)       | CSS sprite sheet with short utility class names  |
+| [`@ghs-hazard-pictograms/assets`](https://www.npmjs.com/package/@ghs-hazard-pictograms/assets) | Static SVG/PNG/JPG/WebP image files              |
 | [`@ghs-hazard-pictograms/sprite`](https://www.npmjs.com/package/@ghs-hazard-pictograms/sprite) | SVG `<symbol>` sprite for `<use href>` embedding |
 
 ## Links

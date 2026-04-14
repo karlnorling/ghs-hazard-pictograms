@@ -16,12 +16,12 @@ pnpm add @ghs-hazard-pictograms/assets
 
 ## File formats and sizes
 
-| Format | Sizes (px²) |
-|---|---|
-| SVG | — (vector, resolution-independent) |
-| PNG | 240, 512, 768, 1024, 2048 |
-| JPEG | 240, 512, 768, 1024, 2048 |
-| WebP | 240, 512, 768, 1024, 2048 |
+| Format | Sizes (px²)                        |
+| ------ | ---------------------------------- |
+| SVG    | — (vector, resolution-independent) |
+| PNG    | 240, 512, 768, 1024, 2048          |
+| JPEG   | 240, 512, 768, 1024, 2048          |
+| WebP   | 240, 512, 768, 1024, 2048          |
 
 ## Directory structure
 
@@ -90,7 +90,9 @@ img.src = explosiveSvg;
 If your bundler copies `node_modules` assets to a public directory, reference them via the resolved path. For example with Vite's `public/` copy or a CDN that hosts your `node_modules`:
 
 ```html
-<img src="/assets/ghs-hazard-pictograms/assets/physical_hazards_pictograms/ghs01_explosive/GHS-pictogram-explos-512.png" />
+<img
+  src="/assets/ghs-hazard-pictograms/assets/physical_hazards_pictograms/ghs01_explosive/GHS-pictogram-explos-512.png"
+/>
 ```
 
 ### Looking up asset paths via `@ghs-hazard-pictograms/core`
@@ -101,19 +103,19 @@ If you need to resolve asset paths programmatically:
 import { getPictogram } from '@ghs-hazard-pictograms/core';
 
 const p = getPictogram('ghs01-explosive')!;
-console.log(p.assets.svg);          // relative SVG path
-console.log(p.assets.png[512]);     // relative path to 512px PNG
-console.log(p.assets.webp[1024]);   // relative path to 1024px WebP
+console.log(p.assets.svg); // relative SVG path
+console.log(p.assets.png[512]); // relative path to 512px PNG
+console.log(p.assets.webp[1024]); // relative path to 1024px WebP
 ```
 
 ## Related packages
 
-| Package | Description |
-|---|---|
-| [`@ghs-hazard-pictograms/core`](https://www.npmjs.com/package/@ghs-hazard-pictograms/core) | Raw data, inline SVGs, and lookup helpers (framework-agnostic) |
-| [`@ghs-hazard-pictograms/react`](https://www.npmjs.com/package/@ghs-hazard-pictograms/react) | Ready-to-use React components (inline SVG, no external files needed) |
-| [`@ghs-hazard-pictograms/css`](https://www.npmjs.com/package/@ghs-hazard-pictograms/css) | CSS sprite sheet that references these asset files |
-| [`@ghs-hazard-pictograms/sprite`](https://www.npmjs.com/package/@ghs-hazard-pictograms/sprite) | SVG `<symbol>` sprite for `<use href>` embedding |
+| Package                                                                                        | Description                                                          |
+| ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [`@ghs-hazard-pictograms/core`](https://www.npmjs.com/package/@ghs-hazard-pictograms/core)     | Raw data, inline SVGs, and lookup helpers (framework-agnostic)       |
+| [`@ghs-hazard-pictograms/react`](https://www.npmjs.com/package/@ghs-hazard-pictograms/react)   | Ready-to-use React components (inline SVG, no external files needed) |
+| [`@ghs-hazard-pictograms/css`](https://www.npmjs.com/package/@ghs-hazard-pictograms/css)       | CSS sprite sheet that references these asset files                   |
+| [`@ghs-hazard-pictograms/sprite`](https://www.npmjs.com/package/@ghs-hazard-pictograms/sprite) | SVG `<symbol>` sprite for `<use href>` embedding                     |
 
 ## Links
 

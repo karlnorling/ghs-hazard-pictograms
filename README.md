@@ -165,8 +165,8 @@ const p = getPictogram('ghs01-explosive');
 
 ### Core chemical pictograms
 
-|                                                                                                                                                                                                            | Code  | CSS Class    | Name                  | Category        | Description                                                             |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ | --------------------- | --------------- | ----------------------------------------------------------------------- |
+|                                                                                                                                                                                                                    | Code  | CSS Class    | Name                  | Category        | Description                                                             |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ------------ | --------------------- | --------------- | ----------------------------------------------------------------------- |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/physical_hazards_pictograms/ghs01_explosive/GHS-pictogram-explos_240x240.png" width="64" height="64" alt="GHS01 Explosive">                                | GHS01 | `.ghs-ghs01` | Explosive             | Physical        | Unstable explosives, divisions 1.1–1.6, self-reactive substances        |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/physical_hazards_pictograms/ghs02_flammable/GHS-pictogram-flamme_240x240.png" width="64" height="64" alt="GHS02 Flammable">                                | GHS02 | `.ghs-ghs02` | Flammable             | Physical        | Flammable gases, aerosols, liquids, solids, pyrophoric substances       |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/physical_hazards_pictograms/ghs03_oxidizing/GHS-pictogram-rondflam_240x240.png" width="64" height="64" alt="GHS03 Oxidizing">                              | GHS03 | `.ghs-ghs03` | Oxidizing             | Physical        | Oxidizing gases, liquids, and solids                                    |
@@ -181,8 +181,8 @@ const p = getPictogram('ghs01-explosive');
 
 #### Class 1 — Explosives
 
-|                                                                                                                                                     | CSS Class      | Name                            |
-| --------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ------------------------------- |
+|                                                                                                                                                             | CSS Class      | Name                            |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ------------------------------- |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/class_1__explosives/ADR_1_240x240.png" width="64" height="64" alt="ADR 1">     | `.ghs-adr-1`   | ADR Class 1 (Explosives)        |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/class_1__explosives/ADR_1.4_240x240.png" width="64" height="64" alt="ADR 1.4"> | `.ghs-adr-1-4` | ADR 1.4 (Low hazard explosives) |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/class_1__explosives/ADR_1.5_240x240.png" width="64" height="64" alt="ADR 1.5"> | `.ghs-adr-1-5` | ADR 1.5 (Very insensitive)      |
@@ -190,22 +190,22 @@ const p = getPictogram('ghs01-explosive');
 
 #### Class 2 — Gases
 
-|                                                                                                                                                | CSS Class      | Name                                   |
-| ---------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | -------------------------------------- |
+|                                                                                                                                                        | CSS Class      | Name                                   |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- | -------------------------------------- |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/class_2__gases/ADR_2.1_240x240.png" width="64" height="64" alt="ADR 2.1"> | `.ghs-adr-2-1` | ADR 2.1 (Flammable gas)                |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/class_2__gases/ADR_2.2_240x240.png" width="64" height="64" alt="ADR 2.2"> | `.ghs-adr-2-2` | ADR 2.2 (Non-flammable, non-toxic gas) |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/class_2__gases/ADR_2.3_240x240.png" width="64" height="64" alt="ADR 2.3"> | `.ghs-adr-2-3` | ADR 2.3 (Toxic gas)                    |
 
 #### Classes 3 & 4 — Flammable
 
-|                                                                                                                                                                           | CSS Class    | Name                     |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------ |
+|                                                                                                                                                                                   | CSS Class    | Name                     |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------ |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/classes_3_and_4__flammable_liquids_and_solids/ADR_3_240x240.png" width="64" height="64" alt="ADR 3"> | `.ghs-adr-3` | ADR 3 (Flammable liquid) |
 
 #### Other GHS transport classes
 
-|                                                                                                                                                                                         | CSS Class           | Name                          |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------------------------- |
+|                                                                                                                                                                                                 | CSS Class           | Name                          |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------------------------- |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/other_ghs_transport_classes/ADR_5.1_240x240.png" width="64" height="64" alt="ADR 5.1">                             | `.ghs-adr-5-1`      | ADR 5.1 (Oxidizing substance) |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/other_ghs_transport_classes/UN_transport_pictogram_-_5.2_(black)_240x240.png" width="64" height="64" alt="UN 5.2"> | `.ghs-un-5-2-black` | UN 5.2 (Organic peroxide)     |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/other_ghs_transport_classes/UN_transport_pictogram_-_6_240x240.png" width="64" height="64" alt="UN 6">             | `.ghs-un-6`         | UN Class 6 (Toxic/Infectious) |
@@ -213,8 +213,8 @@ const p = getPictogram('ghs01-explosive');
 
 #### Non-GHS transport pictograms
 
-|                                                                                                                                                              | CSS Class      | Name                                  |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- | ------------------------------------- |
+|                                                                                                                                                                      | CSS Class      | Name                                  |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ------------------------------------- |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/non-ghs_transport_pictograms/ADR_6.2_240x240.png" width="64" height="64" alt="ADR 6.2"> | `.ghs-adr-6-2` | ADR 6.2 (Infectious substance)        |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/non-ghs_transport_pictograms/ADR_7A_240x240.png" width="64" height="64" alt="ADR 7A">   | `.ghs-adr-7a`  | ADR 7A (Radioactive I)                |
 | <img src="packages/@ghs-hazard-pictograms/assets/assets/transport_pictograms/non-ghs_transport_pictograms/ADR_7B_240x240.png" width="64" height="64" alt="ADR 7B">   | `.ghs-adr-7b`  | ADR 7B (Radioactive II)               |

@@ -47,46 +47,46 @@ Or serve it as an external file and reference it by URL:
 
 ## Package contents
 
-| File | Description |
-|---|---|
-| `sprite.svg` | SVG file containing all 27 pictograms as `<symbol>` elements |
-| `sprite-ids.json` | JSON array of all available symbol IDs |
+| File              | Description                                                  |
+| ----------------- | ------------------------------------------------------------ |
+| `sprite.svg`      | SVG file containing all 27 pictograms as `<symbol>` elements |
+| `sprite-ids.json` | JSON array of all available symbol IDs                       |
 
 ## Symbol IDs
 
 ### GHS chemical hazard pictograms
 
-| ID | Pictogram |
-|---|---|
-| `ghs01-explosive` | GHS01 Explosive |
-| `ghs02-flammable` | GHS02 Flammable |
-| `ghs03-oxidizing` | GHS03 Oxidizing |
-| `ghs04-compressed-gas` | GHS04 Compressed Gas |
-| `ghs05-corrosive` | GHS05 Corrosive |
-| `ghs06-toxic` | GHS06 Toxic |
+| ID                                             | Pictogram                                      |
+| ---------------------------------------------- | ---------------------------------------------- |
+| `ghs01-explosive`                              | GHS01 Explosive                                |
+| `ghs02-flammable`                              | GHS02 Flammable                                |
+| `ghs03-oxidizing`                              | GHS03 Oxidizing                                |
+| `ghs04-compressed-gas`                         | GHS04 Compressed Gas                           |
+| `ghs05-corrosive`                              | GHS05 Corrosive                                |
+| `ghs06-toxic`                                  | GHS06 Toxic                                    |
 | `ghs07-health-hazard-hazardous-to-ozone-layer` | GHS07 Health Hazard / Hazardous to Ozone Layer |
-| `ghs08-serious-health-hazard` | GHS08 Serious Health Hazard |
-| `ghs09-hazardous-to-the-environment` | GHS09 Hazardous to the Environment |
+| `ghs08-serious-health-hazard`                  | GHS08 Serious Health Hazard                    |
+| `ghs09-hazardous-to-the-environment`           | GHS09 Hazardous to the Environment             |
 
 ### UN transport hazard class pictograms
 
-| ID | Pictogram |
-|---|---|
-| `divisions-1-1-1-3` | Divisions 1.1, 1.2, 1.3 — Explosives |
-| `division-1-4` | Division 1.4 — Explosives |
-| `division-1-5` | Division 1.5 — Explosives |
-| `division-1-6` | Division 1.6 — Explosives |
-| `division-2-1` | Division 2.1 — Flammable Gas |
-| `division-2-2` | Division 2.2 — Non-Flammable Gas |
-| `division-2-3` | Division 2.3 — Toxic Gas |
-| `class-3` | Class 3 — Flammable Liquid |
-| `division-5-1` | Division 5.1 — Oxidizing Substances |
-| `division-5-2` | Division 5.2 — Organic Peroxides |
-| `division-6-1` | Division 6.1 — Toxic Substances |
-| `class-8` | Class 8 — Corrosive Substances |
-| `class-6-2` | Class 6.2 — Infectious Substances |
-| `class-7` | Class 7 — Radioactive Material |
-| `class-9` | Class 9 — Miscellaneous Dangerous Goods |
+| ID                  | Pictogram                               |
+| ------------------- | --------------------------------------- |
+| `divisions-1-1-1-3` | Divisions 1.1, 1.2, 1.3 — Explosives    |
+| `division-1-4`      | Division 1.4 — Explosives               |
+| `division-1-5`      | Division 1.5 — Explosives               |
+| `division-1-6`      | Division 1.6 — Explosives               |
+| `division-2-1`      | Division 2.1 — Flammable Gas            |
+| `division-2-2`      | Division 2.2 — Non-Flammable Gas        |
+| `division-2-3`      | Division 2.3 — Toxic Gas                |
+| `class-3`           | Class 3 — Flammable Liquid              |
+| `division-5-1`      | Division 5.1 — Oxidizing Substances     |
+| `division-5-2`      | Division 5.2 — Organic Peroxides        |
+| `division-6-1`      | Division 6.1 — Toxic Substances         |
+| `class-8`           | Class 8 — Corrosive Substances          |
+| `class-6-2`         | Class 6.2 — Infectious Substances       |
+| `class-7`           | Class 7 — Radioactive Material          |
+| `class-9`           | Class 9 — Miscellaneous Dangerous Goods |
 
 > **Tip:** Import `sprite-ids.json` to get the full list of IDs at runtime without hard-coding them:
 >
@@ -137,7 +137,7 @@ function GhsIcon({ id, label, size = 64 }: { id: string; label: string; size?: n
 }
 
 // Usage
-<GhsIcon id="ghs01-explosive" label="Explosive" size={48} />
+<GhsIcon id="ghs01-explosive" label="Explosive" size={48} />;
 ```
 
 ### Vue
@@ -156,12 +156,12 @@ defineProps<{ id: string; label: string; size?: number }>();
 
 ## Related packages
 
-| Package | Description |
-|---|---|
-| [`@ghs-hazard-pictograms/core`](https://www.npmjs.com/package/@ghs-hazard-pictograms/core) | Raw data, inline SVGs, and lookup helpers (framework-agnostic) |
-| [`@ghs-hazard-pictograms/react`](https://www.npmjs.com/package/@ghs-hazard-pictograms/react) | Ready-to-use React components (inline SVG, no sprite needed) |
-| [`@ghs-hazard-pictograms/css`](https://www.npmjs.com/package/@ghs-hazard-pictograms/css) | CSS sprite sheet with short utility class names |
-| [`@ghs-hazard-pictograms/assets`](https://www.npmjs.com/package/@ghs-hazard-pictograms/assets) | Static SVG/PNG/JPG/WebP image files |
+| Package                                                                                        | Description                                                    |
+| ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| [`@ghs-hazard-pictograms/core`](https://www.npmjs.com/package/@ghs-hazard-pictograms/core)     | Raw data, inline SVGs, and lookup helpers (framework-agnostic) |
+| [`@ghs-hazard-pictograms/react`](https://www.npmjs.com/package/@ghs-hazard-pictograms/react)   | Ready-to-use React components (inline SVG, no sprite needed)   |
+| [`@ghs-hazard-pictograms/css`](https://www.npmjs.com/package/@ghs-hazard-pictograms/css)       | CSS sprite sheet with short utility class names                |
+| [`@ghs-hazard-pictograms/assets`](https://www.npmjs.com/package/@ghs-hazard-pictograms/assets) | Static SVG/PNG/JPG/WebP image files                            |
 
 ## Links
 

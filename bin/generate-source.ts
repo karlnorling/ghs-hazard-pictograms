@@ -14,7 +14,10 @@ import fs from 'fs';
 import path from 'path';
 import { optimize } from 'svgo';
 import type { ScrapedData, ScrapedPictogram } from './scrape';
-import type { Pictogram, PictogramCategory } from '../packages/@ghs-hazard-pictograms/core/src/types';
+import type {
+  Pictogram,
+  PictogramCategory,
+} from '../packages/@ghs-hazard-pictograms/core/src/types';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -346,7 +349,13 @@ const generateReactIndex = (componentNames: string[]): string =>
  */
 const generateSource = async (): Promise<void> => {
   const scrapedPath = path.join('data', 'scraped.json');
-  const svgMapPath = path.join('packages', '@ghs-hazard-pictograms', 'assets', 'assets', 'svg-map.json');
+  const svgMapPath = path.join(
+    'packages',
+    '@ghs-hazard-pictograms',
+    'assets',
+    'assets',
+    'svg-map.json',
+  );
 
   if (!fs.existsSync(scrapedPath)) {
     throw new Error(`Missing ${scrapedPath}. Run 'yarn update' first.`);
