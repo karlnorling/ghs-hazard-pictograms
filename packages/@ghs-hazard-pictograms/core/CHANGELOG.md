@@ -1,5 +1,13 @@
 # @ghs-hazard-pictograms/core
 
+## 1.0.2
+
+### Patch Changes
+
+- Add npm keywords and include README.md in published files for all packages.
+
+  Keywords cover GHS hazard pictogram terminology, chemical safety standards, transport/UN/ADR classifications, and package-specific terms (react, css, svg, sprite, etc.) to improve discoverability on npmjs.org.
+
 ## 1.0.1
 
 ### Patch Changes

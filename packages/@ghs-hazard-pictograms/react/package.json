@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "GHS hazard pictogram React components",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -13,7 +13,27 @@
     }
   },
   "files": [
-    "dist/"
+    "dist/",
+    "README.md"
+  ],
+  "keywords": [
+    "ghs",
+    "hazard",
+    "pictogram",
+    "pictograms",
+    "chemical",
+    "safety",
+    "warning",
+    "symbol",
+    "icons",
+    "react",
+    "components",
+    "ui",
+    "svg",
+    "transport",
+    "un",
+    "adr",
+    "globally-harmonized-system"
   ],
   "scripts": {
     "compile": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type:'commonjs'})); require('fs').writeFileSync('dist/esm/package.json', JSON.stringify({type:'module'}))\"",

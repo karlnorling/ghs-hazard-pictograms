@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/sprite",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "GHS hazard pictogram SVG sprite — all pictograms as <symbol> elements in a single file",
   "exports": {
     "./sprite.svg": "./sprite.svg",
@@ -8,6 +8,24 @@
   },
   "files": [
     "sprite.svg",
-    "sprite-ids.json"
+    "sprite-ids.json",
+    "README.md"
+  ],
+  "keywords": [
+    "ghs",
+    "hazard",
+    "pictogram",
+    "pictograms",
+    "chemical",
+    "safety",
+    "warning",
+    "symbol",
+    "icons",
+    "svg",
+    "sprite",
+    "transport",
+    "un",
+    "adr",
+    "globally-harmonized-system"
   ]
 }

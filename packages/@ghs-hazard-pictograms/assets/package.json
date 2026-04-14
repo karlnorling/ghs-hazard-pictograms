@@ -1,11 +1,32 @@
 {
   "name": "@ghs-hazard-pictograms/assets",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "GHS hazard pictogram static image assets (SVG, PNG, JPG, WebP)",
   "exports": {
     "./assets/*": "./assets/*"
   },
   "files": [
-    "assets/"
+    "assets/",
+    "README.md"
+  ],
+  "keywords": [
+    "ghs",
+    "hazard",
+    "pictogram",
+    "pictograms",
+    "chemical",
+    "safety",
+    "warning",
+    "symbol",
+    "icons",
+    "svg",
+    "png",
+    "webp",
+    "images",
+    "assets",
+    "transport",
+    "un",
+    "adr",
+    "globally-harmonized-system"
   ]
 }
