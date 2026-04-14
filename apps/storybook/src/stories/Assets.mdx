@@ -4,14 +4,14 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Assets & Programmatic API
 
-The `@ghs-pictogram/core` package exposes typed data for all 24 pictograms alongside helper functions for filtering and lookup. The `@ghs-pictogram/assets` package provides pre-built image files at multiple resolutions.
+The `@ghs-hazard-pictograms/core` package exposes typed data for all 24 pictograms alongside helper functions for filtering and lookup. The `@ghs-hazard-pictograms/assets` package provides pre-built image files at multiple resolutions.
 
 ---
 
 ## Installation
 
 ```sh
-npm install @ghs-pictogram/core @ghs-pictogram/assets
+npm install @ghs-hazard-pictograms/core @ghs-hazard-pictograms/assets
 ```
 
 ---
@@ -24,7 +24,7 @@ import {
   getGHSPictograms,
   getPictogram,
   getPictogramsByCategory,
-} from '@ghs-pictogram/core';
+} from '@ghs-hazard-pictograms/core';
 ```
 
 ### `getAllPictograms()`
@@ -102,7 +102,7 @@ type PictogramCategory =
 
 ## Asset files
 
-The `@ghs-pictogram/assets` package ships pre-converted raster images at five resolutions (240 × 240, 512 × 512, 768 × 768, 1024 × 1024, 2048 × 2048) in PNG, JPG, and WebP formats alongside the original SVGs.
+The `@ghs-hazard-pictograms/assets` package ships pre-converted raster images at five resolutions (240 × 240, 512 × 512, 768 × 768, 1024 × 1024, 2048 × 2048) in PNG, JPG, and WebP formats alongside the original SVGs.
 
 ### Directory layout (GHS example)
 
@@ -156,13 +156,13 @@ assets/
 
 ```ts
 // With a bundler that handles static imports:
-import explos from '@ghs-pictogram/assets/assets/physical_hazards_pictograms/ghs01_explosive/GHS-pictogram-explos.svg';
+import explos from '@ghs-hazard-pictograms/assets/assets/physical_hazards_pictograms/ghs01_explosive/GHS-pictogram-explos.svg';
 ```
 
 ### Resolve asset paths via the API
 
 ```ts
-import { getPictogram } from '@ghs-pictogram/core';
+import { getPictogram } from '@ghs-hazard-pictograms/core';
 
 const p = getPictogram('ghs01-explosive');
 if (p) {

@@ -1475,15 +1475,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ghs-pictogram/assets@workspace:*, @ghs-pictogram/assets@workspace:packages/@ghs-pictogram/assets":
+"@ghs-hazard-pictograms/assets@workspace:*, @ghs-hazard-pictograms/assets@workspace:packages/@ghs-hazard-pictograms/assets":
   version: 0.0.0-use.local
-  resolution: "@ghs-pictogram/assets@workspace:packages/@ghs-pictogram/assets"
+  resolution: "@ghs-hazard-pictograms/assets@workspace:packages/@ghs-hazard-pictograms/assets"
   languageName: unknown
   linkType: soft
 
-"@ghs-pictogram/core@workspace:*, @ghs-pictogram/core@workspace:packages/@ghs-pictogram/core":
+"@ghs-hazard-pictograms/core@workspace:*, @ghs-hazard-pictograms/core@workspace:packages/@ghs-hazard-pictograms/core":
   version: 0.0.0-use.local
-  resolution: "@ghs-pictogram/core@workspace:packages/@ghs-pictogram/core"
+  resolution: "@ghs-hazard-pictograms/core@workspace:packages/@ghs-hazard-pictograms/core"
   dependencies:
     "@types/jest": "npm:^30.0.0"
     jest: "npm:^30.3.0"
@@ -1493,11 +1493,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ghs-pictogram/css@workspace:packages/@ghs-pictogram/css":
+"@ghs-hazard-pictograms/css@workspace:packages/@ghs-hazard-pictograms/css":
   version: 0.0.0-use.local
-  resolution: "@ghs-pictogram/css@workspace:packages/@ghs-pictogram/css"
+  resolution: "@ghs-hazard-pictograms/css@workspace:packages/@ghs-hazard-pictograms/css"
   dependencies:
-    "@ghs-pictogram/core": "workspace:*"
+    "@ghs-hazard-pictograms/core": "workspace:*"
     "@types/jest": "npm:^30.0.0"
     jest: "npm:^30.3.0"
     ts-jest: "npm:^29.4.0"
@@ -1505,11 +1505,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ghs-pictogram/react@workspace:*, @ghs-pictogram/react@workspace:packages/@ghs-pictogram/react":
+"@ghs-hazard-pictograms/react@workspace:*, @ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react":
   version: 0.0.0-use.local
-  resolution: "@ghs-pictogram/react@workspace:packages/@ghs-pictogram/react"
+  resolution: "@ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react"
   dependencies:
-    "@ghs-pictogram/core": "workspace:*"
+    "@ghs-hazard-pictograms/core": "workspace:*"
     "@types/jest": "npm:^30.0.0"
     "@types/react": "npm:^19.1.0"
     "@types/react-dom": "npm:^19"
@@ -1524,9 +1524,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ghs-pictogram/sprite@workspace:packages/@ghs-pictogram/sprite":
+"@ghs-hazard-pictograms/sprite@workspace:packages/@ghs-hazard-pictograms/sprite":
   version: 0.0.0-use.local
-  resolution: "@ghs-pictogram/sprite@workspace:packages/@ghs-pictogram/sprite"
+  resolution: "@ghs-hazard-pictograms/sprite@workspace:packages/@ghs-hazard-pictograms/sprite"
   languageName: unknown
   linkType: soft
 
@@ -1534,9 +1534,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ghs-storybook/app@workspace:apps/storybook"
   dependencies:
-    "@ghs-pictogram/assets": "workspace:*"
-    "@ghs-pictogram/core": "workspace:*"
-    "@ghs-pictogram/react": "workspace:*"
+    "@ghs-hazard-pictograms/assets": "workspace:*"
+    "@ghs-hazard-pictograms/core": "workspace:*"
+    "@ghs-hazard-pictograms/react": "workspace:*"
     "@storybook/addon-a11y": "npm:^10.3.5"
     "@storybook/addon-docs": "npm:^10.3.5"
     "@storybook/addon-vitest": "npm:^10.3.5"

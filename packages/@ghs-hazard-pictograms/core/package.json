@@ -1,7 +1,7 @@
 {
-  "name": "@ghs-pictogram/react",
+  "name": "@ghs-hazard-pictograms/core",
   "version": "0.0.0",
-  "description": "GHS hazard pictogram React components",
+  "description": "GHS hazard pictogram data, types, and lookup helpers",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
@@ -13,27 +13,18 @@
     }
   },
   "files": [
-    "dist/"
+    "dist/",
+    "README.md"
   ],
   "scripts": {
     "compile": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type:'commonjs'})); require('fs').writeFileSync('dist/esm/package.json', JSON.stringify({type:'module'}))\"",
     "test": "jest",
     "type-check": "tsc --noEmit -p tsconfig.cjs.json"
   },
-  "peerDependencies": {
-    "react": ">=18"
-  },
-  "dependencies": {
-    "@ghs-pictogram/core": "workspace:*"
-  },
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "@types/react": "^19.1.0",
-    "@types/react-dom": "^19",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
     "ts-jest": "^29.4.0",
     "typescript": "^5.8.3"
   }

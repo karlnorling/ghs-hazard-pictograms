@@ -26,4 +26,4 @@ export { Class8 } from './Class8';
 export { Class62 } from './Class62';
 export { Class7 } from './Class7';
 export { Class9 } from './Class9';
-export type { Pictogram, PictogramAssets, PictogramCategory } from '@ghs-pictogram/core';
+export type { Pictogram, PictogramAssets, PictogramCategory } from '@ghs-hazard-pictograms/core';

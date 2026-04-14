@@ -14,7 +14,7 @@ import fs from 'fs';
 import path from 'path';
 import { optimize } from 'svgo';
 import type { ScrapedData, ScrapedPictogram } from './scrape';
-import type { Pictogram, PictogramCategory } from '../packages/@ghs-pictogram/core/src/types';
+import type { Pictogram, PictogramCategory } from '../packages/@ghs-hazard-pictograms/core/src/types';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -330,7 +330,7 @@ const generateReactIndex = (componentNames: string[]): string =>
     ``,
     `export type { PictogramProps } from './PictogramProps';`,
     ...componentNames.map((name) => `export { ${name} } from './${name}';`),
-    `export type { Pictogram, PictogramAssets, PictogramCategory } from '@ghs-pictogram/core';`,
+    `export type { Pictogram, PictogramAssets, PictogramCategory } from '@ghs-hazard-pictograms/core';`,
     ``,
   ].join('\n');
 
@@ -346,7 +346,7 @@ const generateReactIndex = (componentNames: string[]): string =>
  */
 const generateSource = async (): Promise<void> => {
   const scrapedPath = path.join('data', 'scraped.json');
-  const svgMapPath = path.join('packages', '@ghs-pictogram', 'assets', 'assets', 'svg-map.json');
+  const svgMapPath = path.join('packages', '@ghs-hazard-pictograms', 'assets', 'assets', 'svg-map.json');
 
   if (!fs.existsSync(scrapedPath)) {
     throw new Error(`Missing ${scrapedPath}. Run 'yarn update' first.`);
@@ -399,7 +399,7 @@ const generateSource = async (): Promise<void> => {
 
   console.log(`\nGenerating source files for ${pictograms.length} pictograms...`);
 
-  // packages/@ghs-pictogram/core/src/pictograms.generated.ts
+  // packages/@ghs-hazard-pictograms/core/src/pictograms.generated.ts
   const pictogramsOut = path.join(
     'packages',
     '@ghs-pictogram',
@@ -410,8 +410,8 @@ const generateSource = async (): Promise<void> => {
   fs.writeFileSync(pictogramsOut, generatePictogramsFile(pictograms), 'utf-8');
   console.log(`Written: ${pictogramsOut}`);
 
-  // packages/@ghs-pictogram/react/src/ — individual component files, shared props, and barrel index
-  const reactDir = path.join('packages', '@ghs-pictogram', 'react', 'src');
+  // packages/@ghs-hazard-pictograms/react/src/ — individual component files, shared props, and barrel index
+  const reactDir = path.join('packages', '@ghs-hazard-pictograms', 'react', 'src');
   fs.mkdirSync(reactDir, { recursive: true });
 
   const propsOut = path.join(reactDir, 'PictogramProps.ts');

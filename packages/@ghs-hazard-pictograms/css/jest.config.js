@@ -13,14 +13,14 @@ const config = {
           esModuleInterop: true,
           skipLibCheck: true,
           paths: {
-            '@ghs-pictogram/core': ['../core/src/index.ts'],
+            '@ghs-hazard-pictograms/core': ['../core/src/index.ts'],
           },
         },
       },
     ],
   },
   moduleNameMapper: {
-    '^@ghs-pictogram/core$': '<rootDir>/../core/src/index.ts',
+    '^@ghs-hazard-pictograms/core$': '<rootDir>/../core/src/index.ts',
   },
 };
 

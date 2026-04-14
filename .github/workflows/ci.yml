@@ -1,0 +1,122 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-progress runs for the same ref to avoid redundant work.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Quality checks — run on every push and pull request
+  # ---------------------------------------------------------------------------
+  quality:
+    name: Quality checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'yarn'
+
+      - name: Enable Corepack (Yarn 4)
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Workspace integrity check (manypkg)
+        run: yarn check
+
+      - name: Check formatting (Prettier)
+        run: yarn format:check
+
+      - name: Lint TypeScript (ESLint)
+        run: yarn lint
+
+      - name: Lint CSS (stylelint)
+        run: yarn lint:css
+
+      - name: Type check
+        run: yarn type-check
+
+      - name: Compile
+        run: yarn compile
+
+      - name: Test
+        run: yarn test
+
+  # ---------------------------------------------------------------------------
+  # Release — only on pushes to main, after quality passes
+  #
+  # Behaviour (via changesets/action):
+  #   • If un-consumed changesets exist → opens / updates a "Version Packages" PR.
+  #   • If the Version Packages PR was just merged → bumps versions, publishes
+  #     each public workspace package to npm, and creates GitHub Releases.
+  #
+  # Authentication uses npm Trusted Publishers (OIDC) — no long-lived NPM_TOKEN
+  # secret is required once the GitHub repository is registered as a Trusted
+  # Publisher on npmjs.com (Settings → Access → Trusted Publishers).
+  # See: https://docs.npmjs.com/generating-provenance-statements
+  # ---------------------------------------------------------------------------
+  release:
+    name: Release
+    needs: quality
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write       # push version-bump commits and create GitHub Releases
+      pull-requests: write  # open and update the Version Packages PR
+      id-token: write       # obtain OIDC token for npm Trusted Publishers
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history so changesets can compare package versions across tags.
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'yarn'
+
+      - name: Enable Corepack (Yarn 4)
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Compile packages
+        run: yarn compile
+
+      - name: Create Version PR or Publish to npm
+        uses: changesets/action@v1
+        with:
+          # Command run when the Version Packages PR is merged.
+          # NPM_CONFIG_PROVENANCE=true adds a signed provenance statement to each
+          # tarball so consumers can verify it was built by this workflow.
+          publish: yarn changeset publish
+          createGithubReleases: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Provenance attestation — links the published tarball to this workflow
+          # run. Requires id-token: write above.
+          NPM_CONFIG_PROVENANCE: 'true'
+          # Set NPM_TOKEN to a repository secret if you are not using npm Trusted
+          # Publishers. With Trusted Publishers configured on npmjs.com, OIDC
+          # authentication is handled automatically and this secret can be omitted.
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

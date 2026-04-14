@@ -1,5 +1,5 @@
 import { getCssClassName, pictogramCssClasses } from '../index';
-import { getGHSPictograms } from '@ghs-pictogram/core';
+import { getGHSPictograms } from '@ghs-hazard-pictograms/core';
 
 describe('getCssClassName()', () => {
   it('returns a string for a known pictogram id', () => {

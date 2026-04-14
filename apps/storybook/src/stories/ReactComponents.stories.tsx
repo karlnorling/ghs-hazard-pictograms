@@ -28,7 +28,7 @@ import {
   Class7 as Class7Icon,
   Class9 as Class9Icon,
   type PictogramProps,
-} from '@ghs-pictogram/react';
+} from '@ghs-hazard-pictograms/react';
 
 // ---------------------------------------------------------------------------
 // Shared grid layout

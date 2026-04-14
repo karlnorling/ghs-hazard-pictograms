@@ -222,10 +222,10 @@ const processImages = async (destDir: string, images: string[]): Promise<void> =
 // ---------------------------------------------------------------------------
 
 /** Root directory of the assets package. */
-const ASSETS_ROOT = path.join('packages', '@ghs-pictogram', 'assets', 'assets');
+const ASSETS_ROOT = path.join('packages', '@ghs-hazard-pictograms', 'assets', 'assets');
 
 /**
- * Builds `packages/@ghs-pictogram/assets/assets/svg-map.json` — a JSON object mapping each SVG's
+ * Builds `packages/@ghs-hazard-pictograms/assets/assets/svg-map.json` — a JSON object mapping each SVG's
  * relative path (within the assets directory) to its full SVG content string.
  */
 const createSVGMap = async (): Promise<void> => {
@@ -244,13 +244,13 @@ const createSVGMap = async (): Promise<void> => {
 };
 
 /**
- * Builds `packages/@ghs-pictogram/sprite/sprite.svg` — a hidden SVG container with one
+ * Builds `packages/@ghs-hazard-pictograms/sprite/sprite.svg` — a hidden SVG container with one
  * `<symbol>` element per pictogram that can be referenced via `<use href="#id">`.
  *
- * Also writes `packages/@ghs-pictogram/sprite/sprite-ids.json` with the list of symbol IDs.
+ * Also writes `packages/@ghs-hazard-pictograms/sprite/sprite-ids.json` with the list of symbol IDs.
  */
 const createSVGSprite = async (): Promise<void> => {
-  const spriteDir = path.join('packages', '@ghs-pictogram', 'sprite');
+  const spriteDir = path.join('packages', '@ghs-hazard-pictograms', 'sprite');
   await fs.promises.mkdir(spriteDir, { recursive: true });
 
   const svgFiles = globSync(path.join(ASSETS_ROOT, '**', '*.svg')).filter(
@@ -325,7 +325,7 @@ const shortCssClassName = (key: string): string => {
 };
 
 /**
- * Builds `packages/@ghs-pictogram/css/sprite.css` — one `.ghs-*` CSS class per base SVG
+ * Builds `packages/@ghs-hazard-pictograms/css/sprite.css` — one `.ghs-*` CSS class per base SVG
  * (size variants and duplicate space-named folders are excluded) using `background-image`
  * to reference the SVG from the assets package.
  *
@@ -333,7 +333,7 @@ const shortCssClassName = (key: string): string => {
  * in the monorepo (via node_modules symlinks) and when packages are installed separately.
  */
 const createCSSSprite = async (): Promise<void> => {
-  const cssPkgDir = path.join('packages', '@ghs-pictogram', 'css');
+  const cssPkgDir = path.join('packages', '@ghs-hazard-pictograms', 'css');
   await fs.promises.mkdir(cssPkgDir, { recursive: true });
 
   const svgFiles = globSync(path.join(ASSETS_ROOT, '**', '*.svg'))

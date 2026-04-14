@@ -8,9 +8,9 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@ghs-pictogram/assets": "workspace:*",
-    "@ghs-pictogram/core": "workspace:*",
-    "@ghs-pictogram/react": "workspace:*"
+    "@ghs-hazard-pictograms/assets": "workspace:*",
+    "@ghs-hazard-pictograms/core": "workspace:*",
+    "@ghs-hazard-pictograms/react": "workspace:*"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^10.3.5",

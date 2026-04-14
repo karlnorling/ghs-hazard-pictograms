@@ -5,5 +5,5 @@
     "moduleResolution": "bundler",
     "noEmit": true
   },
-  "include": ["bin/**/*", "packages/@ghs-pictogram/core/src/types.ts"]
+  "include": ["bin/**/*", "packages/@ghs-hazard-pictograms/core/src/types.ts"]
 }

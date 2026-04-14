@@ -21,7 +21,7 @@ const config = {
     ],
   },
   moduleNameMapper: {
-    '^@ghs-pictogram/core$': '<rootDir>/../core/src/index.ts',
+    '^@ghs-hazard-pictograms/core$': '<rootDir>/../core/src/index.ts',
   },
 };
 

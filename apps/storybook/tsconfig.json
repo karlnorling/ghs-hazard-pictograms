@@ -10,8 +10,8 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "paths": {
-      "@ghs-pictogram/core": ["../../packages/@ghs-pictogram/core/src/index.ts"],
-      "@ghs-pictogram/react": ["../../packages/@ghs-pictogram/react/src/index.ts"]
+      "@ghs-hazard-pictograms/core": ["../../packages/@ghs-hazard-pictograms/core/src/index.ts"],
+      "@ghs-hazard-pictograms/react": ["../../packages/@ghs-hazard-pictograms/react/src/index.ts"]
     }
   },
   "include": ["src/**/*", ".storybook/**/*"],

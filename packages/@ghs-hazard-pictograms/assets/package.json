@@ -1,5 +1,5 @@
 {
-  "name": "@ghs-pictogram/assets",
+  "name": "@ghs-hazard-pictograms/assets",
   "version": "0.0.0",
   "description": "GHS hazard pictogram static image assets (SVG, PNG, JPG, WebP)",
   "exports": {

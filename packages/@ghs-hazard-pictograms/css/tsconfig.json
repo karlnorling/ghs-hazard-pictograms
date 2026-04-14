@@ -8,9 +8,8 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "jsx": "react-jsx",
     "paths": {
-      "@ghs-pictogram/core": ["../core/src/index.ts"]
+      "@ghs-hazard-pictograms/core": ["../core/src/index.ts"]
     }
   },
   "include": ["src/**/*"],

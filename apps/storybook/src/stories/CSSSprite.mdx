@@ -10,7 +10,7 @@ Import `sprite.css` to get a set of `.ghs-*` utility classes. Apply a class to a
 ## Installation
 
 ```sh
-npm install @ghs-pictogram/css
+npm install @ghs-hazard-pictograms/css
 ```
 
 ## Setup
@@ -19,12 +19,12 @@ Import the stylesheet once in your entry point:
 
 ```js
 // JavaScript / TypeScript entry point
-import '@ghs-pictogram/css/sprite.css';
+import '@ghs-hazard-pictograms/css/sprite.css';
 ```
 
 ```css
 /* Or from a CSS file */
-@import '@ghs-pictogram/css/sprite.css';
+@import '@ghs-hazard-pictograms/css/sprite.css';
 ```
 
 ## Usage
@@ -55,10 +55,10 @@ Apply the generated class to any element with explicit dimensions:
 
 ### CSS helper (optional)
 
-The `@ghs-pictogram/css` package exports a helper to look up class names programmatically:
+The `@ghs-hazard-pictograms/css` package exports a helper to look up class names programmatically:
 
 ```ts
-import { getCssClassName } from '@ghs-pictogram/css';
+import { getCssClassName } from '@ghs-hazard-pictograms/css';
 
 const cls = getCssClassName('ghs01-explosive');
 // → 'ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos'
