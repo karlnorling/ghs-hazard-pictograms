@@ -402,7 +402,7 @@ const generateSource = async (): Promise<void> => {
   // packages/@ghs-hazard-pictograms/core/src/pictograms.generated.ts
   const pictogramsOut = path.join(
     'packages',
-    '@ghs-pictogram',
+    '@ghs-hazard-pictograms',
     'core',
     'src',
     'pictograms.generated.ts',
@@ -434,7 +434,7 @@ const generateSource = async (): Promise<void> => {
   // Remove the legacy monolithic components file if it still exists.
   const legacyReactOut = path.join(
     'packages',
-    '@ghs-pictogram',
+    '@ghs-hazard-pictograms',
     'react',
     'src',
     'components.generated.tsx',

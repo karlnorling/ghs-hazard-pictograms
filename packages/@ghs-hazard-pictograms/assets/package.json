@@ -1,12 +1,23 @@
 {
   "name": "@ghs-hazard-pictograms/assets",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "GHS hazard pictogram static image assets (SVG, PNG, JPG, WebP)",
+  "homepage": "https://karlnorling.github.io/ghs-hazard-pictograms/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms",
+    "directory": "packages/@ghs-hazard-pictograms/assets"
+  },
+  "bugs": {
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms/issues"
+  },
+  "license": "MIT",
   "exports": {
     "./assets/*": "./assets/*"
   },
   "files": [
     "assets/",
+    "package.json",
     "README.md"
   ],
   "keywords": [

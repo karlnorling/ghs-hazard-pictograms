@@ -1,5 +1,27 @@
 # @ghs-hazard-pictograms/core
 
+## 1.0.4
+
+### Patch Changes
+
+- Include package.json in the published files list for all packages.
+
+  Explicitly listing package.json in the `files` field ensures the manifest is always present in the npm tarball, which is required for package resolution, exports map evaluation, and tooling that reads package metadata directly from the installed package directory.
+
+## 1.0.3
+
+### Patch Changes
+
+- Add repository, homepage, bugs, and license fields to all package manifests.
+
+  Each package now declares:
+  - `homepage` pointing to the GitHub Pages documentation site at karlnorling.github.io/ghs-hazard-pictograms
+  - `repository` with the GitHub URL and the per-package `directory` path for monorepo tooling
+  - `bugs` linking to the GitHub issues tracker
+  - `license` set to MIT
+
+  README files updated with a Links section covering docs, source, and issues.
+
 ## 1.0.2
 
 ### Patch Changes

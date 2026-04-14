@@ -1,7 +1,17 @@
 {
   "name": "@ghs-hazard-pictograms/sprite",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "GHS hazard pictogram SVG sprite — all pictograms as <symbol> elements in a single file",
+  "homepage": "https://karlnorling.github.io/ghs-hazard-pictograms/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms",
+    "directory": "packages/@ghs-hazard-pictograms/sprite"
+  },
+  "bugs": {
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms/issues"
+  },
+  "license": "MIT",
   "exports": {
     "./sprite.svg": "./sprite.svg",
     "./sprite-ids.json": "./sprite-ids.json"
@@ -9,6 +19,7 @@
   "files": [
     "sprite.svg",
     "sprite-ids.json",
+    "package.json",
     "README.md"
   ],
   "keywords": [
