@@ -1,3 +1,4 @@
+import path from 'path';
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
@@ -11,6 +12,24 @@ const config: StorybookConfig = {
     if (process.env.STORYBOOK_BASE_PATH) {
       config.base = process.env.STORYBOOK_BASE_PATH;
     }
+    // Resolve workspace packages to their TypeScript sources so Storybook
+    // works without a prior `yarn compile` step.
+    config.resolve ??= {};
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@ghs-hazard-pictograms/core': path.resolve(
+        __dirname,
+        '../../../packages/@ghs-hazard-pictograms/core/src/index.ts',
+      ),
+      '@ghs-hazard-pictograms/css': path.resolve(
+        __dirname,
+        '../../../packages/@ghs-hazard-pictograms/css/src/index.ts',
+      ),
+      '@ghs-hazard-pictograms/react': path.resolve(
+        __dirname,
+        '../../../packages/@ghs-hazard-pictograms/react/src/index.ts',
+      ),
+    };
     return config;
   },
 };
