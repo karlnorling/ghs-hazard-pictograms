@@ -2,10 +2,6 @@
   "name": "ghs-hazard-pictograms-monorepo",
   "private": true,
   "description": "Globally Harmonized System of Classification and Labelling of Chemicals Pictograms",
-  "packageManager": "yarn@4.6.0",
-  "engines": {
-    "node": ">= 24.0.0"
-  },
   "workspaces": [
     "packages/@ghs-hazard-pictograms/*",
     "apps/*"
@@ -17,14 +13,32 @@
     "build": "yarn update && yarn compile",
     "test": "yarn workspaces foreach -A run test",
     "type-check": "yarn workspaces foreach -A --include '@ghs-hazard-pictograms/*' --include '@ghs-storybook/app' run type-check",
-    "lint": "eslint .",
+    "lint": "oxlint .",
     "lint:css": "stylelint 'packages/@ghs-hazard-pictograms/css/sprite.css'",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format": "oxfmt --write --ignore-path=.oxfmtignore .",
+    "format:check": "oxfmt --check --ignore-path=.oxfmtignore .",
     "check": "manypkg check",
     "changeset": "changeset",
     "publish": "yarn changeset publish",
     "prepare": "husky"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.10",
+    "@manypkg/cli": "^0.23.0",
+    "@types/node": "^22.10.7",
+    "glob": "^13.0.6",
+    "husky": "^9.1.7",
+    "marked": "^15.0.12",
+    "node-html-parser": "^7.0.1",
+    "oxfmt": "^0.45.0",
+    "oxlint": "^1.60.0",
+    "sharp": "^0.33.5",
+    "storybook": "^10.3.5",
+    "stylelint": "^17.7.0",
+    "stylelint-config-standard": "^40.0.0",
+    "svgo": "^4.0.1",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
   },
   "resolutions": {
     "brace-expansion": "^2.0.3",
@@ -35,27 +49,8 @@
     "picomatch": "^4.0.4",
     "tar": "^7.5.13"
   },
-  "devDependencies": {
-    "@changesets/cli": "^2.27.10",
-    "@eslint/json": "^1.2.0",
-    "@manypkg/cli": "^0.23.0",
-    "@types/node": "^22.10.7",
-    "@typescript-eslint/eslint-plugin": "^8.58.1",
-    "@typescript-eslint/parser": "^8.58.1",
-    "eslint": "^10.2.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-storybook": "^10.3.5",
-    "glob": "^13.0.6",
-    "husky": "^9.1.7",
-    "marked": "^15.0.12",
-    "node-html-parser": "^7.0.1",
-    "prettier": "^3.6.2",
-    "sharp": "^0.33.5",
-    "storybook": "^10.3.5",
-    "stylelint": "^17.7.0",
-    "stylelint-config-standard": "^40.0.0",
-    "svgo": "^4.0.1",
-    "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
-  }
+  "engines": {
+    "node": ">= 24.0.0"
+  },
+  "packageManager": "yarn@4.6.0"
 }

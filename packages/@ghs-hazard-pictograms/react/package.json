@@ -2,16 +2,40 @@
   "name": "@ghs-hazard-pictograms/react",
   "version": "1.0.4",
   "description": "GHS hazard pictogram React components",
+  "keywords": [
+    "adr",
+    "chemical",
+    "components",
+    "ghs",
+    "globally-harmonized-system",
+    "hazard",
+    "icons",
+    "pictogram",
+    "pictograms",
+    "react",
+    "safety",
+    "svg",
+    "symbol",
+    "transport",
+    "ui",
+    "un",
+    "warning"
+  ],
   "homepage": "https://karlnorling.github.io/ghs-hazard-pictograms/",
+  "bugs": {
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms/issues"
+  },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/karlnorling/ghs-hazard-pictograms",
     "directory": "packages/@ghs-hazard-pictograms/react"
   },
-  "bugs": {
-    "url": "https://github.com/karlnorling/ghs-hazard-pictograms/issues"
-  },
-  "license": "MIT",
+  "files": [
+    "dist/",
+    "package.json",
+    "README.md"
+  ],
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
@@ -22,37 +46,10 @@
       "types": "./dist/esm/index.d.ts"
     }
   },
-  "files": [
-    "dist/",
-    "package.json",
-    "README.md"
-  ],
-  "keywords": [
-    "ghs",
-    "hazard",
-    "pictogram",
-    "pictograms",
-    "chemical",
-    "safety",
-    "warning",
-    "symbol",
-    "icons",
-    "react",
-    "components",
-    "ui",
-    "svg",
-    "transport",
-    "un",
-    "adr",
-    "globally-harmonized-system"
-  ],
   "scripts": {
     "compile": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type:'commonjs'})); require('fs').writeFileSync('dist/esm/package.json', JSON.stringify({type:'module'}))\"",
     "test": "jest",
     "type-check": "tsc --noEmit -p tsconfig.cjs.json"
-  },
-  "peerDependencies": {
-    "react": ">=18"
   },
   "dependencies": {
     "@ghs-hazard-pictograms/core": "workspace:*"
@@ -67,5 +64,8 @@
     "react-dom": "^19.2.5",
     "ts-jest": "^29.4.0",
     "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "react": ">=18"
   }
 }

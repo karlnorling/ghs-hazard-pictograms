@@ -2,42 +2,42 @@
   "name": "@ghs-hazard-pictograms/assets",
   "version": "1.0.4",
   "description": "GHS hazard pictogram static image assets (SVG, PNG, JPG, WebP)",
+  "keywords": [
+    "adr",
+    "assets",
+    "chemical",
+    "ghs",
+    "globally-harmonized-system",
+    "hazard",
+    "icons",
+    "images",
+    "pictogram",
+    "pictograms",
+    "png",
+    "safety",
+    "svg",
+    "symbol",
+    "transport",
+    "un",
+    "warning",
+    "webp"
+  ],
   "homepage": "https://karlnorling.github.io/ghs-hazard-pictograms/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/karlnorling/ghs-hazard-pictograms",
-    "directory": "packages/@ghs-hazard-pictograms/assets"
-  },
   "bugs": {
     "url": "https://github.com/karlnorling/ghs-hazard-pictograms/issues"
   },
   "license": "MIT",
-  "exports": {
-    "./assets/*": "./assets/*"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms",
+    "directory": "packages/@ghs-hazard-pictograms/assets"
   },
   "files": [
     "assets/",
     "package.json",
     "README.md"
   ],
-  "keywords": [
-    "ghs",
-    "hazard",
-    "pictogram",
-    "pictograms",
-    "chemical",
-    "safety",
-    "warning",
-    "symbol",
-    "icons",
-    "svg",
-    "png",
-    "webp",
-    "images",
-    "assets",
-    "transport",
-    "un",
-    "adr",
-    "globally-harmonized-system"
-  ]
+  "exports": {
+    "./assets/*": "./assets/*"
+  }
 }

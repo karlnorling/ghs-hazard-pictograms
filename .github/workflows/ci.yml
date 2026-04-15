@@ -23,14 +23,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Enable Corepack (Yarn 4)
+        run: corepack enable
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: 'yarn'
-
-      - name: Enable Corepack (Yarn 4)
-        run: corepack enable
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -38,10 +38,10 @@ jobs:
       - name: Workspace integrity check (manypkg)
         run: yarn check
 
-      - name: Check formatting (Prettier)
+      - name: Check formatting (oxfmt)
         run: yarn format:check
 
-      - name: Lint TypeScript (ESLint)
+      - name: Lint (oxlint)
         run: yarn lint
 
       - name: Lint CSS (stylelint)
@@ -87,15 +87,15 @@ jobs:
           # Full history so changesets can compare package versions across tags.
           fetch-depth: 0
 
+      - name: Enable Corepack (Yarn 4)
+        run: corepack enable
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
           cache: 'yarn'
-
-      - name: Enable Corepack (Yarn 4)
-        run: corepack enable
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -116,7 +116,3 @@ jobs:
           # Provenance attestation — links the published tarball to this workflow
           # run. Requires id-token: write above.
           NPM_CONFIG_PROVENANCE: 'true'
-          # Set NPM_TOKEN to a repository secret if you are not using npm Trusted
-          # Publishers. With Trusted Publishers configured on npmjs.com, OIDC
-          # authentication is handled automatically and this secret can be omitted.
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
