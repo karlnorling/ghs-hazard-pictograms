@@ -1,0 +1,35 @@
+{
+  "plugins": ["typescript"],
+  "rules": {
+    "no-console": "off",
+    "no-await-in-loop": "warn",
+    "no-undef": "off",
+    "typescript/no-explicit-any": "warn",
+    "typescript/consistent-type-imports": ["error", { "prefer": "type-imports" }],
+    "typescript/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ]
+  },
+  "ignorePatterns": [
+    "dist",
+    "node_modules",
+    "coverage",
+    "data",
+    "**/storybook-static",
+    "packages/@ghs-hazard-pictograms/assets/assets",
+    "packages/@ghs-hazard-pictograms/core/src/pictograms.generated.ts",
+    "packages/@ghs-hazard-pictograms/react/src/PictogramProps.ts",
+    "packages/@ghs-hazard-pictograms/react/src/Ghs*.tsx",
+    "packages/@ghs-hazard-pictograms/react/src/Class*.tsx",
+    "packages/@ghs-hazard-pictograms/react/src/Division*.tsx",
+    "packages/@ghs-hazard-pictograms/react/src/Divisions*.tsx",
+    "packages/@ghs-hazard-pictograms/react/src/index.ts",
+    "packages/@ghs-hazard-pictograms/css/sprite.css",
+    ".storybook",
+    "src"
+  ]
+}
