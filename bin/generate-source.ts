@@ -269,7 +269,18 @@ const generateComponentFile = (entry: ReactEntry): string => {
   const esc = (s: string): string =>
     s.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
 
-  const escapedAttrs = esc(svgAttrs);
+  // Extract default width/height from the SVG attrs
+  const widthMatch = svgAttrs.match(/\bwidth="([^"]+)"/);
+  const heightMatch = svgAttrs.match(/\bheight="([^"]+)"/);
+  const defaultWidth = widthMatch ? widthMatch[1] : '100%';
+  const defaultHeight = heightMatch ? heightMatch[1] : '100%';
+
+  // Strip width/height from _Attrs — they will always be emitted explicitly
+  const attrsWithoutSize = svgAttrs
+    .replace(/\s*\bwidth="[^"]*"/, '')
+    .replace(/\s*\bheight="[^"]*"/, '')
+    .trim();
+  const escapedAttrs = esc(attrsWithoutSize);
   const escapedBody = esc(svgBody);
   const escapedName = name.replace(/'/g, "\\'");
   const escapedDesc = esc(description).slice(0, 300);
@@ -285,6 +296,8 @@ const generateComponentFile = (entry: ReactEntry): string => {
     `const _Body = \`${escapedBody}\`;`,
     `const _DefaultDesc = \`${escapedDesc}\`;`,
     `const _DefaultTitle = '${escapedName}';`,
+    `const _DefaultWidth = \`${esc(defaultWidth)}\`;`,
+    `const _DefaultHeight = \`${esc(defaultHeight)}\`;`,
     `const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');`,
     ``,
     `export const ${componentName} = React.memo<PictogramProps>(({`,
@@ -298,10 +311,9 @@ const generateComponentFile = (entry: ReactEntry): string => {
     `}) => {`,
     `  const descId = \`ghs-desc-${id}\`;`,
     `  const titleId = \`ghs-title-${id}\`;`,
-    `  const sizeAttrs = [_Attrs];`,
-    `  if (height !== undefined) sizeAttrs.push(\`height="\${_h(String(height))}"\`);`,
-    `  if (width !== undefined) sizeAttrs.push(\`width="\${_h(String(width))}"\`);`,
-    `  const svgHtml = \`<svg \${sizeAttrs.join(' ')} role="img" aria-labelledby="\${titleId} \${descId}">`,
+    `  const _w = width !== undefined ? _h(String(width)) : _DefaultWidth;`,
+    `  const _ht = height !== undefined ? _h(String(height)) : _DefaultHeight;`,
+    `  const svgHtml = \`<svg \${_Attrs} width="\${_w}" height="\${_ht}" role="img" aria-labelledby="\${titleId} \${descId}">`,
     `  <title id="\${titleId}">\${_h(title)}</title>`,
     `  <desc id="\${descId}">\${_h(description)}</desc>`,
     `  \${_Body}</svg>\`;`,
