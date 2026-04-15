@@ -81,11 +81,19 @@ jobs:
       id-token: write # obtain OIDC token for npm Trusted Publishers
 
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.GHS_APP_ID }}
+          private-key: ${{ secrets.GHS_APP_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           # Full history so changesets can compare package versions across tags.
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Enable Corepack (Yarn 4)
         run: corepack enable
@@ -112,7 +120,7 @@ jobs:
           publish: yarn changeset publish
           createGithubReleases: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           # Provenance attestation — links the published tarball to this workflow
           # run. Requires id-token: write above.
           NPM_CONFIG_PROVENANCE: 'true'
