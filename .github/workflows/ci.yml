@@ -124,3 +124,13 @@ jobs:
           # Provenance attestation — links the published tarball to this workflow
           # run. Requires id-token: write above.
           NPM_CONFIG_PROVENANCE: 'true'
+
+      - name: Format generated changelogs
+        run: |
+          yarn format
+          git diff --quiet || git commit -am "chore: format generated changelogs"
+        env:
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
