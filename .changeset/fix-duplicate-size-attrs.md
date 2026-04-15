@@ -1,5 +1,5 @@
 ---
-"@ghs-hazard-pictograms/react": patch
+'@ghs-hazard-pictograms/react': patch
 ---
 
 Fix duplicate `width`/`height` attributes on the `<svg>` element when `width` or `height` props are passed.

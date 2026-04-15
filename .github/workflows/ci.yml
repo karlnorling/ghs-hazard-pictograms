@@ -116,7 +116,3 @@ jobs:
           # Provenance attestation — links the published tarball to this workflow
           # run. Requires id-token: write above.
           NPM_CONFIG_PROVENANCE: 'true'
-          # Set NPM_TOKEN to a repository secret if you are not using npm Trusted
-          # Publishers. With Trusted Publishers configured on npmjs.com, OIDC
-          # authentication is handled automatically and this secret can be omitted.
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,5 +1,5 @@
 ---
-"@ghs-hazard-pictograms/react": patch
+'@ghs-hazard-pictograms/react': patch
 ---
 
 Fix description truncation applied after HTML escaping instead of before.

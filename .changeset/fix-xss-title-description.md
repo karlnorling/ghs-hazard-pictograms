@@ -1,5 +1,5 @@
 ---
-"@ghs-hazard-pictograms/react": patch
+'@ghs-hazard-pictograms/react': patch
 ---
 
 HTML-escape `title` and `description` props before injecting into SVG markup.
