@@ -2,19 +2,32 @@
   "name": "@ghs-hazard-pictograms/sprite",
   "version": "1.0.4",
   "description": "GHS hazard pictogram SVG sprite — all pictograms as <symbol> elements in a single file",
+  "keywords": [
+    "adr",
+    "chemical",
+    "ghs",
+    "globally-harmonized-system",
+    "hazard",
+    "icons",
+    "pictogram",
+    "pictograms",
+    "safety",
+    "sprite",
+    "svg",
+    "symbol",
+    "transport",
+    "un",
+    "warning"
+  ],
   "homepage": "https://karlnorling.github.io/ghs-hazard-pictograms/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/karlnorling/ghs-hazard-pictograms",
-    "directory": "packages/@ghs-hazard-pictograms/sprite"
-  },
   "bugs": {
     "url": "https://github.com/karlnorling/ghs-hazard-pictograms/issues"
   },
   "license": "MIT",
-  "exports": {
-    "./sprite.svg": "./sprite.svg",
-    "./sprite-ids.json": "./sprite-ids.json"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms",
+    "directory": "packages/@ghs-hazard-pictograms/sprite"
   },
   "files": [
     "sprite.svg",
@@ -22,21 +35,8 @@
     "package.json",
     "README.md"
   ],
-  "keywords": [
-    "ghs",
-    "hazard",
-    "pictogram",
-    "pictograms",
-    "chemical",
-    "safety",
-    "warning",
-    "symbol",
-    "icons",
-    "svg",
-    "sprite",
-    "transport",
-    "un",
-    "adr",
-    "globally-harmonized-system"
-  ]
+  "exports": {
+    "./sprite.svg": "./sprite.svg",
+    "./sprite-ids.json": "./sprite-ids.json"
+  }
 }

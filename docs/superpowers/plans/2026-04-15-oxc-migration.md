@@ -12,21 +12,22 @@
 
 ## File map
 
-| Action | Path |
-|--------|------|
-| Create | `.oxlintrc.json` |
-| Create | `.oxfmtrc.json` |
-| Create | `.oxfmtignore` |
+| Action | Path                                                                                                               |
+| ------ | ------------------------------------------------------------------------------------------------------------------ |
+| Create | `.oxlintrc.json`                                                                                                   |
+| Create | `.oxfmtrc.json`                                                                                                    |
+| Create | `.oxfmtignore`                                                                                                     |
 | Modify | `package.json` — add `oxlint`/`oxfmt` devDeps, update `lint`/`format`/`format:check` scripts, remove 7 old devDeps |
-| Delete | `eslint.config.mjs` |
-| Delete | `.prettierrc.json` |
-| Delete | `.prettierignore` |
+| Delete | `eslint.config.mjs`                                                                                                |
+| Delete | `.prettierrc.json`                                                                                                 |
+| Delete | `.prettierignore`                                                                                                  |
 
 ---
 
 ## Task 1: Add OXC packages, configs, and update scripts
 
 **Files:**
+
 - Modify: `package.json`
 - Create: `.oxlintrc.json`
 - Create: `.oxfmtrc.json`
@@ -180,6 +181,7 @@ git commit -m "feat: add oxlint and oxfmt, update lint/format scripts"
 ## Task 2: Remove old tooling, reformat codebase, delete old configs
 
 **Files:**
+
 - Modify: `package.json` — remove 7 devDependencies
 - Delete: `eslint.config.mjs`
 - Delete: `.prettierrc.json`

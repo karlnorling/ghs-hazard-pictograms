@@ -7,6 +7,7 @@ Replace ESLint + Prettier with OXC's `oxlint` (linter) and `oxfmt` (formatter) i
 ## Package changes
 
 **Remove:**
+
 - `eslint`
 - `@typescript-eslint/parser`
 - `@typescript-eslint/eslint-plugin`
@@ -16,10 +17,12 @@ Replace ESLint + Prettier with OXC's `oxlint` (linter) and `oxfmt` (formatter) i
 - `prettier`
 
 **Add:**
+
 - `oxlint`
 - `oxfmt`
 
 **Keep:**
+
 - `stylelint`
 - `stylelint-config-standard`
 
@@ -48,13 +51,19 @@ Direct translation of the active rules from `eslint.config.mjs`. Rule names chan
     "no-undef": "off",
     "typescript/no-explicit-any": "warn",
     "typescript/consistent-type-imports": ["error", { "prefer": "type-imports" }],
-    "typescript/no-unused-vars": ["error", {
-      "argsIgnorePattern": "^_",
-      "varsIgnorePattern": "^_"
-    }]
+    "typescript/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ]
   },
   "ignorePatterns": [
-    "dist", "node_modules", "coverage", "data",
+    "dist",
+    "node_modules",
+    "coverage",
+    "data",
     "**/storybook-static",
     "packages/@ghs-hazard-pictograms/assets/assets",
     "packages/@ghs-hazard-pictograms/core/src/pictograms.generated.ts",
@@ -65,7 +74,8 @@ Direct translation of the active rules from `eslint.config.mjs`. Rule names chan
     "packages/@ghs-hazard-pictograms/react/src/Divisions*.tsx",
     "packages/@ghs-hazard-pictograms/react/src/index.ts",
     "packages/@ghs-hazard-pictograms/css/sprite.css",
-    ".storybook", "src"
+    ".storybook",
+    "src"
   ]
 }
 ```
@@ -91,12 +101,12 @@ Same content as the current `.prettierignore` — same glob format, same paths.
 
 ## Script changes (`package.json`)
 
-| Script | Before | After |
-|--------|--------|-------|
-| `lint` | `eslint .` | `oxlint .` |
-| `format` | `prettier --write .` | `oxfmt --write .` |
+| Script         | Before               | After             |
+| -------------- | -------------------- | ----------------- |
+| `lint`         | `eslint .`           | `oxlint .`        |
+| `format`       | `prettier --write .` | `oxfmt --write .` |
 | `format:check` | `prettier --check .` | `oxfmt --check .` |
-| `lint:css` | `stylelint ...` | unchanged |
+| `lint:css`     | `stylelint ...`      | unchanged         |
 
 ## CI changes
 
