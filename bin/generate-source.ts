@@ -283,7 +283,7 @@ const generateComponentFile = (entry: ReactEntry): string => {
   const escapedAttrs = esc(attrsWithoutSize);
   const escapedBody = esc(svgBody);
   const escapedName = name.replace(/'/g, "\\'");
-  const escapedDesc = esc(description).slice(0, 300);
+  const escapedDesc = esc(description.slice(0, 300));
 
   return [
     `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.`,
