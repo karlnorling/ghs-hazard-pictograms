@@ -9,7 +9,7 @@
  * conversion pipelines depend on the previous step completing first.
  */
 
-/* eslint-disable no-await-in-loop */
+/* oxlint-disable no-await-in-loop */
 
 import fs from 'fs';
 import path from 'path';

@@ -38,10 +38,10 @@ jobs:
       - name: Workspace integrity check (manypkg)
         run: yarn check
 
-      - name: Check formatting (Prettier)
+      - name: Check formatting (oxfmt)
         run: yarn format:check
 
-      - name: Lint TypeScript (ESLint)
+      - name: Lint (oxlint)
         run: yarn lint
 
       - name: Lint CSS (stylelint)
