@@ -10,6 +10,7 @@ const _Body = `<path d="m0 0 41.28-41.28L82.8 0 41.28 41.46z" style="fill:#da251
     </text><path d="m-9746.967 618.227 45.224 45 45-45-45-44.925z" style="fill:none;stroke:#1f1a17;stroke-width:.89874995;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" transform="translate(9753.605 -566.552)"/>`;
 const _DefaultDesc = `Flammable liquids – Liquids which have a flash point of less than 60 °C and which are capable of sustaining combustion`;
 const _DefaultTitle = 'Class 3';
+const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
 
 export const Class3 = React.memo<PictogramProps>(({
   'aria-label': ariaLabel,
@@ -23,11 +24,11 @@ export const Class3 = React.memo<PictogramProps>(({
   const descId = `ghs-desc-class-3`;
   const titleId = `ghs-title-class-3`;
   const sizeAttrs = [_Attrs];
-  if (height !== undefined) sizeAttrs.push(`height="${height}"`);
-  if (width !== undefined) sizeAttrs.push(`width="${width}"`);
+  if (height !== undefined) sizeAttrs.push(`height="${_h(String(height))}"`);
+  if (width !== undefined) sizeAttrs.push(`width="${_h(String(width))}"`);
   const svgHtml = `<svg ${sizeAttrs.join(' ')} role="img" aria-labelledby="${titleId} ${descId}">
-  <title id="${titleId}">${title}</title>
-  <desc id="${descId}">${description}</desc>
+  <title id="${titleId}">${_h(title)}</title>
+  <desc id="${descId}">${_h(description)}</desc>
   ${_Body}</svg>`;
   return (
     <span

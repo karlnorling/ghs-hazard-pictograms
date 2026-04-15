@@ -12,6 +12,7 @@ Refrigerated liquefied gases
 Dissolved gases
 e.g. liquid nitrogen, liquid oxygen, liquid helium`;
 const _DefaultTitle = 'Compressed Gas';
+const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
 
 export const Ghs04CompressedGas = React.memo<PictogramProps>(({
   'aria-label': ariaLabel,
@@ -25,11 +26,11 @@ export const Ghs04CompressedGas = React.memo<PictogramProps>(({
   const descId = `ghs-desc-ghs04-compressed-gas`;
   const titleId = `ghs-title-ghs04-compressed-gas`;
   const sizeAttrs = [_Attrs];
-  if (height !== undefined) sizeAttrs.push(`height="${height}"`);
-  if (width !== undefined) sizeAttrs.push(`width="${width}"`);
+  if (height !== undefined) sizeAttrs.push(`height="${_h(String(height))}"`);
+  if (width !== undefined) sizeAttrs.push(`width="${_h(String(width))}"`);
   const svgHtml = `<svg ${sizeAttrs.join(' ')} role="img" aria-labelledby="${titleId} ${descId}">
-  <title id="${titleId}">${title}</title>
-  <desc id="${descId}">${description}</desc>
+  <title id="${titleId}">${_h(title)}</title>
+  <desc id="${descId}">${_h(description)}</desc>
   ${_Body}</svg>`;
   return (
     <span

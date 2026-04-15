@@ -13,6 +13,7 @@ Reproductive toxicity, categories 1A, 1B, 2
 Specific target organ toxicity following single exposure, categories 1, 2
 Specific target organ toxicity following repeated exposure, c`;
 const _DefaultTitle = 'Serious Health Hazard';
+const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
 
 export const Ghs08SeriousHealthHazard = React.memo<PictogramProps>(({
   'aria-label': ariaLabel,
@@ -26,11 +27,11 @@ export const Ghs08SeriousHealthHazard = React.memo<PictogramProps>(({
   const descId = `ghs-desc-ghs08-serious-health-hazard`;
   const titleId = `ghs-title-ghs08-serious-health-hazard`;
   const sizeAttrs = [_Attrs];
-  if (height !== undefined) sizeAttrs.push(`height="${height}"`);
-  if (width !== undefined) sizeAttrs.push(`width="${width}"`);
+  if (height !== undefined) sizeAttrs.push(`height="${_h(String(height))}"`);
+  if (width !== undefined) sizeAttrs.push(`width="${_h(String(width))}"`);
   const svgHtml = `<svg ${sizeAttrs.join(' ')} role="img" aria-labelledby="${titleId} ${descId}">
-  <title id="${titleId}">${title}</title>
-  <desc id="${descId}">${description}</desc>
+  <title id="${titleId}">${_h(title)}</title>
+  <desc id="${descId}">${_h(description)}</desc>
   ${_Body}</svg>`;
   return (
     <span

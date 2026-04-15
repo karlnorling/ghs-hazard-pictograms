@@ -9,6 +9,7 @@ const _Body = `<path fill="red" d="m367.5 727.4 360-360-360-360-360 360z"/><path
 const _DefaultDesc = `Acute toxicity (oral, dermal, inhalation), categories 1, 2, 3
 e.g. manganese heptoxide (fire diamond rating at health hazard is 4)`;
 const _DefaultTitle = 'Toxic';
+const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
 
 export const Ghs06Toxic = React.memo<PictogramProps>(({
   'aria-label': ariaLabel,
@@ -22,11 +23,11 @@ export const Ghs06Toxic = React.memo<PictogramProps>(({
   const descId = `ghs-desc-ghs06-toxic`;
   const titleId = `ghs-title-ghs06-toxic`;
   const sizeAttrs = [_Attrs];
-  if (height !== undefined) sizeAttrs.push(`height="${height}"`);
-  if (width !== undefined) sizeAttrs.push(`width="${width}"`);
+  if (height !== undefined) sizeAttrs.push(`height="${_h(String(height))}"`);
+  if (width !== undefined) sizeAttrs.push(`width="${_h(String(width))}"`);
   const svgHtml = `<svg ${sizeAttrs.join(' ')} role="img" aria-labelledby="${titleId} ${descId}">
-  <title id="${titleId}">${title}</title>
-  <desc id="${descId}">${description}</desc>
+  <title id="${titleId}">${_h(title)}</title>
+  <desc id="${descId}">${_h(description)}</desc>
   ${_Body}</svg>`;
   return (
     <span
