@@ -353,6 +353,123 @@ const generateReactIndex = (componentNames: string[]): string =>
   ].join('\n');
 
 // ---------------------------------------------------------------------------
+// Code generation — Vue src/PictogramProps.ts
+// ---------------------------------------------------------------------------
+
+const generateVuePropsFile = (): string =>
+  [
+    `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.`,
+    `// Run 'yarn generate' to regenerate.`,
+    ``,
+    `import type { PropType } from 'vue';`,
+    ``,
+    `/** Reusable Vue prop definitions shared by every generated GHS pictogram component. */`,
+    `export const pictogramProps = {`,
+    `  /** Accessible description injected as \`<desc>\` inside the SVG. Defaults to the Wikipedia hazard description. */`,
+    `  description: { type: String as PropType<string> },`,
+    `  /** Height applied to the \`<svg>\` element (pixels or any CSS length). */`,
+    `  height: { type: [Number, String] as PropType<number | string> },`,
+    `  /** Accessible title injected as \`<title>\` inside the SVG. Defaults to the pictogram name. */`,
+    `  title: { type: String as PropType<string> },`,
+    `  /** Width applied to the \`<svg>\` element (pixels or any CSS length). */`,
+    `  width: { type: [Number, String] as PropType<number | string> },`,
+    `} as const;`,
+    ``,
+  ].join('\n');
+
+// ---------------------------------------------------------------------------
+// Code generation — Vue src/{ComponentName}.ts
+// ---------------------------------------------------------------------------
+
+/** Returns the contents of one individual Vue component file. */
+const generateVueComponentFile = (entry: ReactEntry): string => {
+  const { description, id, name, optimizedSvg } = entry;
+  const componentName = toComponentName(id);
+  const cleanedSvg = cleanSvg(optimizedSvg);
+
+  const svgBodyMatch = cleanedSvg.match(/^<svg([^>]*)>([\s\S]*)<\/svg>\s*$/i);
+  const svgAttrs = svgBodyMatch ? svgBodyMatch[1] : '';
+  const svgBody = svgBodyMatch ? svgBodyMatch[2] : cleanedSvg;
+
+  const esc = (s: string): string =>
+    s.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
+
+  const widthMatch = svgAttrs.match(/\bwidth="([^"]+)"/);
+  const heightMatch = svgAttrs.match(/\bheight="([^"]+)"/);
+  const defaultWidth = widthMatch ? widthMatch[1] : '100%';
+  const defaultHeight = heightMatch ? heightMatch[1] : '100%';
+
+  const attrsWithoutSize = svgAttrs
+    .replace(/\s*\bwidth="[^"]*"/, '')
+    .replace(/\s*\bheight="[^"]*"/, '')
+    .trim();
+  const escapedAttrs = esc(attrsWithoutSize);
+  const escapedBody = esc(svgBody);
+  const escapedName = name.replace(/'/g, "\\'");
+  const escapedDesc = esc(description.slice(0, 300));
+
+  return [
+    `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.`,
+    `// Run 'yarn generate' to regenerate.`,
+    ``,
+    `import { defineComponent, h } from 'vue';`,
+    `import { pictogramProps } from './PictogramProps';`,
+    ``,
+    `const _Attrs = \`${escapedAttrs}\`;`,
+    `const _Body = \`${escapedBody}\`;`,
+    `const _DefaultDesc = \`${escapedDesc}\`;`,
+    `const _DefaultTitle = '${escapedName}';`,
+    `const _DefaultWidth = \`${esc(defaultWidth)}\`;`,
+    `const _DefaultHeight = \`${esc(defaultHeight)}\`;`,
+    `const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');`,
+    ``,
+    `export const ${componentName} = defineComponent({`,
+    `  name: '${componentName}',`,
+    `  inheritAttrs: false,`,
+    `  props: {`,
+    `    ...pictogramProps,`,
+    `  },`,
+    `  setup(props, { attrs }) {`,
+    `    return () => {`,
+    `      const descId = \`ghs-desc-${id}\`;`,
+    `      const titleId = \`ghs-title-${id}\`;`,
+    `      const _w = props.width !== undefined ? _h(String(props.width)) : _DefaultWidth;`,
+    `      const _ht = props.height !== undefined ? _h(String(props.height)) : _DefaultHeight;`,
+    `      const resolvedTitle = props.title ?? _DefaultTitle;`,
+    `      const resolvedDesc = props.description ?? _DefaultDesc;`,
+    `      const svgHtml = \`<svg \${_Attrs} width="\${_w}" height="\${_ht}" role="img" aria-labelledby="\${titleId} \${descId}">`,
+    `  <title id="\${titleId}">\${_h(resolvedTitle)}</title>`,
+    `  <desc id="\${descId}">\${_h(resolvedDesc)}</desc>`,
+    `  \${_Body}</svg>\`;`,
+    `      return h('span', {`,
+    `        ...attrs,`,
+    `        style: { display: 'contents', ...(typeof attrs.style === 'object' ? (attrs.style as Record<string, unknown>) : {}) },`,
+    `        innerHTML: svgHtml,`,
+    `      });`,
+    `    };`,
+    `  },`,
+    `});`,
+    ``,
+  ].join('\n');
+};
+
+// ---------------------------------------------------------------------------
+// Code generation — Vue src/index.ts
+// ---------------------------------------------------------------------------
+
+const generateVueIndex = (componentNames: string[]): string =>
+  [
+    `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.`,
+    `// Run 'yarn generate' to regenerate.`,
+    ``,
+    `export { pictogramProps } from './PictogramProps';`,
+    `export { PictogramById } from './PictogramById';`,
+    ...componentNames.map((name) => `export { ${name} } from './${name}';`),
+    `export type { Pictogram, PictogramAssets, PictogramCategory } from '@ghs-hazard-pictograms/core';`,
+    ``,
+  ].join('\n');
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -467,6 +584,27 @@ const generateSource = async (): Promise<void> => {
     fs.unlinkSync(legacyReactOut);
     console.log(`Removed: ${legacyReactOut}`);
   }
+
+  // packages/@ghs-hazard-pictograms/vue/src/ — individual component files, shared props, and barrel index
+  const vueDir = path.join('packages', '@ghs-hazard-pictograms', 'vue', 'src');
+  fs.mkdirSync(vueDir, { recursive: true });
+
+  const vuePropsOut = path.join(vueDir, 'PictogramProps.ts');
+  fs.writeFileSync(vuePropsOut, generateVuePropsFile(), 'utf-8');
+  console.log(`Written: ${vuePropsOut}`);
+
+  const vueComponentNames: string[] = [];
+  for (const entry of reactEntries) {
+    const componentName = toComponentName(entry.id);
+    vueComponentNames.push(componentName);
+    const componentOut = path.join(vueDir, `${componentName}.ts`);
+    fs.writeFileSync(componentOut, generateVueComponentFile(entry), 'utf-8');
+    console.log(`Written: ${componentOut}`);
+  }
+
+  const vueIndexOut = path.join(vueDir, 'index.ts');
+  fs.writeFileSync(vueIndexOut, generateVueIndex(vueComponentNames), 'utf-8');
+  console.log(`Written: ${vueIndexOut}`);
 
   console.log('\nDone.');
 };
