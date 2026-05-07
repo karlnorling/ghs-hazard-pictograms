@@ -22,3 +22,6 @@ packages/@ghs-hazard-pictograms/css/sprite.css
 
 # Legacy src/ directory (pre-migration; will be removed)
 src/
+
+# Auto-generated changelogs (produced by changesets; formatting is intentional)
+**/CHANGELOG.md

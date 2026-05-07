@@ -74,6 +74,8 @@ jobs:
     needs: quality
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
+    # Must match the environment name configured on npmjs.com as a Trusted Publisher.
+    environment: main
 
     permissions:
       contents: write # push version-bump commits and create GitHub Releases
@@ -114,16 +116,28 @@ jobs:
       - name: Create Version PR or Publish to npm
         uses: changesets/action@v1
         with:
-          # Command run when the Version Packages PR is merged.
-          # NPM_CONFIG_PROVENANCE=true adds a signed provenance statement to each
-          # tarball so consumers can verify it was built by this workflow.
-          publish: yarn changeset publish
+          # Yarn Berry's `yarn npm publish` uses its own HTTP client and does not
+          # invoke npm CLI, so it cannot pick up the OIDC token automatically.
+          # This script uses `npm publish` directly, which handles the OIDC token
+          # exchange with the npm registry natively (npm CLI v9+).
+          publish: |
+            for dir in packages/@ghs-hazard-pictograms/*/; do
+              [ -f "${dir}package.json" ] || continue
+              name=$(node -p "require('./${dir}package.json').name")
+              version=$(node -p "require('./${dir}package.json').version")
+              private=$(node -p "require('./${dir}package.json').private || false")
+              [ "$private" = "true" ] && continue
+              if npm view "${name}@${version}" version &>/dev/null; then
+                echo "Skipping ${name}@${version} (already published)"
+              else
+                echo "Publishing ${name}@${version}..."
+                (cd "${dir}" && npm publish --provenance --access public)
+              fi
+            done
+            yarn changeset tag
           createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-          # Provenance attestation — links the published tarball to this workflow
-          # run. Requires id-token: write above.
-          NPM_CONFIG_PROVENANCE: 'true'
 
       - name: Format generated changelogs
         run: |
