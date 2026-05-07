@@ -470,6 +470,128 @@ const generateVueIndex = (componentNames: string[]): string =>
   ].join('\n');
 
 // ---------------------------------------------------------------------------
+// Code generation — elements src/{ComponentName}.ts
+// ---------------------------------------------------------------------------
+
+/** Returns the contents of one individual custom-element file. */
+const generateElementFile = (entry: ReactEntry): string => {
+  const { description, id, name, optimizedSvg } = entry;
+  const componentName = toComponentName(id);
+  const cleanedSvg = cleanSvg(optimizedSvg);
+
+  const svgBodyMatch = cleanedSvg.match(/^<svg([^>]*)>([\s\S]*)<\/svg>\s*$/i);
+  const svgAttrs = svgBodyMatch ? svgBodyMatch[1] : '';
+  const svgBody = svgBodyMatch ? svgBodyMatch[2] : cleanedSvg;
+
+  const esc = (s: string): string =>
+    s.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
+
+  const widthMatch = svgAttrs.match(/\bwidth="([^"]+)"/);
+  const heightMatch = svgAttrs.match(/\bheight="([^"]+)"/);
+  const defaultWidth = widthMatch ? widthMatch[1] : '100%';
+  const defaultHeight = heightMatch ? heightMatch[1] : '100%';
+
+  const attrsWithoutSize = svgAttrs
+    .replace(/\s*\bwidth="[^"]*"/, '')
+    .replace(/\s*\bheight="[^"]*"/, '')
+    .trim();
+  const escapedAttrs = esc(attrsWithoutSize);
+  const escapedBody = esc(svgBody);
+  const escapedName = name.replace(/'/g, "\\'");
+  const escapedDesc = esc(description.slice(0, 300));
+
+  return [
+    `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.`,
+    `// Run 'yarn generate' to regenerate.`,
+    ``,
+    `const _Attrs = \`${escapedAttrs}\`;`,
+    `const _Body = \`${escapedBody}\`;`,
+    `const _DefaultDesc = \`${escapedDesc}\`;`,
+    `const _DefaultTitle = '${escapedName}';`,
+    `const _DefaultWidth = \`${esc(defaultWidth)}\`;`,
+    `const _DefaultHeight = \`${esc(defaultHeight)}\`;`,
+    `const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');`,
+    ``,
+    `export class ${componentName} extends HTMLElement {`,
+    `  static readonly tagName = 'ghs-${id}';`,
+    `  static readonly observedAttributes = ['title', 'description', 'width', 'height'];`,
+    ``,
+    `  connectedCallback(): void { this._render(); }`,
+    `  attributeChangedCallback(): void { this._render(); }`,
+    ``,
+    `  private _render(): void {`,
+    `    const descId = \`ghs-desc-${id}\`;`,
+    `    const titleId = \`ghs-title-${id}\`;`,
+    `    const _w = this.hasAttribute('width') ? _h(this.getAttribute('width')!) : _DefaultWidth;`,
+    `    const _ht = this.hasAttribute('height') ? _h(this.getAttribute('height')!) : _DefaultHeight;`,
+    `    const resolvedTitle = this.getAttribute('title') ?? _DefaultTitle;`,
+    `    const resolvedDesc = this.getAttribute('description') ?? _DefaultDesc;`,
+    `    this.style.display = 'contents';`,
+    `    this.innerHTML = \`<svg \${_Attrs} width="\${_w}" height="\${_ht}" role="img" aria-labelledby="\${titleId} \${descId}">`,
+    `  <title id="\${titleId}">\${_h(resolvedTitle)}</title>`,
+    `  <desc id="\${descId}">\${_h(resolvedDesc)}</desc>`,
+    `  \${_Body}</svg>\`;`,
+    `  }`,
+    `}`,
+    ``,
+  ].join('\n');
+};
+
+// ---------------------------------------------------------------------------
+// Code generation — elements src/defineCustomElements.ts
+// ---------------------------------------------------------------------------
+
+const generateDefineCustomElements = (entries: Array<{ id: string; componentName: string }>): string =>
+  [
+    `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.`,
+    `// Run 'yarn generate' to regenerate.`,
+    ``,
+    `import { GhsPictogram } from './GhsPictogram';`,
+    ...entries.map(({ componentName }) => `import { ${componentName} } from './${componentName}';`),
+    ``,
+    `const _elements: Array<[typeof HTMLElement & { tagName: string }, string]> = [`,
+    `  [GhsPictogram, GhsPictogram.tagName],`,
+    ...entries.map(({ componentName }) => `  [${componentName}, ${componentName}.tagName],`),
+    `];`,
+    ``,
+    `/**`,
+    ` * Registers all GHS hazard and ADR/UN transport pictogram custom elements.`,
+    ` *`,
+    ` * @param prefix — tag-name prefix (default \`"ghs"\`). Each element is registered`,
+    ` *   as \`{prefix}-{id}\`, e.g. \`ghs-ghs01-explosive\` or \`ghs-division-2-3\`.`,
+    ` *   Pass a custom string to avoid conflicts with other libraries.`,
+    ` * @example`,
+    ` * \`\`\`ts`,
+    ` * import { defineCustomElements } from '@ghs-hazard-pictograms/elements';`,
+    ` * defineCustomElements(); // registers ghs-ghs01-explosive, ghs-division-2-3, etc.`,
+    ` * \`\`\``,
+    ` */`,
+    `export function defineCustomElements(prefix = 'ghs'): void {`,
+    `  for (const [cls, defaultTag] of _elements) {`,
+    `    const tag = prefix === 'ghs' ? defaultTag : \`\${prefix}-\${defaultTag.replace(/^ghs-/, '')}\`;`,
+    `    if (!customElements.get(tag)) customElements.define(tag, cls);`,
+    `  }`,
+    `}`,
+    ``,
+  ].join('\n');
+
+// ---------------------------------------------------------------------------
+// Code generation — elements src/index.ts
+// ---------------------------------------------------------------------------
+
+const generateElementsIndex = (componentNames: string[]): string =>
+  [
+    `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.`,
+    `// Run 'yarn generate' to regenerate.`,
+    ``,
+    `export { GhsPictogram } from './GhsPictogram';`,
+    `export { defineCustomElements } from './defineCustomElements';`,
+    ...componentNames.map((name) => `export { ${name} } from './${name}';`),
+    `export type { Pictogram, PictogramAssets, PictogramCategory } from '@ghs-hazard-pictograms/core';`,
+    ``,
+  ].join('\n');
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -605,6 +727,27 @@ const generateSource = async (): Promise<void> => {
   const vueIndexOut = path.join(vueDir, 'index.ts');
   fs.writeFileSync(vueIndexOut, generateVueIndex(vueComponentNames), 'utf-8');
   console.log(`Written: ${vueIndexOut}`);
+
+  // packages/@ghs-hazard-pictograms/elements/src/ — individual element files, defineCustomElements helper, and barrel index
+  const elementsDir = path.join('packages', '@ghs-hazard-pictograms', 'elements', 'src');
+  fs.mkdirSync(elementsDir, { recursive: true });
+
+  const elementEntries: Array<{ id: string; componentName: string }> = [];
+  for (const entry of reactEntries) {
+    const componentName = toComponentName(entry.id);
+    elementEntries.push({ id: entry.id, componentName });
+    const componentOut = path.join(elementsDir, `${componentName}.ts`);
+    fs.writeFileSync(componentOut, generateElementFile(entry), 'utf-8');
+    console.log(`Written: ${componentOut}`);
+  }
+
+  const defineOut = path.join(elementsDir, 'defineCustomElements.ts');
+  fs.writeFileSync(defineOut, generateDefineCustomElements(elementEntries), 'utf-8');
+  console.log(`Written: ${defineOut}`);
+
+  const elementsIndexOut = path.join(elementsDir, 'index.ts');
+  fs.writeFileSync(elementsIndexOut, generateElementsIndex(elementEntries.map((e) => e.componentName)), 'utf-8');
+  console.log(`Written: ${elementsIndexOut}`);
 
   console.log('\nDone.');
 };

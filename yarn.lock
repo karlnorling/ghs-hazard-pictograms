@@ -1430,6 +1430,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ghs-hazard-pictograms/elements@workspace:packages/@ghs-hazard-pictograms/elements":
+  version: 0.0.0-use.local
+  resolution: "@ghs-hazard-pictograms/elements@workspace:packages/@ghs-hazard-pictograms/elements"
+  dependencies:
+    "@ghs-hazard-pictograms/core": "workspace:*"
+    "@types/jest": "npm:^30.0.0"
+    jest: "npm:^30.3.0"
+    jest-environment-jsdom: "npm:^30.3.0"
+    ts-jest: "npm:^29.4.0"
+    typescript: "npm:^5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@ghs-hazard-pictograms/react@workspace:*, @ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react":
   version: 0.0.0-use.local
   resolution: "@ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react"

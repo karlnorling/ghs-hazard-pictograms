@@ -1,0 +1,71 @@
+{
+  "name": "@ghs-hazard-pictograms/elements",
+  "version": "1.0.0",
+  "description": "Accessible Web Components (Custom Elements) for all GHS hazard and ADR/UN transport pictograms — framework-agnostic, zero runtime dependencies",
+  "keywords": [
+    "accessible",
+    "adr",
+    "chemical",
+    "chemical-safety",
+    "clp",
+    "custom-elements",
+    "dangerous-goods",
+    "ghs",
+    "globally-harmonized-system",
+    "hazard",
+    "hazmat",
+    "icons",
+    "labeling",
+    "pictogram",
+    "pictograms",
+    "safety",
+    "sds",
+    "svg",
+    "symbol",
+    "transport",
+    "typescript",
+    "un",
+    "warning",
+    "web-components"
+  ],
+  "homepage": "https://karlnorling.github.io/ghs-hazard-pictograms/",
+  "bugs": {
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms",
+    "directory": "packages/@ghs-hazard-pictograms/elements"
+  },
+  "files": [
+    "dist/",
+    "package.json",
+    "README.md"
+  ],
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/esm/index.d.ts"
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type:'commonjs'})); require('fs').writeFileSync('dist/esm/package.json', JSON.stringify({type:'module'}))\"",
+    "test": "jest",
+    "type-check": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@ghs-hazard-pictograms/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "ts-jest": "^29.4.0",
+    "typescript": "^5.8.3"
+  }
+}
