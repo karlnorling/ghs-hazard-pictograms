@@ -1,9 +1,8 @@
 // THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.
 // Run 'yarn generate' to regenerate.
 
-export type { PictogramProps } from './PictogramProps';
-export { PictogramById } from './Pictogram';
-export type { PictogramByIdProps } from './Pictogram';
+export { pictogramProps } from './PictogramProps';
+export { PictogramById } from './PictogramById';
 export { Ghs01Explosive } from './Ghs01Explosive';
 export { Ghs02Flammable } from './Ghs02Flammable';
 export { Ghs03Oxidizing } from './Ghs03Oxidizing';

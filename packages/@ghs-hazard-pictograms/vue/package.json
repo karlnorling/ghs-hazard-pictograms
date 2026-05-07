@@ -1,0 +1,78 @@
+{
+  "name": "@ghs-hazard-pictograms/vue",
+  "version": "1.0.0",
+  "description": "Accessible Vue 3 components for all GHS hazard and ADR/UN transport pictograms — fully typed, zero runtime dependencies beyond Vue",
+  "keywords": [
+    "accessible",
+    "adr",
+    "chemical",
+    "chemical-safety",
+    "clp",
+    "components",
+    "dangerous-goods",
+    "ghs",
+    "globally-harmonized-system",
+    "hazard",
+    "hazmat",
+    "icons",
+    "labeling",
+    "pictogram",
+    "pictograms",
+    "safety",
+    "sds",
+    "svg",
+    "symbol",
+    "transport",
+    "typescript",
+    "ui",
+    "un",
+    "vue",
+    "vue3",
+    "warning"
+  ],
+  "homepage": "https://karlnorling.github.io/ghs-hazard-pictograms/",
+  "bugs": {
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms",
+    "directory": "packages/@ghs-hazard-pictograms/vue"
+  },
+  "files": [
+    "dist/",
+    "package.json",
+    "README.md"
+  ],
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/esm/index.d.ts"
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type:'commonjs'})); require('fs').writeFileSync('dist/esm/package.json', JSON.stringify({type:'module'}))\"",
+    "test": "jest",
+    "type-check": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@ghs-hazard-pictograms/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@vue/test-utils": "^2.4.6",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "ts-jest": "^29.4.0",
+    "typescript": "^5.8.3",
+    "vue": "^3.5.16"
+  },
+  "peerDependencies": {
+    "vue": ">=3.0.0"
+  }
+}
