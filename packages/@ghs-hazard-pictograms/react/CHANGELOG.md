@@ -1,5 +1,26 @@
 # @ghs-hazard-pictograms/react
 
+## 1.1.0
+
+### Minor Changes
+
+- 991c75f: Add `PictogramById` component for data-driven rendering by slug ID
+
+### Patch Changes
+
+- e1e7c35: Improve npm descriptions and keywords for better discoverability.
+
+  All packages now mention ADR/UN transport pictograms in their description
+  (previously only GHS was mentioned, omitting half the library). Added
+  high-value keywords across all packages: `chemical-safety`, `clp`,
+  `dangerous-goods`, `hazmat`, `labeling`, `sds`. Package-specific additions:
+  `core` gains `ghs-pictogram`, `registry`; `css` gains `css-sprite`, `vanilla`;
+  `react` gains `accessible`, `jsx`, `react-component`, `tsx`, `typescript`;
+  `sprite` gains `inline-svg`, `svg-sprite`; `assets` gains `jpg`.
+
+- Updated dependencies [e1e7c35]
+  - @ghs-hazard-pictograms/core@1.0.5
+
 ## 1.0.6
 
 ### Patch Changes

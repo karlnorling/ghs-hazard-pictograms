@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/sprite",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "SVG symbol sprite for all GHS hazard and ADR/UN transport pictograms — embed any pictogram inline with <use href='#id'>",
   "keywords": [
     "adr",
