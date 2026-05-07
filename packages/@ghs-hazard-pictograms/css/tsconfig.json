@@ -8,7 +8,9 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "rootDir": "./src"
+    "paths": {
+      "@ghs-hazard-pictograms/core": ["../core/src/index.ts"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["src/**/__tests__/**/*", "node_modules"]
