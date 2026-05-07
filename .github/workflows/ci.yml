@@ -120,21 +120,7 @@ jobs:
           # invoke npm CLI, so it cannot pick up the OIDC token automatically.
           # This script uses `npm publish` directly, which handles the OIDC token
           # exchange with the npm registry natively (npm CLI v9+).
-          publish: |
-            for dir in packages/@ghs-hazard-pictograms/*/; do
-              [ -f "${dir}package.json" ] || continue
-              name=$(node -p "require('./${dir}package.json').name")
-              version=$(node -p "require('./${dir}package.json').version")
-              private=$(node -p "require('./${dir}package.json').private || false")
-              [ "$private" = "true" ] && continue
-              if npm view "${name}@${version}" version &>/dev/null; then
-                echo "Skipping ${name}@${version} (already published)"
-              else
-                echo "Publishing ${name}@${version}..."
-                (cd "${dir}" && npm publish --provenance --access public)
-              fi
-            done
-            yarn changeset tag
+          publish: bash scripts/publish.sh
           createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
