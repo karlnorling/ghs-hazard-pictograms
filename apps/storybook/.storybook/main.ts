@@ -1,5 +1,8 @@
+import { fileURLToPath } from 'node:url';
 import path from 'path';
 import type { StorybookConfig } from '@storybook/react-vite';
+
+const dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -18,15 +21,15 @@ const config: StorybookConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@ghs-hazard-pictograms/core': path.resolve(
-        __dirname,
+        dirname,
         '../../../packages/@ghs-hazard-pictograms/core/src/index.ts',
       ),
       '@ghs-hazard-pictograms/css': path.resolve(
-        __dirname,
+        dirname,
         '../../../packages/@ghs-hazard-pictograms/css/src/index.ts',
       ),
       '@ghs-hazard-pictograms/react': path.resolve(
-        __dirname,
+        dirname,
         '../../../packages/@ghs-hazard-pictograms/react/src/index.ts',
       ),
     };
