@@ -1,5 +1,15 @@
 # @ghs-hazard-pictograms/css
 
+## 1.0.5
+
+### Patch Changes
+
+- 0bac606: Fix dist output structure: remove `paths` alias that caused core source to be compiled into each package.
+
+  Previously, a TypeScript `paths` alias pointed `tsc` directly at `@ghs-hazard-pictograms/core`'s source files. This caused core to be compiled into each package's own `dist/`, nesting output under `dist/cjs/react/src/` and `dist/cjs/core/src/` instead of the expected flat `dist/cjs/`. The published tarballs were roughly 3× larger than necessary and shipped duplicate copies of the core pictogram data.
+
+  Each package now resolves `@ghs-hazard-pictograms/core` through its compiled declarations in `node_modules`, and an explicit `rootDir: "./src"` ensures output lands directly in `dist/cjs/` and `dist/esm/`.
+
 ## 1.0.4
 
 ### Patch Changes
@@ -18,6 +28,7 @@
 - Add repository, homepage, bugs, and license fields to all package manifests.
 
   Each package now declares:
+
   - `homepage` pointing to the GitHub Pages documentation site at karlnorling.github.io/ghs-hazard-pictograms
   - `repository` with the GitHub URL and the per-package `directory` path for monorepo tooling
   - `bugs` linking to the GitHub issues tracker
@@ -59,6 +70,7 @@
   ## @ghs-hazard-pictograms/core
 
   Typed registry and lookup helpers for all GHS hazard pictograms.
+
   - `getAllPictograms()` — returns all 27 pictograms (9 GHS + 18 transport)
   - `getGHSPictograms()` — returns the 9 core GHS chemical pictograms (GHS01–GHS09)
   - `getPictogram(id)` — fetch a single pictogram by slug (e.g. `"ghs01-explosive"`)
@@ -68,6 +80,7 @@
   ## @ghs-hazard-pictograms/react
 
   Ready-to-use React components for every GHS and transport pictogram.
+
   - One named component per pictogram (e.g. `Ghs01Explosive`, `Ghs06Toxic`)
   - Renders an accessible `<span>` with the SVG injected via `dangerouslySetInnerHTML`
   - Props: `width`, `height`, `title`, `description`, `className`, `style`, `aria-label`
@@ -76,6 +89,7 @@
   ## @ghs-hazard-pictograms/css
 
   CSS sprite sheet and JavaScript helpers for background-image–based display.
+
   - `sprite.css` — 27 short, valid CSS class selectors (`.ghs-ghs01`–`.ghs-ghs09`, `.ghs-adr-*`, `.ghs-un-*`) using `background-image: url(…)` with `background-size: contain`
   - `getCssClassName(id)` — resolves a pictogram slug to its CSS class name
   - `pictogramCssClasses` — map of all slug → class name entries
@@ -84,6 +98,7 @@
   ## @ghs-hazard-pictograms/assets
 
   Static image assets for all pictograms in every format.
+
   - SVG (original + five resized copies), PNG, JPG, and WebP at 240, 512, 768, 1024, and 2048 px
   - 9 core GHS chemical pictograms and 18 ADR/UN transport pictograms
   - Asset paths exposed via `Pictogram.assets` in `@ghs-hazard-pictograms/core`
@@ -91,6 +106,7 @@
   ## @ghs-hazard-pictograms/sprite
 
   SVG symbol sprite sheet for `<use href="#id">` based embedding.
+
   - Single `sprite.svg` file containing all pictograms as `<symbol>` elements
   - `sprite-ids.json` — machine-readable list of all symbol IDs
 
