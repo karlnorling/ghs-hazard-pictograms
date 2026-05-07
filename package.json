@@ -20,14 +20,14 @@
     "check": "manypkg check",
     "changeset": "changeset",
     "publish": "yarn changeset publish",
-    "prepare": "husky"
+    "prepare": "lefthook install"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.10",
     "@manypkg/cli": "^0.23.0",
     "@types/node": "^22.10.7",
     "glob": "^13.0.6",
-    "husky": "^9.1.7",
+    "lefthook": "^2.1.6",
     "marked": "^15.0.12",
     "node-html-parser": "^7.0.1",
     "oxfmt": "^0.45.0",

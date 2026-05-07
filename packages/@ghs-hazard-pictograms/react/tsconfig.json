@@ -9,6 +9,8 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "paths": {
       "@ghs-hazard-pictograms/core": ["../core/src/index.ts"]
     }
