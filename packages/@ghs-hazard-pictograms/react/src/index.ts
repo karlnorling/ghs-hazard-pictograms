@@ -2,6 +2,8 @@
 // Run 'yarn generate' to regenerate.
 
 export type { PictogramProps } from './PictogramProps';
+export { PictogramById } from './Pictogram';
+export type { PictogramByIdProps } from './Pictogram';
 export { Ghs01Explosive } from './Ghs01Explosive';
 export { Ghs02Flammable } from './Ghs02Flammable';
 export { Ghs03Oxidizing } from './Ghs03Oxidizing';

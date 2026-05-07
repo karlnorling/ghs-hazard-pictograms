@@ -345,6 +345,8 @@ const generateReactIndex = (componentNames: string[]): string =>
     `// Run 'yarn generate' to regenerate.`,
     ``,
     `export type { PictogramProps } from './PictogramProps';`,
+    `export { PictogramById } from './Pictogram';`,
+    `export type { PictogramByIdProps } from './Pictogram';`,
     ...componentNames.map((name) => `export { ${name} } from './${name}';`),
     `export type { Pictogram, PictogramAssets, PictogramCategory } from '@ghs-hazard-pictograms/core';`,
     ``,
