@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/vue",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Accessible Vue 3 components for all GHS hazard and ADR/UN transport pictograms — fully typed, zero runtime dependencies beyond Vue",
   "keywords": [
     "accessible",

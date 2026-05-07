@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/assets",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Static image assets for all GHS hazard and ADR/UN transport pictograms — SVG, PNG, JPG, and WebP at five sizes (240–2048 px)",
   "keywords": [
     "adr",
