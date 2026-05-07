@@ -1,6 +1,6 @@
 ---
-"@ghs-hazard-pictograms/react": patch
-"@ghs-hazard-pictograms/css": patch
+'@ghs-hazard-pictograms/react': patch
+'@ghs-hazard-pictograms/css': patch
 ---
 
 Fix dist output structure: remove `paths` alias that caused core source to be compiled into each package.
