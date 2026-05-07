@@ -9,9 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",
-    "paths": {
-      "@ghs-hazard-pictograms/core": ["../core/src/index.ts"]
-    }
+    "rootDir": "./src"
   },
   "include": ["src/**/*"],
   "exclude": ["src/**/__tests__/**/*", "node_modules"]
