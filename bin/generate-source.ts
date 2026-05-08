@@ -541,7 +541,9 @@ const generateElementFile = (entry: ReactEntry): string => {
 // Code generation — elements src/defineCustomElements.ts
 // ---------------------------------------------------------------------------
 
-const generateDefineCustomElements = (entries: Array<{ id: string; componentName: string }>): string =>
+const generateDefineCustomElements = (
+  entries: Array<{ id: string; componentName: string }>,
+): string =>
   [
     `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.`,
     `// Run 'yarn generate' to regenerate.`,
@@ -746,7 +748,11 @@ const generateSource = async (): Promise<void> => {
   console.log(`Written: ${defineOut}`);
 
   const elementsIndexOut = path.join(elementsDir, 'index.ts');
-  fs.writeFileSync(elementsIndexOut, generateElementsIndex(elementEntries.map((e) => e.componentName)), 'utf-8');
+  fs.writeFileSync(
+    elementsIndexOut,
+    generateElementsIndex(elementEntries.map((e) => e.componentName)),
+    'utf-8',
+  );
   console.log(`Written: ${elementsIndexOut}`);
 
   console.log('\nDone.');
