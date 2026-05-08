@@ -12,7 +12,7 @@ const InlineSprite = () => {
   const [spriteHtml, setSpriteHtml] = React.useState<string>('');
 
   React.useEffect(() => {
-    fetch('/assets/sprites/sprite.svg')
+    fetch(`${import.meta.env.BASE_URL}assets/sprites/sprite.svg`)
       .then((r) => r.text())
       .then(setSpriteHtml)
       .catch(() => {

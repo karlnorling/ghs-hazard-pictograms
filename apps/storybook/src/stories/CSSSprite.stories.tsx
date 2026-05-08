@@ -206,7 +206,7 @@ const StyleInjector = ({ items, size }: { items: CSSItem[]; size: number }) => {
   const rules = items
     .map(
       ({ className, svgPath }) =>
-        `.${escapeSelector(className)} { background-image: url('/assets/${svgPath}'); background-size: contain; background-repeat: no-repeat; background-position: center; }`,
+        `.${escapeSelector(className)} { background-image: url('${import.meta.env.BASE_URL}assets/${svgPath}'); background-size: contain; background-repeat: no-repeat; background-position: center; }`,
     )
     .join('\n');
 
