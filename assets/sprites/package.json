@@ -1,0 +1,50 @@
+{
+  "name": "@ghs-hazard-pictograms/sprite",
+  "version": "1.0.5",
+  "description": "SVG symbol sprite for all GHS hazard and ADR/UN transport pictograms — embed any pictogram inline with <use href='#id'>",
+  "keywords": [
+    "adr",
+    "chemical",
+    "chemical-safety",
+    "clp",
+    "dangerous-goods",
+    "ghs",
+    "globally-harmonized-system",
+    "hazard",
+    "hazmat",
+    "icons",
+    "inline-svg",
+    "labeling",
+    "pictogram",
+    "pictograms",
+    "safety",
+    "sds",
+    "sprite",
+    "svg",
+    "svg-sprite",
+    "symbol",
+    "transport",
+    "un",
+    "warning"
+  ],
+  "homepage": "https://karlnorling.github.io/ghs-hazard-pictograms/",
+  "bugs": {
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karlnorling/ghs-hazard-pictograms",
+    "directory": "packages/@ghs-hazard-pictograms/sprite"
+  },
+  "files": [
+    "sprite.svg",
+    "sprite-ids.json",
+    "package.json",
+    "README.md"
+  ],
+  "exports": {
+    "./sprite.svg": "./sprite.svg",
+    "./sprite-ids.json": "./sprite-ids.json"
+  }
+}
