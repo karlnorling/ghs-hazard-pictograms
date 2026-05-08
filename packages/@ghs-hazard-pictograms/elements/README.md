@@ -34,12 +34,12 @@ defineCustomElements();
 
 Every named element accepts the same attributes:
 
-| Attribute     | Default                      | Description                                        |
-| ------------- | ---------------------------- | -------------------------------------------------- |
-| `width`       | SVG natural width            | Width applied to the `<svg>` element               |
-| `height`      | SVG natural height           | Height applied to the `<svg>` element              |
-| `title`       | Pictogram name               | Accessible `<title>` injected into the SVG         |
-| `description` | Wikipedia hazard description | Accessible `<desc>` injected into the SVG          |
+| Attribute     | Default                      | Description                                |
+| ------------- | ---------------------------- | ------------------------------------------ |
+| `width`       | SVG natural width            | Width applied to the `<svg>` element       |
+| `height`      | SVG natural height           | Height applied to the `<svg>` element      |
+| `title`       | Pictogram name               | Accessible `<title>` injected into the SVG |
+| `description` | Wikipedia hazard description | Accessible `<desc>` injected into the SVG  |
 
 The element itself has `style="display:contents"` so it is transparent to layout.
 
@@ -58,37 +58,37 @@ The `pictogram-id` attribute accepts any slug used by `@ghs-hazard-pictograms/co
 
 ## GHS chemical hazard pictograms
 
-| Element tag                                     | GHS code | Hazard                                   |
-| ----------------------------------------------- | -------- | ---------------------------------------- |
-| `ghs-ghs01-explosive`                           | GHS01    | Explosive                                |
-| `ghs-ghs02-flammable`                           | GHS02    | Flammable                                |
-| `ghs-ghs03-oxidizing`                           | GHS03    | Oxidizing                                |
-| `ghs-ghs04-compressed-gas`                      | GHS04    | Compressed Gas                           |
-| `ghs-ghs05-corrosive`                           | GHS05    | Corrosive                                |
-| `ghs-ghs06-toxic`                               | GHS06    | Toxic                                    |
-| `ghs-ghs07-health-hazard-hazardous-to-ozone-layer` | GHS07 | Health Hazard / Hazardous to Ozone Layer |
-| `ghs-ghs08-serious-health-hazard`               | GHS08    | Serious Health Hazard                    |
-| `ghs-ghs09-hazardous-to-the-environment`        | GHS09    | Hazardous to the Environment             |
+| Element tag                                        | GHS code | Hazard                                   |
+| -------------------------------------------------- | -------- | ---------------------------------------- |
+| `ghs-ghs01-explosive`                              | GHS01    | Explosive                                |
+| `ghs-ghs02-flammable`                              | GHS02    | Flammable                                |
+| `ghs-ghs03-oxidizing`                              | GHS03    | Oxidizing                                |
+| `ghs-ghs04-compressed-gas`                         | GHS04    | Compressed Gas                           |
+| `ghs-ghs05-corrosive`                              | GHS05    | Corrosive                                |
+| `ghs-ghs06-toxic`                                  | GHS06    | Toxic                                    |
+| `ghs-ghs07-health-hazard-hazardous-to-ozone-layer` | GHS07    | Health Hazard / Hazardous to Ozone Layer |
+| `ghs-ghs08-serious-health-hazard`                  | GHS08    | Serious Health Hazard                    |
+| `ghs-ghs09-hazardous-to-the-environment`           | GHS09    | Hazardous to the Environment             |
 
 ## UN transport hazard class pictograms
 
-| Element tag              | Division / Class                        |
-| ------------------------ | --------------------------------------- |
-| `ghs-divisions-1-1-1-3`  | Divisions 1.1, 1.2, 1.3 — Explosives    |
-| `ghs-division-1-4`       | Division 1.4 — Explosives               |
-| `ghs-division-1-5`       | Division 1.5 — Explosives               |
-| `ghs-division-1-6`       | Division 1.6 — Explosives               |
-| `ghs-division-2-1`       | Division 2.1 — Flammable Gas            |
-| `ghs-division-2-2`       | Division 2.2 — Non-Flammable Gas        |
-| `ghs-division-2-3`       | Division 2.3 — Toxic Gas                |
-| `ghs-class-3`            | Class 3 — Flammable Liquid              |
-| `ghs-division-5-1`       | Division 5.1 — Oxidizing Substances     |
-| `ghs-division-5-2`       | Division 5.2 — Organic Peroxides        |
-| `ghs-division-6-1`       | Division 6.1 — Toxic Substances         |
-| `ghs-class-8`            | Class 8 — Corrosive Substances          |
-| `ghs-class-6-2`          | Class 6.2 — Infectious Substances       |
-| `ghs-class-7`            | Class 7 — Radioactive Material          |
-| `ghs-class-9`            | Class 9 — Miscellaneous Dangerous Goods |
+| Element tag             | Division / Class                        |
+| ----------------------- | --------------------------------------- |
+| `ghs-divisions-1-1-1-3` | Divisions 1.1, 1.2, 1.3 — Explosives    |
+| `ghs-division-1-4`      | Division 1.4 — Explosives               |
+| `ghs-division-1-5`      | Division 1.5 — Explosives               |
+| `ghs-division-1-6`      | Division 1.6 — Explosives               |
+| `ghs-division-2-1`      | Division 2.1 — Flammable Gas            |
+| `ghs-division-2-2`      | Division 2.2 — Non-Flammable Gas        |
+| `ghs-division-2-3`      | Division 2.3 — Toxic Gas                |
+| `ghs-class-3`           | Class 3 — Flammable Liquid              |
+| `ghs-division-5-1`      | Division 5.1 — Oxidizing Substances     |
+| `ghs-division-5-2`      | Division 5.2 — Organic Peroxides        |
+| `ghs-division-6-1`      | Division 6.1 — Toxic Substances         |
+| `ghs-class-8`           | Class 8 — Corrosive Substances          |
+| `ghs-class-6-2`         | Class 6.2 — Infectious Substances       |
+| `ghs-class-7`           | Class 7 — Radioactive Material          |
+| `ghs-class-9`           | Class 9 — Miscellaneous Dangerous Goods |
 
 ## Examples
 
