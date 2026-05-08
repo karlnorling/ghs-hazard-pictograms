@@ -24,6 +24,7 @@
     "playwright": "^1.59.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+    "remark-gfm": "^4.0.1",
     "storybook": "^10.3.5",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",

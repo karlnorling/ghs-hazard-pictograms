@@ -195,9 +195,9 @@ const SpriteGrid = ({ size = 120, symbols = GHS_SYMBOLS }: GridProps) => (
     <InlineSprite />
     <div
       style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-        gap: '1.5rem',
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '0.75rem',
         padding: '1rem',
       }}
     >
