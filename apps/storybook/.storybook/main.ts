@@ -1,15 +1,31 @@
 import { fileURLToPath } from 'node:url';
 import path from 'path';
+import remarkGfm from 'remark-gfm';
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: ['@storybook/addon-vitest', '@storybook/addon-a11y', '@storybook/addon-docs'],
+  addons: [
+    '@storybook/addon-vitest',
+    '@storybook/addon-a11y',
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        },
+      },
+    },
+  ],
   framework: '@storybook/react-vite',
-  // Serve the assets package directory so SVG/CSS sprite stories can load files
-  staticDirs: [{ from: '../../../packages/@ghs-hazard-pictograms/assets/assets', to: '/assets' }],
+  staticDirs: [
+    { from: '../../../packages/@ghs-hazard-pictograms/assets/assets', to: '/assets' },
+    { from: '../../../packages/@ghs-hazard-pictograms/sprite', to: '/assets/sprites' },
+  ],
   // Allow overriding the Vite base URL for deployments to a sub-path (e.g. GitHub Pages)
   viteFinal: (config) => {
     if (process.env.STORYBOOK_BASE_PATH) {

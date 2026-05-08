@@ -1,0 +1,139 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# GHS Hazard Pictograms
+
+Accessible, framework-agnostic packages for **GHS** (Globally Harmonised System) hazard pictograms and **ADR/UN** transport hazard labels.
+
+[![CI](https://github.com/karlnorling/ghs-hazard-pictograms/actions/workflows/ci.yml/badge.svg)](https://github.com/karlnorling/ghs-hazard-pictograms/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/karlnorling/ghs-hazard-pictograms/blob/main/LICENSE)
+
+---
+
+## What are GHS pictograms?
+
+The Globally Harmonised System of Classification and Labelling of Chemicals (GHS) defines standardised pictograms used on chemical labels and safety data sheets worldwide.
+
+| Category | Codes | Purpose |
+| -------- | ----- | ------- |
+| Physical hazards | GHS01–GHS05 | Explosive, flammable, oxidising, compressed gas, corrosive |
+| Health hazards | GHS06–GHS08 | Toxic, health hazard, serious health hazard |
+| Environmental hazards | GHS09 | Hazardous to the aquatic environment |
+| Transport (ADR/UN) | Divisions 1–9 | UN transport hazard labels for road, rail, sea, and air |
+
+---
+
+## Packages
+
+| Package | Description |
+| ------- | ----------- |
+| [`@ghs-hazard-pictograms/react`](/?path=/docs/ghs-pictograms-react-components--docs) | Inline SVG React components, tree-shakeable, fully typed |
+| [`@ghs-hazard-pictograms/vue`](https://www.npmjs.com/package/@ghs-hazard-pictograms/vue) | Inline SVG Vue 3 components |
+| [`@ghs-hazard-pictograms/elements`](https://www.npmjs.com/package/@ghs-hazard-pictograms/elements) | Web Components / Custom Elements (`<ghs-pictogram>`) |
+| [`@ghs-hazard-pictograms/css`](/?path=/docs/ghs-pictograms-css-sprite--docs) | CSS background-image sprite, zero JavaScript |
+| [`@ghs-hazard-pictograms/sprite`](/?path=/docs/ghs-pictograms-svg-sprite--docs) | SVG `<symbol>` sprite, single network request |
+| [`@ghs-hazard-pictograms/assets`](https://www.npmjs.com/package/@ghs-hazard-pictograms/assets) | Pre-built SVG, PNG, JPG, WebP at 5 sizes |
+| [`@ghs-hazard-pictograms/core`](https://www.npmjs.com/package/@ghs-hazard-pictograms/core) | Typed pictogram data and lookup API |
+
+---
+
+## Quick start
+
+### React
+
+```sh
+npm install @ghs-hazard-pictograms/react
+```
+
+Named components for each pictogram:
+
+```tsx
+import { Ghs01Explosive, Ghs06Toxic } from '@ghs-hazard-pictograms/react';
+
+<Ghs01Explosive width={64} />
+<Ghs06Toxic width={64} title="Toxic substance" />
+```
+
+Dynamic rendering by ID:
+
+```tsx
+import { PictogramById } from '@ghs-hazard-pictograms/react';
+
+<PictogramById id="ghs01-explosive" width={64} />
+```
+
+### Vue 3
+
+```sh
+npm install @ghs-hazard-pictograms/vue
+```
+
+```vue
+<script setup>
+import { PictogramById } from '@ghs-hazard-pictograms/vue';
+</script>
+<template>
+  <PictogramById id="ghs01-explosive" :width="64" />
+</template>
+```
+
+### Web Components
+
+```sh
+npm install @ghs-hazard-pictograms/elements
+```
+
+```ts
+import { defineCustomElements } from '@ghs-hazard-pictograms/elements';
+defineCustomElements();
+```
+
+```html
+<ghs-pictogram pictogram-id="ghs01-explosive" width="64"></ghs-pictogram>
+```
+
+### CSS sprite (no JavaScript)
+
+```sh
+npm install @ghs-hazard-pictograms/css
+```
+
+```js
+import '@ghs-hazard-pictograms/css/sprite.css';
+```
+
+```html
+<span class="ghs01-explosive" style="display:inline-block;width:64px;height:64px"
+      role="img" aria-label="Explosive"></span>
+```
+
+### SVG sprite
+
+```sh
+npm install @ghs-hazard-pictograms/sprite
+```
+
+```html
+<svg width="64" height="64" role="img" aria-label="Explosive">
+  <title>Explosive</title>
+  <use href="/path/to/sprite.svg#ghs01-explosive" />
+</svg>
+```
+
+### Programmatic API
+
+```ts
+import { getAllPictograms, getPictogram, getPictogramsByCategory } from '@ghs-hazard-pictograms/core';
+
+const all      = getAllPictograms();                  // Pictogram[]
+const item     = getPictogram('ghs01-explosive');     // Pictogram | undefined
+const ghs      = getGHSPictograms();                  // GHS01–09 only
+const category = getPictogramsByCategory('physical'); // Pictogram[]
+```
+
+---
+
+## License
+
+MIT. GHS pictogram SVG artwork is sourced from Wikimedia Commons — see each file's Commons page for the specific licence of its artwork.
