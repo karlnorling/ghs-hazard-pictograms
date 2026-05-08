@@ -1,4 +1,4 @@
-import{j as s}from"./jsx-runtime-D_zvdyIk.js";import{u as i,M as r}from"./blocks-DUeGmCvV.js";import"./iframe-BMpuEIpi.js";import"./index-Blp0zAP2.js";function a(n){const e={code:"code",h1:"h1",h2:"h2",h3:"h3",hr:"hr",p:"p",pre:"pre",...i(),...n.components};return s.jsxs(s.Fragment,{children:[s.jsx(r,{title:"GHS Pictograms/Assets & API"}),`
+import{j as s}from"./jsx-runtime-D_zvdyIk.js";import{u as i,M as r}from"./blocks-fDNENPri.js";import"./iframe-CSWschvY.js";import"./index-Duoz8m2c.js";function a(n){const e={code:"code",h1:"h1",h2:"h2",h3:"h3",hr:"hr",p:"p",pre:"pre",...i(),...n.components};return s.jsxs(s.Fragment,{children:[s.jsx(r,{title:"GHS Pictograms/Assets & API"}),`
 `,s.jsx(e.h1,{id:"assets--programmatic-api",children:"Assets & Programmatic API"}),`
 `,s.jsxs(e.p,{children:["The ",s.jsx(e.code,{children:"@ghs-hazard-pictograms/core"})," package exposes typed data for all 24 pictograms alongside helper functions for filtering and lookup. The ",s.jsx(e.code,{children:"@ghs-hazard-pictograms/assets"})," package provides pre-built image files at multiple resolutions."]}),`
 `,s.jsx(e.hr,{}),`
