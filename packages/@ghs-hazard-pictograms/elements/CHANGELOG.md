@@ -1,6 +1,10 @@
-# @ghs-hazard-pictograms/vue
+# @ghs-hazard-pictograms/elements
 
-## 1.1.1
+## 1.1.0
+
+### Minor Changes
+
+- 89e0f0a: Add Web Components (Custom Elements) package with named elements and GhsPictogram
 
 ### Patch Changes
 
@@ -9,14 +13,3 @@
   - Scope internal SVG IDs with the pictogram slug to prevent DOM collisions when multiple pictograms appear on the same page (Inkscape-generated SVGs share IDs like `layer1` and `base`)
   - Switch body regex to greedy `[\s\S]*` so the full SVG content is captured in complex nested documents
   - Strip `px` suffix from width/height before using as defaults
-
-## 1.1.0
-
-### Minor Changes
-
-- 1725357: Add Vue 3 components package with named components and PictogramById
-
-### Patch Changes
-
-- Updated dependencies [e1e7c35]
-  - @ghs-hazard-pictograms/core@1.0.5
