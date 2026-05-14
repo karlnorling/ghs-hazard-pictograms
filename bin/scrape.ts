@@ -191,7 +191,10 @@ const scrapingData = (
         for (const t of expandedTitles) titleCount.set(t, (titleCount.get(t) ?? 0) + 1);
 
         const copyRow = rows.find(
-          (tr) => tr !== imageRow && tr.querySelectorAll('td').length > 0 && !tr.querySelector('a[href*="/wiki/File:"]'),
+          (tr) =>
+            tr !== imageRow &&
+            tr.querySelectorAll('td').length > 0 &&
+            !tr.querySelector('a[href*="/wiki/File:"]'),
         );
         const copyCells = copyRow ? [...copyRow.querySelectorAll('td')] : [];
 
@@ -211,7 +214,11 @@ const scrapingData = (
           }
 
           const copyText = copyCells[expandedCopyIdx[colIdx] ?? colIdx]?.textContent.trim() ?? null;
-          pictograms[title] = { title, copy: copyText, images: [`https://en.wikipedia.org${href}`] };
+          pictograms[title] = {
+            title,
+            copy: copyText,
+            images: [`https://en.wikipedia.org${href}`],
+          };
         });
       }
     }

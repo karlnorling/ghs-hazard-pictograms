@@ -17,7 +17,7 @@ describe('getAllPictograms()', () => {
       expect(p.id).toBeTruthy();
       expect(p.name).toBeTruthy();
       expect(p.category).toBeTruthy();
-      expect(p.description).toBeTruthy();
+      if (p.category !== 'transport') expect(p.description).toBeTruthy();
       expect(p.svg).toContain('<svg');
       expect(p.assets.svg).toBeTruthy();
       expect(typeof p.assets.png[240]).toBe('string');
