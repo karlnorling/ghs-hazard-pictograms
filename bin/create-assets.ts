@@ -75,7 +75,7 @@ const fetchWithRetry = async (
 ): Promise<Response> => {
   const headers = {
     'User-Agent': USER_AGENT,
-    ...((options.headers as Record<string, string>) ?? {}),
+    ...(options.headers as Record<string, string>),
   };
 
   for (let attempt = 1; attempt <= retries; attempt++) {
