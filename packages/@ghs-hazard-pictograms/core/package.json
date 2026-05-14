@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/core",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "TypeScript registry and lookup helpers for GHS hazard and ADR/UN transport pictograms — includes inline SVG, asset paths, and descriptions",
   "keywords": [
     "adr",
