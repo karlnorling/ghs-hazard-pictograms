@@ -74,5 +74,9 @@
   },
   "peerDependencies": {
     "vue": ">=3.0.0"
+  },
+  "author": {
+    "name": "Karl Norling",
+    "url": "https://github.com/karlnorling"
   }
 }

@@ -67,5 +67,9 @@
     "jest-environment-jsdom": "^30.3.0",
     "ts-jest": "^29.4.0",
     "typescript": "^5.8.3"
+  },
+  "author": {
+    "name": "Karl Norling",
+    "url": "https://github.com/karlnorling"
   }
 }
