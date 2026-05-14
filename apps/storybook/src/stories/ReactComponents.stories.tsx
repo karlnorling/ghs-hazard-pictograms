@@ -20,12 +20,18 @@ import {
   Division22 as Division22Icon,
   Division23 as Division23Icon,
   Class3 as Class3Icon,
+  Division41 as Division41Icon,
+  Division42 as Division42Icon,
+  Division43 as Division43Icon,
   Division51 as Division51Icon,
   Division52 as Division52Icon,
   Division61 as Division61Icon,
   Class8 as Class8Icon,
   Class62 as Class62Icon,
-  Class7 as Class7Icon,
+  Adr7a as Adr7aIcon,
+  Adr7b as Adr7bIcon,
+  Adr7c as Adr7cIcon,
+  Adr7e as Adr7eIcon,
   Class9 as Class9Icon,
   type PictogramProps,
 } from '@ghs-hazard-pictograms/react';
@@ -98,12 +104,18 @@ const TRANSPORT_COMPONENTS = [
   { Component: Division22Icon, label: 'Division 2.2' },
   { Component: Division23Icon, label: 'Division 2.3' },
   { Component: Class3Icon, label: 'Class 3' },
+  { Component: Division41Icon, label: 'Division 4.1' },
+  { Component: Division42Icon, label: 'Division 4.2' },
+  { Component: Division43Icon, label: 'Division 4.3' },
   { Component: Division51Icon, label: 'Division 5.1' },
   { Component: Division52Icon, label: 'Division 5.2' },
   { Component: Division61Icon, label: 'Division 6.1' },
   { Component: Class8Icon, label: 'Class 8' },
   { Component: Class62Icon, label: 'Class 6.2' },
-  { Component: Class7Icon, label: 'Class 7' },
+  { Component: Adr7aIcon, label: 'ADR 7A' },
+  { Component: Adr7bIcon, label: 'ADR 7B' },
+  { Component: Adr7cIcon, label: 'ADR 7C' },
+  { Component: Adr7eIcon, label: 'ADR 7E' },
   { Component: Class9Icon, label: 'Class 9' },
 ] as const;
 
@@ -341,12 +353,6 @@ export const ClassSix2: StoryObj<PictogramProps> = {
   render: (args) => <Class62Icon {...args} />,
 };
 
-export const ClassSeven: StoryObj<PictogramProps> = {
-  name: 'Class 7',
-  ...individualParams,
-  render: (args) => <Class7Icon {...args} />,
-};
-
 export const ClassEight: StoryObj<PictogramProps> = {
   name: 'Class 8',
   ...individualParams,
@@ -357,4 +363,46 @@ export const ClassNine: StoryObj<PictogramProps> = {
   name: 'Class 9',
   ...individualParams,
   render: (args) => <Class9Icon {...args} />,
+};
+
+export const Div41: StoryObj<PictogramProps> = {
+  name: 'Division 4.1',
+  ...individualParams,
+  render: (args) => <Division41Icon {...args} />,
+};
+
+export const Div42: StoryObj<PictogramProps> = {
+  name: 'Division 4.2',
+  ...individualParams,
+  render: (args) => <Division42Icon {...args} />,
+};
+
+export const Div43: StoryObj<PictogramProps> = {
+  name: 'Division 4.3',
+  ...individualParams,
+  render: (args) => <Division43Icon {...args} />,
+};
+
+export const Adr7A: StoryObj<PictogramProps> = {
+  name: 'ADR 7A',
+  ...individualParams,
+  render: (args) => <Adr7aIcon {...args} />,
+};
+
+export const Adr7B: StoryObj<PictogramProps> = {
+  name: 'ADR 7B',
+  ...individualParams,
+  render: (args) => <Adr7bIcon {...args} />,
+};
+
+export const Adr7C: StoryObj<PictogramProps> = {
+  name: 'ADR 7C',
+  ...individualParams,
+  render: (args) => <Adr7cIcon {...args} />,
+};
+
+export const Adr7E: StoryObj<PictogramProps> = {
+  name: 'ADR 7E',
+  ...individualParams,
+  render: (args) => <Adr7eIcon {...args} />,
 };

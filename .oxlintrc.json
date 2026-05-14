@@ -1,5 +1,15 @@
 {
-  "plugins": ["typescript"],
+  "plugins": [
+    "typescript",
+    "unicorn",
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "import",
+    "promise",
+    "vitest"
+  ],
+  "env": { "browser": true, "es2022": true },
   "rules": {
     "no-console": "off",
     "no-await-in-loop": "warn",
@@ -12,7 +22,8 @@
         "argsIgnorePattern": "^_",
         "varsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "react/react-in-jsx-scope": "off"
   },
   "ignorePatterns": [
     "dist",
@@ -24,12 +35,28 @@
     "packages/@ghs-hazard-pictograms/core/src/pictograms.generated.ts",
     "packages/@ghs-hazard-pictograms/react/src/PictogramProps.ts",
     "packages/@ghs-hazard-pictograms/react/src/Ghs*.tsx",
+    "packages/@ghs-hazard-pictograms/react/src/Adr*.tsx",
     "packages/@ghs-hazard-pictograms/react/src/Class*.tsx",
     "packages/@ghs-hazard-pictograms/react/src/Division*.tsx",
     "packages/@ghs-hazard-pictograms/react/src/Divisions*.tsx",
     "packages/@ghs-hazard-pictograms/react/src/index.ts",
+    "packages/@ghs-hazard-pictograms/vue/src/PictogramProps.ts",
+    "packages/@ghs-hazard-pictograms/vue/src/Ghs*.ts",
+    "packages/@ghs-hazard-pictograms/vue/src/Adr*.ts",
+    "packages/@ghs-hazard-pictograms/vue/src/Class*.ts",
+    "packages/@ghs-hazard-pictograms/vue/src/Division*.ts",
+    "packages/@ghs-hazard-pictograms/vue/src/Divisions*.ts",
+    "packages/@ghs-hazard-pictograms/vue/src/index.ts",
+    "packages/@ghs-hazard-pictograms/elements/src/Ghs*.ts",
+    "packages/@ghs-hazard-pictograms/elements/src/Adr*.ts",
+    "packages/@ghs-hazard-pictograms/elements/src/Class*.ts",
+    "packages/@ghs-hazard-pictograms/elements/src/Division*.ts",
+    "packages/@ghs-hazard-pictograms/elements/src/Divisions*.ts",
+    "packages/@ghs-hazard-pictograms/elements/src/defineCustomElements.ts",
+    "packages/@ghs-hazard-pictograms/elements/src/index.ts",
     "packages/@ghs-hazard-pictograms/css/sprite.css",
     ".storybook",
-    "src"
+    "src",
+    "apps/docs/.astro"
   ]
 }

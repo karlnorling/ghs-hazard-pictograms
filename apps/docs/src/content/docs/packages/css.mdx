@@ -1,0 +1,73 @@
+---
+title: "@ghs-hazard-pictograms/css"
+description: Pure-CSS sprite sheet for GHS hazard pictograms — no JavaScript required.
+---
+
+## Installation
+
+```sh
+npm install @ghs-hazard-pictograms/css
+```
+
+## Importing the stylesheet
+
+Import the sprite stylesheet once in your project entry point or global CSS file.
+
+```js
+import '@ghs-hazard-pictograms/css/sprite.css';
+```
+
+Or reference it directly from a `<link>` tag if you are not using a bundler.
+
+```html
+<link rel="stylesheet" href="node_modules/@ghs-hazard-pictograms/css/sprite.css" />
+```
+
+## Usage
+
+Add the class `ghs-{code-lowercase}` to any inline element to display the pictogram as a background image.
+
+```html
+<span class="ghs-ghs01" role="img" aria-label="Explosives"></span>
+<span class="ghs-ghs02" role="img" aria-label="Flammable"></span>
+<span class="ghs-ghs06" role="img" aria-label="Toxic"></span>
+```
+
+## Class name reference
+
+| GHS code | CSS class    | Pictogram name            |
+| -------- | ------------ | ------------------------- |
+| GHS01    | `ghs-ghs01`  | Explosives                |
+| GHS02    | `ghs-ghs02`  | Flammable                 |
+| GHS03    | `ghs-ghs03`  | Oxidising                 |
+| GHS04    | `ghs-ghs04`  | Compressed gas            |
+| GHS05    | `ghs-ghs05`  | Corrosive                 |
+| GHS06    | `ghs-ghs06`  | Toxic                     |
+| GHS07    | `ghs-ghs07`  | Harmful / Irritant        |
+| GHS08    | `ghs-ghs08`  | Health hazard             |
+| GHS09    | `ghs-ghs09`  | Environmental hazard      |
+
+The CSS class is always the GHS code lowercased and prefixed with `ghs-`.
+
+## Sizing
+
+The stylesheet sets a default size via CSS custom properties. Override them per element or globally.
+
+```css
+.ghs-ghs01 {
+  --ghs-size: 64px;
+}
+```
+
+## Accessibility
+
+CSS background images are invisible to assistive technologies. Always pair each icon element with a semantic role and label.
+
+```html
+<!-- Informative icon -->
+<span class="ghs-ghs06" role="img" aria-label="Toxic — keep out of reach of children"></span>
+
+<!-- Decorative icon (label provided by adjacent text) -->
+<span class="ghs-ghs06" aria-hidden="true"></span>
+<span>Toxic</span>
+```

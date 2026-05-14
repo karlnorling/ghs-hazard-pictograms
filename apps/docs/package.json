@@ -1,0 +1,17 @@
+{
+  "name": "@ghs-docs/app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "type-check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.39.2",
+    "@ghs-hazard-pictograms/core": "workspace:*",
+    "astro": "^6.3.2"
+  }
+}

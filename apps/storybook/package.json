@@ -10,6 +10,7 @@
   "dependencies": {
     "@ghs-hazard-pictograms/assets": "workspace:*",
     "@ghs-hazard-pictograms/core": "workspace:*",
+    "@ghs-hazard-pictograms/elements": "workspace:*",
     "@ghs-hazard-pictograms/react": "workspace:*"
   },
   "devDependencies": {

@@ -1,0 +1,87 @@
+---
+title: "@ghs-hazard-pictograms/vue"
+description: Vue 3 components for GHS hazard pictograms — named components and a dynamic PictogramById component.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Installation
+
+```sh
+npm install @ghs-hazard-pictograms/vue
+```
+
+## Named components
+
+Every pictogram is available as a named Vue component. The component name follows the same PascalCase convention as the React package.
+
+```vue
+<script setup lang="ts">
+import { Ghs01ExplosivesExplodingBomb } from '@ghs-hazard-pictograms/vue';
+</script>
+
+<template>
+  <Ghs01ExplosivesExplodingBomb :width="64" :height="64" title="Explosives" />
+</template>
+```
+
+Component names follow the pattern `Ghs{nn}{Category}{Name}`, e.g.:
+
+| Pictogram ID                          | Component name                        |
+| ------------------------------------- | ------------------------------------- |
+| `ghs01-explosives-exploding-bomb`     | `Ghs01ExplosivesExplodingBomb`        |
+| `ghs02-flammable-flame`               | `Ghs02FlammableFlame`                 |
+| `ghs06-toxic-skull-crossbones`        | `Ghs06ToxicSkullCrossbones`           |
+
+## PictogramById
+
+Use `PictogramById` when the pictogram ID is determined at runtime.
+
+```vue
+<script setup lang="ts">
+import { PictogramById } from '@ghs-hazard-pictograms/vue';
+
+const props = defineProps<{ hazardId: string }>();
+</script>
+
+<template>
+  <PictogramById :id="hazardId" :width="64" :height="64" />
+</template>
+```
+
+## Props
+
+### Named component props
+
+| Prop          | Type     | Required | Default          | Description                                   |
+| ------------- | -------- | -------- | ---------------- | --------------------------------------------- |
+| `width`       | `number` | No       | `24`             | Width of the SVG in pixels                    |
+| `height`      | `number` | No       | `24`             | Height of the SVG in pixels                   |
+| `title`       | `string` | No       | pictogram `name` | Accessible title rendered as `<title>`        |
+| `description` | `string` | No       | —                | Accessible description rendered as `<desc>`   |
+
+Use Vue's `:prop` binding syntax for dynamic values (e.g. `:width="iconSize"`).
+
+### PictogramById additional prop
+
+| Prop | Type     | Required | Description                                          |
+| ---- | -------- | -------- | ---------------------------------------------------- |
+| `id` | `string` | Yes      | Pictogram ID, e.g. `ghs01-explosives-exploding-bomb` |
+
+## TypeScript
+
+All components ship with full type declarations. Import the shared `Pictogram` type from `@ghs-hazard-pictograms/core` when you need to type pictogram data in your composables or stores.
+
+```ts
+import type { Pictogram } from '@ghs-hazard-pictograms/core';
+```
+
+## Accessibility
+
+Each component renders an inline SVG. Providing `title` injects a `<title>` element and sets `aria-labelledby` on the SVG root. Adding `description` appends a `<desc>` element included in the same `aria-labelledby` value.
+
+Pass `aria-hidden="true"` for decorative icons to remove them from the accessibility tree.
+
+```vue
+<Ghs01ExplosivesExplodingBomb aria-hidden="true" :width="24" />
+```

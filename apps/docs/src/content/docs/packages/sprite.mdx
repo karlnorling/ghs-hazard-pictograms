@@ -1,0 +1,88 @@
+---
+title: "@ghs-hazard-pictograms/sprite"
+description: SVG sprite sheet for GHS hazard pictograms — reference symbols via use href or inline the sprite.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Installation
+
+```sh
+npm install @ghs-hazard-pictograms/sprite
+```
+
+## Symbol ID format
+
+Each pictogram is stored as an SVG `<symbol>` whose `id` is the GHS code lowercased, e.g. `ghs01`, `ghs02`, `ghs09`.
+
+## Usage
+
+<Tabs>
+  <TabItem label="External reference">
+    Reference the sprite file as an external URL. The browser caches the file across pages.
+
+    ```html
+    <svg width="64" height="64" role="img" aria-labelledby="icon-title">
+      <title id="icon-title">Explosives</title>
+      <use href="/sprites/ghs-hazard-pictograms.svg#ghs01"></use>
+    </svg>
+    ```
+
+    Copy or serve `node_modules/@ghs-hazard-pictograms/sprite/ghs-hazard-pictograms.svg` from your public directory.
+  </TabItem>
+  <TabItem label="Inline sprite">
+    Inline the sprite at the top of the `<body>` to avoid an extra network request. Hidden via `display:none`.
+
+    ```html
+    <!-- Inline once, hidden -->
+    <div style="display:none">
+      <!-- paste contents of ghs-hazard-pictograms.svg here -->
+    </div>
+
+    <!-- Reference anywhere on the page -->
+    <svg width="64" height="64" role="img" aria-labelledby="icon-title">
+      <title id="icon-title">Flammable</title>
+      <use href="#ghs02"></use>
+    </svg>
+    ```
+  </TabItem>
+  <TabItem label="React portal">
+    Inject the sprite into the document body using a React portal so it is available to all components.
+
+    ```tsx
+    import { createPortal } from 'react-dom';
+    import spriteUrl from '@ghs-hazard-pictograms/sprite/ghs-hazard-pictograms.svg?url';
+
+    export function SpriteProvider() {
+      return createPortal(
+        <div style={{ display: 'none' }}>
+          <img src={spriteUrl} alt="" aria-hidden="true" />
+        </div>,
+        document.body,
+      );
+    }
+
+    // Then anywhere in your tree:
+    // <svg width="64" height="64"><use href="#ghs01" /></svg>
+    ```
+  </TabItem>
+</Tabs>
+
+## Accessibility
+
+SVG `<use>` elements do not inherit `<title>` or `<desc>` from the referenced `<symbol>` in all browsers. Always add a `<title>` directly inside the referencing `<svg>` and link it with `aria-labelledby`.
+
+```html
+<svg width="64" height="64" role="img" aria-labelledby="ghs06-label">
+  <title id="ghs06-label">Toxic</title>
+  <use href="#ghs06"></use>
+</svg>
+```
+
+For decorative icons omit the title and add `aria-hidden="true"` to the `<svg>`.
+
+```html
+<svg width="24" height="24" aria-hidden="true">
+  <use href="#ghs06"></use>
+</svg>
+```

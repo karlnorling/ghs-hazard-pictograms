@@ -72,6 +72,27 @@
   background-size: contain;
 }
 
+.ghs-adr-4-3 {
+  background-image: url('../assets/assets/transport_pictograms/classes_3_and_4__flammable_liquids_and_solids/ADR_4.3.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.ghs-adr-4-2 {
+  background-image: url('../assets/assets/transport_pictograms/classes_3_and_4__flammable_liquids_and_solids/ADR_4.2.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.ghs-adr-4-1 {
+  background-image: url('../assets/assets/transport_pictograms/classes_3_and_4__flammable_liquids_and_solids/ADR_4.1.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 .ghs-adr-3 {
   background-image: url('../assets/assets/transport_pictograms/classes_3_and_4__flammable_liquids_and_solids/ADR_3.svg');
   background-position: center;

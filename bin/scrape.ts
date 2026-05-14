@@ -139,81 +139,91 @@ const scrapingData = (
     const pictograms: Record<string, ScrapedPictogram> = {};
 
     if (scrapeMethod === 'vertical') {
-      // First pass: collect titles from even rows.
-      table?.querySelectorAll('tr').forEach((tr, index) => {
-        if (index > 0 && index % 2 === 0) {
-          const title = tr.querySelector('th')?.textContent.trim();
+      // Single forward scan: record the last image link seen, then assign it to the next
+      // title row. This is robust against anomaly rows (e.g. rowspan continuation rows in
+      // the Classes 3 & 4 table) that break index-parity assumptions.
+      const rows = table ? [...table.querySelectorAll('tr')] : [];
+      let pendingHref: string | null = null;
+      let pendingCopy: string | null = null;
+
+      for (let i = 1; i < rows.length; i++) {
+        const tr = rows[i];
+        const imageAnchor = tr.querySelector('td a[href*="/wiki/File:"]');
+        if (imageAnchor) {
+          pendingHref = `https://en.wikipedia.org${imageAnchor.getAttribute('href')}`;
+          pendingCopy = tr.querySelector('td:last-child ul, td:last-child p')?.textContent ?? null;
+          continue;
+        }
+        const th = tr.querySelector('th');
+        if (th && pendingHref !== null) {
+          const title = th.textContent.trim();
           if (title && !pictograms[title]) {
-            pictograms[title] = { copy: null, images: [], title };
+            pictograms[title] = { title, images: [pendingHref], copy: pendingCopy };
+            pendingHref = null;
+            pendingCopy = null;
           }
         }
-      });
-
-      // Second pass: collect images and descriptive copy.
-      table?.querySelectorAll('tr').forEach((tr, index) => {
-        if (index > 0) {
-          const potentialKeyTitle = tr.nextElementSibling?.textContent.trim();
-          if (potentialKeyTitle && pictograms[potentialKeyTitle]) {
-            const href = tr.querySelector('td a')?.getAttribute('href');
-            if (href) {
-              pictograms[potentialKeyTitle].images.push(`https://en.wikipedia.org${href}`);
-            }
-
-            const copy = tr.querySelector('td:last-child ul, td:last-child p')?.textContent;
-            pictograms[potentialKeyTitle].copy = copy ?? null;
-          }
-        }
-      });
-
-      section['data'] = pictograms;
+      }
     } else if (scrapeMethod === 'horizontal') {
-      const horizontalHeading = htmlData.getElementById(key);
-      const horizontalTable =
-        nextSiblingCount === 1
-          ? horizontalHeading?.parentNode.nextElementSibling
-          : horizontalHeading?.parentNode.nextElementSibling?.nextElementSibling;
+      // Locate rows by content rather than index: the Non-GHS table has images first,
+      // then title headers, then copy — so we can't rely on a fixed row order.
+      const rows = table ? [...table.querySelectorAll('tr')] : [];
+      const headerRow = rows.find((tr) => tr.querySelectorAll('th').length > 0);
+      const imageRow = rows.find((tr) => tr.querySelector('td a[href*="/wiki/File:"]') !== null);
 
-      const horizontalPictograms: Record<string, ScrapedPictogram> = {};
+      if (headerRow && imageRow) {
+        // Expand column titles respecting colspan, tracking which copy cell each column maps to.
+        const expandedTitles: string[] = [];
+        const expandedCopyIdx: number[] = [];
+        let copyColIdx = 0;
 
-      horizontalTable?.querySelectorAll('th').forEach((th) => {
-        const title = th?.textContent.trim();
-        if (title && !horizontalPictograms[title]) {
-          horizontalPictograms[title] = { copy: null, images: [], title };
+        for (const th of headerRow.querySelectorAll('th')) {
+          const colspan = Math.max(1, parseInt(th.getAttribute('colspan') ?? '1', 10) || 1);
+          const title = th.textContent.trim();
+          for (let i = 0; i < colspan; i++) {
+            expandedTitles.push(title);
+            expandedCopyIdx.push(copyColIdx);
+          }
+          copyColIdx++;
         }
-      });
 
-      const allLinks = horizontalTable?.querySelectorAll('td a') ?? [];
-      const allCopyCells = horizontalTable?.querySelectorAll('tr:nth-child(3) td') ?? [];
-      const keys = Object.keys(horizontalPictograms);
+        const titleCount = new Map<string, number>();
+        for (const t of expandedTitles) titleCount.set(t, (titleCount.get(t) ?? 0) + 1);
 
-      keys.forEach((k, keyIndex) => {
-        allLinks.forEach((a, index) => {
-          const href = a?.getAttribute('href');
+        const copyRow = rows.find(
+          (tr) =>
+            tr !== imageRow &&
+            tr.querySelectorAll('td').length > 0 &&
+            !tr.querySelector('a[href*="/wiki/File:"]'),
+        );
+        const copyCells = copyRow ? [...copyRow.querySelectorAll('td')] : [];
+
+        [...imageRow.querySelectorAll('td')].forEach((td, colIdx) => {
+          const href = td.querySelector('a[href*="/wiki/File:"]')?.getAttribute('href');
           if (!href) return;
-          const image = `https://en.wikipedia.org${href}`;
-          if (index === 0 && keyIndex === 0) {
-            horizontalPictograms[k].images.push(image);
-          } else if (index > 0 && index < allLinks.length - 1 && keyIndex === 1) {
-            horizontalPictograms[k].images.push(image);
-          } else if (keyIndex === 2 && index + 1 === allLinks.length) {
-            horizontalPictograms[k].images.push(image);
-          }
-        });
 
-        allCopyCells.forEach((td, index) => {
-          const copy = td.textContent.trim();
-          if (index === 0 && keyIndex === 0) {
-            horizontalPictograms[k].copy = copy;
-          } else if (index > 0 && index < allCopyCells.length - 1 && keyIndex === 1) {
-            horizontalPictograms[k].copy = copy;
-          } else if (keyIndex === 2 && index + 1 === allCopyCells.length) {
-            horizontalPictograms[k].copy = copy;
-          }
-        });
-      });
+          const baseTitle = expandedTitles[colIdx] ?? `Item ${colIdx}`;
+          let title = baseTitle;
 
-      section['data'] = horizontalPictograms;
+          if ((titleCount.get(baseTitle) ?? 1) > 1) {
+            // Multiple images under the same header — derive unique title from filename.
+            title = decodeURIComponent(href.split('/').pop() ?? '')
+              .replace(/^File:/, '')
+              .replace(/\.[^.]+$/, '')
+              .replace(/_/g, ' ');
+          }
+
+          const copyText = copyCells[expandedCopyIdx[colIdx] ?? colIdx]?.textContent.trim() ?? null;
+          pictograms[title] = {
+            title,
+            copy: copyText,
+            images: [`https://en.wikipedia.org${href}`],
+          };
+        });
+      }
     }
+
+    section['data'] = pictograms;
   });
 
   return data;

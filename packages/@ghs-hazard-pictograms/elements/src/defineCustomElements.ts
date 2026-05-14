@@ -19,12 +19,18 @@ import { Division21 } from './Division21';
 import { Division22 } from './Division22';
 import { Division23 } from './Division23';
 import { Class3 } from './Class3';
+import { Division41 } from './Division41';
+import { Division42 } from './Division42';
+import { Division43 } from './Division43';
 import { Division51 } from './Division51';
 import { Division52 } from './Division52';
 import { Division61 } from './Division61';
 import { Class8 } from './Class8';
 import { Class62 } from './Class62';
-import { Class7 } from './Class7';
+import { Adr7a } from './Adr7a';
+import { Adr7b } from './Adr7b';
+import { Adr7c } from './Adr7c';
+import { Adr7e } from './Adr7e';
 import { Class9 } from './Class9';
 
 const _elements: Array<[typeof HTMLElement & { tagName: string }, string]> = [
@@ -46,12 +52,18 @@ const _elements: Array<[typeof HTMLElement & { tagName: string }, string]> = [
   [Division22, Division22.tagName],
   [Division23, Division23.tagName],
   [Class3, Class3.tagName],
+  [Division41, Division41.tagName],
+  [Division42, Division42.tagName],
+  [Division43, Division43.tagName],
   [Division51, Division51.tagName],
   [Division52, Division52.tagName],
   [Division61, Division61.tagName],
   [Class8, Class8.tagName],
   [Class62, Class62.tagName],
-  [Class7, Class7.tagName],
+  [Adr7a, Adr7a.tagName],
+  [Adr7b, Adr7b.tagName],
+  [Adr7c, Adr7c.tagName],
+  [Adr7e, Adr7e.tagName],
   [Class9, Class9.tagName],
 ];
 

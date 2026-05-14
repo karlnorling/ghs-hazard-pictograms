@@ -1,0 +1,107 @@
+---
+title: "@ghs-hazard-pictograms/core"
+description: Core data and TypeScript types for GHS hazard pictograms — query functions and shared type definitions.
+---
+
+## Installation
+
+```sh
+npm install @ghs-hazard-pictograms/core
+```
+
+## API reference
+
+### `getAllPictograms()`
+
+Returns an array of all pictograms.
+
+```ts
+import { getAllPictograms } from '@ghs-hazard-pictograms/core';
+
+const pictograms = getAllPictograms();
+// Pictogram[]
+```
+
+### `getPictogram(id)`
+
+Returns a single pictogram by its ID, or `undefined` if not found.
+
+```ts
+import { getPictogram } from '@ghs-hazard-pictograms/core';
+
+const pictogram = getPictogram('ghs01-explosives-exploding-bomb');
+// Pictogram | undefined
+```
+
+### `getPictogramsByCategory(category)`
+
+Returns all pictograms belonging to a given category.
+
+```ts
+import { getPictogramsByCategory } from '@ghs-hazard-pictograms/core';
+
+const healthHazards = getPictogramsByCategory('health');
+// Pictogram[]
+```
+
+## TypeScript types
+
+### `Pictogram`
+
+```ts
+interface Pictogram {
+  id: string;               // e.g. 'ghs01-explosives-exploding-bomb'
+  code: string;             // e.g. 'GHS01'
+  name: string;             // e.g. 'Exploding bomb'
+  description: string;      // Human-readable description
+  category: PictogramCategory;
+  svg: string;              // Inline SVG markup
+  assets: PictogramAssets;
+}
+```
+
+### `PictogramCategory`
+
+```ts
+type PictogramCategory = 'physical' | 'health' | 'environmental' | 'transport';
+```
+
+| Value           | Description                                     |
+| --------------- | ----------------------------------------------- |
+| `physical`      | Physical hazards (explosives, flammables, etc.) |
+| `health`        | Health hazards (toxic, corrosive, etc.)         |
+| `environmental` | Environmental hazards                           |
+| `transport`     | Transport hazard pictograms                     |
+
+### `PictogramAssets`
+
+```ts
+interface PictogramAssets {
+  svg: string;
+  png: {
+    240: string;
+    512: string;
+    768: string;
+    1024: string;
+    2048: string;
+  };
+}
+```
+
+The values are paths relative to the `@ghs-hazard-pictograms/assets` package root.
+
+## Usage example
+
+```ts
+import { getAllPictograms, getPictogramsByCategory } from '@ghs-hazard-pictograms/core';
+import type { Pictogram, PictogramCategory } from '@ghs-hazard-pictograms/core';
+
+function listByCategory(category: PictogramCategory): void {
+  const items = getPictogramsByCategory(category);
+  items.forEach((p: Pictogram) => {
+    console.log(`${p.code} — ${p.name}`);
+  });
+}
+
+listByCategory('physical');
+```

@@ -1,0 +1,8 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "paths": {
+      "@ghs-hazard-pictograms/core": ["../../packages/@ghs-hazard-pictograms/core/src/index.ts"]
+    }
+  }
+}

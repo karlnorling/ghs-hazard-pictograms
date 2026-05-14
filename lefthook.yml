@@ -6,6 +6,10 @@ pre-commit:
 pre-push:
   parallel: true
   commands:
+    check:
+      run: yarn check
+    type-check:
+      run: yarn type-check
     test:
       run: yarn test
     lint:
