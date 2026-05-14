@@ -32,6 +32,10 @@
     "url": "https://github.com/karlnorling/ghs-hazard-pictograms/issues"
   },
   "license": "MIT",
+  "author": {
+    "name": "Karl Norling",
+    "url": "https://github.com/karlnorling"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/karlnorling/ghs-hazard-pictograms",
@@ -46,9 +50,5 @@
   "exports": {
     "./sprite.svg": "./sprite.svg",
     "./sprite-ids.json": "./sprite-ids.json"
-  },
-  "author": {
-    "name": "Karl Norling",
-    "url": "https://github.com/karlnorling"
   }
 }

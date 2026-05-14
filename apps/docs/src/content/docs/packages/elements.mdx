@@ -1,0 +1,110 @@
+---
+title: "@ghs-hazard-pictograms/elements"
+description: Framework-agnostic Web Components (custom elements) for GHS hazard pictograms.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Installation
+
+```sh
+npm install @ghs-hazard-pictograms/elements
+```
+
+## Registering custom elements
+
+Call `defineCustomElements()` once — typically in your app entry point — to register all pictogram elements with the browser's custom element registry.
+
+```ts
+import { defineCustomElements } from '@ghs-hazard-pictograms/elements';
+
+defineCustomElements();
+```
+
+### Custom prefix
+
+By default elements are registered under the `ghs-` prefix. Pass a custom prefix to `defineCustomElements` to avoid collisions.
+
+```ts
+defineCustomElements({ prefix: 'hazard' });
+// registers <hazard-pictogram>, <hazard-ghs01-explosives-exploding-bomb>, …
+```
+
+## Generic element
+
+Use `<ghs-pictogram>` with a `pictogram-id` attribute when the pictogram is determined at runtime.
+
+```html
+<ghs-pictogram pictogram-id="ghs01-explosives-exploding-bomb" width="64"></ghs-pictogram>
+```
+
+## Named elements
+
+Every pictogram has a dedicated element whose tag is the pictogram ID prefixed with `ghs-`.
+
+```html
+<ghs-ghs01-explosives-exploding-bomb width="64"></ghs-ghs01-explosives-exploding-bomb>
+<ghs-ghs02-flammable-flame width="64"></ghs-ghs02-flammable-flame>
+<ghs-ghs06-toxic-skull-crossbones width="64"></ghs-ghs06-toxic-skull-crossbones>
+```
+
+## Attributes
+
+| Attribute      | Type     | Required                      | Default          | Description                                          |
+| -------------- | -------- | ----------------------------- | ---------------- | ---------------------------------------------------- |
+| `pictogram-id` | `string` | Yes (generic element only)    | —                | Pictogram ID, e.g. `ghs01-explosives-exploding-bomb` |
+| `width`        | `string` | No                            | `"24"`           | Width of the rendered SVG in pixels                  |
+| `height`       | `string` | No                            | `"24"`           | Height of the rendered SVG in pixels                 |
+| `title`        | `string` | No                            | pictogram `name` | Accessible title injected as `<title>` in the SVG   |
+| `description`  | `string` | No                            | —                | Accessible description injected as `<desc>`          |
+
+## Reactivity
+
+Attributes are observed. Changing an attribute value at runtime re-renders the SVG automatically.
+
+```js
+const el = document.querySelector('ghs-pictogram');
+el.setAttribute('pictogram-id', 'ghs02-flammable-flame');
+el.setAttribute('width', '48');
+```
+
+## Framework usage
+
+<Tabs>
+  <TabItem label="Vue">
+    ```vue
+    <template>
+      <!-- Suppress unknown element warning by telling Vue it's a custom element -->
+      <ghs-pictogram :pictogram-id="hazardId" width="64" />
+    </template>
+
+    <script>
+    // vite.config.ts — mark ghs-* as custom elements
+    // vue({ template: { compilerOptions: { isCustomElement: tag => tag.startsWith('ghs-') } } })
+    </script>
+    ```
+  </TabItem>
+  <TabItem label="Angular">
+    ```ts
+    // app.module.ts
+    import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+
+    @NgModule({ schemas: [CUSTOM_ELEMENTS_SCHEMA] })
+    export class AppModule {}
+    ```
+
+    ```html
+    <ghs-pictogram [attr.pictogram-id]="hazardId" width="64"></ghs-pictogram>
+    ```
+  </TabItem>
+</Tabs>
+
+## Accessibility
+
+Each element renders an inline SVG. Providing `title` sets `aria-labelledby` on the SVG to a generated `<title>` element. Adding `description` appends a `<desc>` and includes it in `aria-labelledby`.
+
+For decorative usage set `aria-hidden="true"` on the element itself.
+
+```html
+<ghs-ghs01-explosives-exploding-bomb aria-hidden="true" width="24"></ghs-ghs01-explosives-exploding-bomb>
+```

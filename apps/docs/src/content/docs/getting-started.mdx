@@ -1,0 +1,109 @@
+---
+title: Getting started
+description: Install @ghs-hazard-pictograms packages and display your first pictogram in minutes.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Installation
+
+Pick the package for your framework:
+
+<Tabs>
+  <TabItem label="React">
+    ```sh
+    npm install @ghs-hazard-pictograms/react
+    ```
+  </TabItem>
+  <TabItem label="Vue 3">
+    ```sh
+    npm install @ghs-hazard-pictograms/vue
+    ```
+  </TabItem>
+  <TabItem label="Web Components">
+    ```sh
+    npm install @ghs-hazard-pictograms/elements
+    ```
+  </TabItem>
+  <TabItem label="CSS">
+    ```sh
+    npm install @ghs-hazard-pictograms/css
+    ```
+  </TabItem>
+</Tabs>
+
+## Quick start
+
+<Tabs>
+  <TabItem label="React">
+    ```tsx
+    import { Ghs01ExplosivesExplodingBomb, PictogramById } from '@ghs-hazard-pictograms/react';
+
+    // Named component
+    <Ghs01ExplosivesExplodingBomb width={64} />
+
+    // Dynamic by ID
+    <PictogramById id="ghs01-explosives-exploding-bomb" width={64} />
+    ```
+  </TabItem>
+  <TabItem label="Vue 3">
+    ```vue
+    <script setup>
+    import { Ghs01ExplosivesExplodingBomb, PictogramById } from '@ghs-hazard-pictograms/vue';
+    </script>
+
+    <template>
+      <Ghs01ExplosivesExplodingBomb :width="64" />
+      <PictogramById id="ghs01-explosives-exploding-bomb" :width="64" />
+    </template>
+    ```
+  </TabItem>
+  <TabItem label="Web Components">
+    ```ts
+    import { defineCustomElements } from '@ghs-hazard-pictograms/elements';
+    defineCustomElements();
+    ```
+
+    ```html
+    <!-- Generic element -->
+    <ghs-pictogram pictogram-id="ghs01-explosives-exploding-bomb" width="64"></ghs-pictogram>
+
+    <!-- Named element -->
+    <ghs-ghs01-explosives-exploding-bomb width="64"></ghs-ghs01-explosives-exploding-bomb>
+    ```
+  </TabItem>
+  <TabItem label="CSS">
+    ```js
+    import '@ghs-hazard-pictograms/css/sprite.css';
+    ```
+
+    ```html
+    <span
+      class="ghs-ghs01"
+      style="display:inline-block;width:64px;height:64px"
+      role="img"
+      aria-label="Explosives"
+    ></span>
+    ```
+  </TabItem>
+</Tabs>
+
+## Finding pictogram IDs
+
+Every pictogram has a slug ID based on its GHS code and name. Browse the
+[Pictogram Gallery](/ghs-hazard-pictograms/gallery/) to find the sign you need. The ID format is:
+`{code-lowercase}-{name-slugified}`, e.g. `ghs01-explosives-exploding-bomb`.
+
+## TypeScript
+
+All packages ship full TypeScript types. The `core` package exports `Pictogram` and
+`PictogramCategory` if you need them:
+
+```ts
+import type { Pictogram, PictogramCategory } from '@ghs-hazard-pictograms/core';
+```
+
+## Next steps
+
+- See the full props/attributes for each package in the [Packages](/ghs-hazard-pictograms/packages/react/) section.
+- Browse all 24 pictograms in the [Pictogram Gallery](/ghs-hazard-pictograms/gallery/).

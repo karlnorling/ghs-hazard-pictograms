@@ -18,6 +18,8 @@
     "format": "oxfmt --write --ignore-path=.oxfmtignore .",
     "format:check": "oxfmt --check --ignore-path=.oxfmtignore .",
     "check": "manypkg check",
+    "docs": "yarn workspace @ghs-docs/app dev",
+    "build-docs": "yarn workspace @ghs-docs/app build",
     "changeset": "changeset",
     "publish": "yarn changeset publish",
     "prepare": "lefthook install"

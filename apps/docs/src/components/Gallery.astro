@@ -1,0 +1,205 @@
+---
+import { getAllPictograms } from '@ghs-hazard-pictograms/core';
+
+const pictograms = getAllPictograms();
+
+const categories: { id: string; label: string; color: string }[] = [
+  { id: 'physical', label: 'Physical hazards', color: '#e74c3c' },
+  { id: 'health', label: 'Health hazards', color: '#e67e22' },
+  { id: 'environmental', label: 'Environmental hazards', color: '#27ae60' },
+  { id: 'transport', label: 'Transport (ADR/UN)', color: '#2980b9' },
+];
+---
+
+<div class="gallery">
+  <div class="gallery-controls">
+    <input
+      type="search"
+      id="gallery-search"
+      placeholder="Search by name or code…"
+      aria-label="Search pictograms"
+    />
+    <div class="category-filters" role="group" aria-label="Filter by category">
+      {
+        categories.map((cat) => (
+          <button
+            class="filter-btn"
+            data-category={cat.id}
+            style={`--cat-color: ${cat.color}`}
+            aria-pressed="false"
+          >
+            {cat.label}
+            <span class="count">({pictograms.filter((p) => p.category === cat.id).length})</span>
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <p class="gallery-count" id="gallery-count">{pictograms.length} pictograms</p>
+
+  <div class="sign-grid" id="sign-grid">
+    {
+      pictograms.map((pictogram) => (
+        <div
+          class="sign-card"
+          data-category={pictogram.category}
+          data-name={pictogram.name.toLowerCase()}
+          data-code={pictogram.code.toLowerCase()}
+          title={pictogram.description}
+        >
+          <div class="sign-svg" set:html={pictogram.svg} />
+          <span class="sign-code">{pictogram.code}</span>
+          <span class="sign-name">{pictogram.name}</span>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .gallery-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  #gallery-search {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.375rem;
+    background: var(--sl-color-bg);
+    color: var(--sl-color-text);
+    font-size: 0.9rem;
+    width: 100%;
+    max-width: 380px;
+    outline-offset: 2px;
+  }
+
+  #gallery-search:focus {
+    outline: 2px solid var(--sl-color-accent);
+  }
+
+  .category-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    border: 1.5px solid var(--cat-color, var(--sl-color-gray-5));
+    background: transparent;
+    color: var(--sl-color-text);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition:
+      background 0.15s,
+      color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .filter-btn .count {
+    font-size: 0.72rem;
+    opacity: 0.7;
+  }
+
+  .filter-btn[aria-pressed='true'] {
+    background: var(--cat-color);
+    color: #fff;
+    border-color: var(--cat-color);
+  }
+
+  .gallery-count {
+    font-size: 0.8rem;
+    color: var(--sl-color-gray-3);
+    margin: 0 0 1rem;
+  }
+
+  .sign-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .sign-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.75rem 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--sl-color-gray-6);
+    background: var(--sl-color-bg-sidebar);
+    transition: border-color 0.15s;
+    cursor: default;
+  }
+
+  .sign-card:hover {
+    border-color: var(--sl-color-accent);
+  }
+
+  .sign-card.hidden {
+    display: none;
+  }
+
+  .sign-svg :global(svg) {
+    width: 80px;
+    height: 80px;
+    display: block;
+  }
+
+  .sign-code {
+    font-family: var(--sl-font-mono);
+    font-size: 0.65rem;
+    color: var(--sl-color-gray-3);
+    margin-top: 0.3rem;
+  }
+
+  .sign-name {
+    font-size: 0.7rem;
+    text-align: center;
+    color: var(--sl-color-gray-2);
+    line-height: 1.3;
+  }
+</style>
+
+<script>
+  const searchInput = document.getElementById('gallery-search') as HTMLInputElement;
+  const grid = document.getElementById('sign-grid')!;
+  const countEl = document.getElementById('gallery-count')!;
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  let activeCategory: string | null = null;
+
+  function update() {
+    const q = searchInput.value.toLowerCase().trim();
+    let visible = 0;
+    grid.querySelectorAll<HTMLElement>('.sign-card').forEach((card) => {
+      const matchesSearch =
+        !q || card.dataset.name!.includes(q) || card.dataset.code!.includes(q);
+      const matchesCategory = !activeCategory || card.dataset.category === activeCategory;
+      const show = matchesSearch && matchesCategory;
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    const noun = visible === 1 ? 'pictogram' : 'pictograms';
+    countEl.textContent = `${visible} ${noun}`;
+  }
+
+  searchInput.addEventListener('input', update);
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.category!;
+      activeCategory = activeCategory === cat ? null : cat;
+      filterBtns.forEach((b) => {
+        b.setAttribute('aria-pressed', String(b.dataset.category === activeCategory));
+      });
+      update();
+    });
+  });
+</script>

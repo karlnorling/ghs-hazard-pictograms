@@ -1,0 +1,92 @@
+---
+title: "@ghs-hazard-pictograms/assets"
+description: Raw PNG and SVG asset files for GHS hazard pictograms in multiple resolutions.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Installation
+
+```sh
+npm install @ghs-hazard-pictograms/assets
+```
+
+## Directory layout
+
+```
+@ghs-hazard-pictograms/assets/
+├── svg/
+│   └── ghs01-explosives-exploding-bomb.svg
+│   └── ghs02-flammable-flame.svg
+│   └── …
+└── png/
+    ├── 240/
+    │   └── ghs01-explosives-exploding-bomb.png
+    ├── 512/
+    │   └── ghs01-explosives-exploding-bomb.png
+    ├── 768/
+    │   └── ghs01-explosives-exploding-bomb.png
+    ├── 1024/
+    │   └── ghs01-explosives-exploding-bomb.png
+    └── 2048/
+        └── ghs01-explosives-exploding-bomb.png
+```
+
+## Available sizes
+
+| Size (px) | Intended use                         |
+| --------- | ------------------------------------ |
+| 240       | Web thumbnails, small UI icons       |
+| 512       | Standard web display                 |
+| 768       | High-DPI / retina web display        |
+| 1024      | Print-ready, large UI                |
+| 2048      | High-resolution print / production   |
+
+## Importing by path
+
+<Tabs>
+  <TabItem label="SVG">
+    ```ts
+    import explosivesSvg from '@ghs-hazard-pictograms/assets/svg/ghs01-explosives-exploding-bomb.svg';
+    ```
+  </TabItem>
+  <TabItem label="PNG">
+    ```ts
+    // 512 px PNG
+    import explosivesPng from '@ghs-hazard-pictograms/assets/png/512/ghs01-explosives-exploding-bomb.png';
+    ```
+  </TabItem>
+</Tabs>
+
+## Resolving via the core API
+
+Use `getPictogram` from `@ghs-hazard-pictograms/core` to retrieve the asset paths for a given pictogram programmatically.
+
+```ts
+import { getPictogram } from '@ghs-hazard-pictograms/core';
+
+const pictogram = getPictogram('ghs01-explosives-exploding-bomb');
+
+console.log(pictogram.assets);
+// {
+//   svg: 'svg/ghs01-explosives-exploding-bomb.svg',
+//   png: {
+//     240:  'png/240/ghs01-explosives-exploding-bomb.png',
+//     512:  'png/512/ghs01-explosives-exploding-bomb.png',
+//     768:  'png/768/ghs01-explosives-exploding-bomb.png',
+//     1024: 'png/1024/ghs01-explosives-exploding-bomb.png',
+//     2048: 'png/2048/ghs01-explosives-exploding-bomb.png',
+//   }
+// }
+```
+
+Prefix the returned path with the package root to resolve it in Node.js:
+
+```ts
+import { resolve } from 'node:path';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const pkgRoot = resolve(require.resolve('@ghs-hazard-pictograms/assets/package.json'), '..');
+const absolutePath = resolve(pkgRoot, pictogram.assets.svg);
+```
