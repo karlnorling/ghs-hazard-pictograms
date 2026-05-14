@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/css",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "CSS background-image sprite for GHS hazard and ADR/UN transport pictograms — class-based display, no JavaScript required",
   "keywords": [
     "adr",
