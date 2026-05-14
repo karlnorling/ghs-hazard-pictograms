@@ -9,6 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",
+    "types": ["vite/client"],
     "paths": {
       "@ghs-hazard-pictograms/core": ["../../packages/@ghs-hazard-pictograms/core/src/index.ts"],
       "@ghs-hazard-pictograms/react": ["../../packages/@ghs-hazard-pictograms/react/src/index.ts"]
