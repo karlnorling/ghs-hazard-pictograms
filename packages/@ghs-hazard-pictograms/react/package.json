@@ -78,5 +78,9 @@
   },
   "peerDependencies": {
     "react": ">=18"
+  },
+  "author": {
+    "name": "Karl Norling",
+    "url": "https://github.com/karlnorling"
   }
 }

@@ -46,5 +46,9 @@
   "exports": {
     "./sprite.svg": "./sprite.svg",
     "./sprite-ids.json": "./sprite-ids.json"
+  },
+  "author": {
+    "name": "Karl Norling",
+    "url": "https://github.com/karlnorling"
   }
 }
