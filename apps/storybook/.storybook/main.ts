@@ -48,6 +48,10 @@ const config: StorybookConfig = {
         dirname,
         '../../../packages/@ghs-hazard-pictograms/react/src/index.ts',
       ),
+      '@ghs-hazard-pictograms/elements': path.resolve(
+        dirname,
+        '../../../packages/@ghs-hazard-pictograms/elements/src/index.ts',
+      ),
     };
     return config;
   },

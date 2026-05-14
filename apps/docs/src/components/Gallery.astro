@@ -3,10 +3,33 @@ import { getAllPictograms } from '@ghs-hazard-pictograms/core';
 
 const pictograms = getAllPictograms();
 
+function withViewBox(svg: string): string {
+  if (/viewBox/i.test(svg)) return svg;
+  const w = svg.match(/\bwidth="([^"]+)"/)?.[1];
+  const h = svg.match(/\bheight="([^"]+)"/)?.[1];
+  if (w && h) return svg.replace('<svg', `<svg viewBox="0 0 ${w} ${h}"`);
+  return svg;
+}
+
+const CATEGORY_ORDER = ['physical_hazards', 'health_hazards', 'environmental_hazards', 'transport'];
+
+function transportSortKey(name: string): number {
+  const m = name.match(/(\d+)\.?(\d*)/);
+  if (!m) return 999;
+  return parseFloat(`${m[1]}.${m[2] || '0'}`);
+}
+
+const pictogramsSorted = [...pictograms].sort((a, b) => {
+  const catDiff = CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category);
+  if (catDiff !== 0) return catDiff;
+  if (a.category === 'transport') return transportSortKey(a.name) - transportSortKey(b.name);
+  return (a.code ?? '').localeCompare(b.code ?? '');
+});
+
 const categories: { id: string; label: string; color: string }[] = [
-  { id: 'physical', label: 'Physical hazards', color: '#e74c3c' },
-  { id: 'health', label: 'Health hazards', color: '#e67e22' },
-  { id: 'environmental', label: 'Environmental hazards', color: '#27ae60' },
+  { id: 'physical_hazards', label: 'Physical hazards', color: '#e74c3c' },
+  { id: 'health_hazards', label: 'Health hazards', color: '#e67e22' },
+  { id: 'environmental_hazards', label: 'Environmental hazards', color: '#27ae60' },
   { id: 'transport', label: 'Transport (ADR/UN)', color: '#2980b9' },
 ];
 ---
@@ -29,18 +52,18 @@ const categories: { id: string; label: string; color: string }[] = [
             aria-pressed="false"
           >
             {cat.label}
-            <span class="count">({pictograms.filter((p) => p.category === cat.id).length})</span>
+            <span class="count">({pictogramsSorted.filter((p) => p.category === cat.id).length})</span>
           </button>
         ))
       }
     </div>
   </div>
 
-  <p class="gallery-count" id="gallery-count">{pictograms.length} pictograms</p>
+  <p class="gallery-count" id="gallery-count">{pictogramsSorted.length} pictograms</p>
 
   <div class="sign-grid" id="sign-grid">
     {
-      pictograms.map((pictogram) => (
+      pictogramsSorted.map((pictogram) => (
         <div
           class="sign-card"
           data-category={pictogram.category}
@@ -48,7 +71,7 @@ const categories: { id: string; label: string; color: string }[] = [
           data-code={pictogram.code.toLowerCase()}
           title={pictogram.description}
         >
-          <div class="sign-svg" set:html={pictogram.svg} />
+          <div class="sign-svg" set:html={withViewBox(pictogram.svg)} />
           <span class="sign-code">{pictogram.code}</span>
           <span class="sign-name">{pictogram.name}</span>
         </div>
@@ -88,6 +111,7 @@ const categories: { id: string; label: string; color: string }[] = [
   }
 
   .filter-btn {
+    margin-top: 0;
     padding: 0.3rem 0.85rem;
     border-radius: 999px;
     border: 1.5px solid var(--cat-color, var(--sl-color-gray-5));
@@ -131,6 +155,7 @@ const categories: { id: string; label: string; color: string }[] = [
     flex-direction: column;
     align-items: center;
     gap: 0.2rem;
+    margin-top: 0;
     padding: 0.75rem 0.5rem 0.5rem;
     border-radius: 0.5rem;
     border: 1px solid var(--sl-color-gray-6);
