@@ -30,6 +30,7 @@
     "packages/@ghs-hazard-pictograms/react/src/index.ts",
     "packages/@ghs-hazard-pictograms/css/sprite.css",
     ".storybook",
-    "src"
+    "src",
+    "apps/docs/.astro"
   ]
 }

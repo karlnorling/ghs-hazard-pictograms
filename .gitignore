@@ -22,4 +22,7 @@ data/
 *storybook.log
 storybook-static
 
+# Astro generated type declarations
+apps/docs/.astro/
+
 .DS_Store
