@@ -1,8 +1,8 @@
 ---
-"@ghs-hazard-pictograms/css": patch
-"@ghs-hazard-pictograms/elements": patch
-"@ghs-hazard-pictograms/react": patch
-"@ghs-hazard-pictograms/vue": patch
+'@ghs-hazard-pictograms/css': patch
+'@ghs-hazard-pictograms/elements': patch
+'@ghs-hazard-pictograms/react': patch
+'@ghs-hazard-pictograms/vue': patch
 ---
 
 Replace `workspace:*` with real version ranges for the `@ghs-hazard-pictograms/core` dependency.
