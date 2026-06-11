@@ -1,4 +1,5 @@
 # ghs-hazard-pictograms
+
 [![Live demo](https://img.shields.io/badge/Storybook-docs-FF4785)](https://karlnorling.github.io/ghs-hazard-pictograms/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
