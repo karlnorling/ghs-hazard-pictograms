@@ -1,4 +1,6 @@
 # ghs-hazard-pictograms
+[![Live demo](https://img.shields.io/badge/Storybook-docs-FF4785)](https://karlnorling.github.io/ghs-hazard-pictograms/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 GHS (Globally Harmonized System) hazard pictograms as an npm package. Provides all pictograms in multiple formats with full documentation from the [GHS Wikipedia article](https://en.wikipedia.org/wiki/GHS_hazard_pictograms).
 
