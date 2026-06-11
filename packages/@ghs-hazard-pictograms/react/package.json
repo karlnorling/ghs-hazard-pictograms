@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/react",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Accessible React components for all GHS hazard and ADR/UN transport pictograms — fully typed, zero runtime dependencies beyond React",
   "keywords": [
     "accessible",
