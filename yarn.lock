@@ -1636,18 +1636,18 @@ __metadata:
   resolution: "@ghs-docs/app@workspace:apps/docs"
   dependencies:
     "@astrojs/starlight": "npm:^0.39.2"
-    "@ghs-hazard-pictograms/core": "workspace:*"
+    "@ghs-hazard-pictograms/core": "npm:^1.1.0"
     astro: "npm:^6.3.2"
   languageName: unknown
   linkType: soft
 
-"@ghs-hazard-pictograms/assets@workspace:*, @ghs-hazard-pictograms/assets@workspace:packages/@ghs-hazard-pictograms/assets":
+"@ghs-hazard-pictograms/assets@npm:^1.1.0, @ghs-hazard-pictograms/assets@workspace:packages/@ghs-hazard-pictograms/assets":
   version: 0.0.0-use.local
   resolution: "@ghs-hazard-pictograms/assets@workspace:packages/@ghs-hazard-pictograms/assets"
   languageName: unknown
   linkType: soft
 
-"@ghs-hazard-pictograms/core@workspace:*, @ghs-hazard-pictograms/core@workspace:packages/@ghs-hazard-pictograms/core":
+"@ghs-hazard-pictograms/core@npm:^1.1.0, @ghs-hazard-pictograms/core@workspace:packages/@ghs-hazard-pictograms/core":
   version: 0.0.0-use.local
   resolution: "@ghs-hazard-pictograms/core@workspace:packages/@ghs-hazard-pictograms/core"
   dependencies:
@@ -1663,7 +1663,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ghs-hazard-pictograms/css@workspace:packages/@ghs-hazard-pictograms/css"
   dependencies:
-    "@ghs-hazard-pictograms/core": "workspace:*"
+    "@ghs-hazard-pictograms/core": "npm:^1.1.0"
     "@types/jest": "npm:^30.0.0"
     jest: "npm:^30.3.0"
     ts-jest: "npm:^29.4.0"
@@ -1671,11 +1671,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ghs-hazard-pictograms/elements@workspace:*, @ghs-hazard-pictograms/elements@workspace:packages/@ghs-hazard-pictograms/elements":
+"@ghs-hazard-pictograms/elements@npm:^1.2.0, @ghs-hazard-pictograms/elements@workspace:packages/@ghs-hazard-pictograms/elements":
   version: 0.0.0-use.local
   resolution: "@ghs-hazard-pictograms/elements@workspace:packages/@ghs-hazard-pictograms/elements"
   dependencies:
-    "@ghs-hazard-pictograms/core": "workspace:*"
+    "@ghs-hazard-pictograms/core": "npm:^1.1.0"
     "@types/jest": "npm:^30.0.0"
     jest: "npm:^30.3.0"
     jest-environment-jsdom: "npm:^30.3.0"
@@ -1684,11 +1684,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ghs-hazard-pictograms/react@workspace:*, @ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react":
+"@ghs-hazard-pictograms/react@npm:^1.2.0, @ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react":
   version: 0.0.0-use.local
   resolution: "@ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react"
   dependencies:
-    "@ghs-hazard-pictograms/core": "workspace:*"
+    "@ghs-hazard-pictograms/core": "npm:^1.1.0"
     "@types/jest": "npm:^30.0.0"
     "@types/react": "npm:^19.1.0"
     "@types/react-dom": "npm:^19"
@@ -1713,7 +1713,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ghs-hazard-pictograms/vue@workspace:packages/@ghs-hazard-pictograms/vue"
   dependencies:
-    "@ghs-hazard-pictograms/core": "workspace:*"
+    "@ghs-hazard-pictograms/core": "npm:^1.1.0"
     "@types/jest": "npm:^30.0.0"
     "@vue/test-utils": "npm:^2.4.6"
     jest: "npm:^30.3.0"
@@ -1730,10 +1730,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ghs-storybook/app@workspace:apps/storybook"
   dependencies:
-    "@ghs-hazard-pictograms/assets": "workspace:*"
-    "@ghs-hazard-pictograms/core": "workspace:*"
-    "@ghs-hazard-pictograms/elements": "workspace:*"
-    "@ghs-hazard-pictograms/react": "workspace:*"
+    "@ghs-hazard-pictograms/assets": "npm:^1.1.0"
+    "@ghs-hazard-pictograms/core": "npm:^1.1.0"
+    "@ghs-hazard-pictograms/elements": "npm:^1.2.0"
+    "@ghs-hazard-pictograms/react": "npm:^1.2.0"
     "@storybook/addon-a11y": "npm:^10.3.5"
     "@storybook/addon-docs": "npm:^10.3.5"
     "@storybook/addon-vitest": "npm:^10.3.5"
