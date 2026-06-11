@@ -10,8 +10,8 @@
   "dependencies": {
     "@ghs-hazard-pictograms/assets": "^1.1.0",
     "@ghs-hazard-pictograms/core": "^1.1.0",
-    "@ghs-hazard-pictograms/elements": "^1.2.0",
-    "@ghs-hazard-pictograms/react": "^1.2.0"
+    "@ghs-hazard-pictograms/elements": "^1.2.1",
+    "@ghs-hazard-pictograms/react": "^1.2.1"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^10.3.5",

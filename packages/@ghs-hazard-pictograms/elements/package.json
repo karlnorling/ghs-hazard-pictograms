@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/elements",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Accessible Web Components (Custom Elements) for all GHS hazard and ADR/UN transport pictograms — framework-agnostic, zero runtime dependencies",
   "keywords": [
     "accessible",
