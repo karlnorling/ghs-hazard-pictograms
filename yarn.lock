@@ -1671,7 +1671,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ghs-hazard-pictograms/elements@npm:^1.2.0, @ghs-hazard-pictograms/elements@workspace:packages/@ghs-hazard-pictograms/elements":
+"@ghs-hazard-pictograms/elements@npm:^1.2.1, @ghs-hazard-pictograms/elements@workspace:packages/@ghs-hazard-pictograms/elements":
   version: 0.0.0-use.local
   resolution: "@ghs-hazard-pictograms/elements@workspace:packages/@ghs-hazard-pictograms/elements"
   dependencies:
@@ -1684,7 +1684,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ghs-hazard-pictograms/react@npm:^1.2.0, @ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react":
+"@ghs-hazard-pictograms/react@npm:^1.2.1, @ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react":
   version: 0.0.0-use.local
   resolution: "@ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react"
   dependencies:
@@ -1732,8 +1732,8 @@ __metadata:
   dependencies:
     "@ghs-hazard-pictograms/assets": "npm:^1.1.0"
     "@ghs-hazard-pictograms/core": "npm:^1.1.0"
-    "@ghs-hazard-pictograms/elements": "npm:^1.2.0"
-    "@ghs-hazard-pictograms/react": "npm:^1.2.0"
+    "@ghs-hazard-pictograms/elements": "npm:^1.2.1"
+    "@ghs-hazard-pictograms/react": "npm:^1.2.1"
     "@storybook/addon-a11y": "npm:^10.3.5"
     "@storybook/addon-docs": "npm:^10.3.5"
     "@storybook/addon-vitest": "npm:^10.3.5"
@@ -1748,7 +1748,7 @@ __metadata:
     remark-gfm: "npm:^4.0.1"
     storybook: "npm:^10.3.5"
     typescript: "npm:^5.8.3"
-    vite: "npm:^6.3.5"
+    vite: "npm:^6.4.3"
     vitest: "npm:^4.1.4"
   languageName: unknown
   linkType: soft
@@ -13033,9 +13033,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^6.3.5":
-  version: 6.4.2
-  resolution: "vite@npm:6.4.2"
+"vite@npm:^6.4.3":
+  version: 6.4.3
+  resolution: "vite@npm:6.4.3"
   dependencies:
     esbuild: "npm:^0.25.0"
     fdir: "npm:^6.4.4"
@@ -13084,7 +13084,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10c0/9a62bb4259b4b11b9084c8dc5c25a21c9340d87d83de163d3643f15629d8ac3c2a3a4cda565f1a61e98afc9d78e9cb78eb25d1ae3c302e95d42d13ab61537267
+  checksum: 10c0/23ce22e50d5c7a87321f04b155c5bc3cf915e34e6c40918975741ed5e8b0c257039a643f1bc1cd829ee814ad92a138704e82084b7ebe40b399a62d8effea630c
   languageName: node
   linkType: hard
 
