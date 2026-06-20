@@ -12,6 +12,6 @@
   "dependencies": {
     "@astrojs/starlight": "^0.39.2",
     "@ghs-hazard-pictograms/core": "^1.1.0",
-    "astro": "^6.3.2"
+    "astro": "^6.4.6"
   }
 }
