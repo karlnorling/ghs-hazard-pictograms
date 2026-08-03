@@ -1671,7 +1671,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ghs-hazard-pictograms/elements@npm:^1.2.0, @ghs-hazard-pictograms/elements@workspace:packages/@ghs-hazard-pictograms/elements":
+"@ghs-hazard-pictograms/elements@npm:^1.2.1, @ghs-hazard-pictograms/elements@workspace:packages/@ghs-hazard-pictograms/elements":
   version: 0.0.0-use.local
   resolution: "@ghs-hazard-pictograms/elements@workspace:packages/@ghs-hazard-pictograms/elements"
   dependencies:
@@ -1684,7 +1684,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ghs-hazard-pictograms/react@npm:^1.2.0, @ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react":
+"@ghs-hazard-pictograms/react@npm:^1.2.1, @ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react":
   version: 0.0.0-use.local
   resolution: "@ghs-hazard-pictograms/react@workspace:packages/@ghs-hazard-pictograms/react"
   dependencies:
@@ -1732,8 +1732,8 @@ __metadata:
   dependencies:
     "@ghs-hazard-pictograms/assets": "npm:^1.1.0"
     "@ghs-hazard-pictograms/core": "npm:^1.1.0"
-    "@ghs-hazard-pictograms/elements": "npm:^1.2.0"
-    "@ghs-hazard-pictograms/react": "npm:^1.2.0"
+    "@ghs-hazard-pictograms/elements": "npm:^1.2.1"
+    "@ghs-hazard-pictograms/react": "npm:^1.2.1"
     "@storybook/addon-a11y": "npm:^10.3.5"
     "@storybook/addon-docs": "npm:^10.3.5"
     "@storybook/addon-vitest": "npm:^10.3.5"
