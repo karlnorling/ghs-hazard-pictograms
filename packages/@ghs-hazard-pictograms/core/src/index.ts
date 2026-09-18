@@ -12,11 +12,14 @@ import type { Pictogram, PictogramCategory } from './types';
 
 export type { Pictogram, PictogramAssets, PictogramCategory } from './types';
 export { pictograms } from './pictograms.generated';
+export { escapeHtml, renderSvg, scopeSvgIds, splitSvg, UID_PLACEHOLDER } from './svg';
+export type { RenderSvgOptions, SvgParts } from './svg';
 
 /**
  * Returns every pictogram in the registry (GHS01–GHS09 plus transport classes).
+ * The returned array is a copy, so callers may sort or otherwise mutate it.
  */
-export const getAllPictograms = (): Pictogram[] => pictograms;
+export const getAllPictograms = (): Pictogram[] => [...pictograms];
 
 /**
  * Returns only the 9 core GHS chemical hazard pictograms (GHS01–GHS09),

@@ -69,12 +69,42 @@ describe('PictogramById', () => {
     expect(span.style.opacity).toBe('0.5');
   });
 
-  it('sets aria-label on the wrapping span', () => {
+  it('labels the svg directly when aria-label is given', () => {
     const container = renderToContainer(
       <PictogramById id="ghs01-explosive" aria-label="Explosive hazard" />,
     );
-    const span = container.firstChild as HTMLElement;
-    expect(span.getAttribute('aria-label')).toBe('Explosive hazard');
+    const svg = container.querySelector('svg')!;
+    expect(svg.getAttribute('aria-label')).toBe('Explosive hazard');
+    expect(svg.hasAttribute('aria-labelledby')).toBe(false);
+  });
+
+  it('gives each instance its own title/desc IDs', () => {
+    const container = renderToContainer(
+      <>
+        <PictogramById id="ghs01-explosive" title="First" />
+        <PictogramById id="ghs01-explosive" title="Second" />
+      </>,
+    );
+    const ids = [...container.querySelectorAll('[id]')].map((el) => el.id);
+    expect(ids).toHaveLength(4);
+    expect(new Set(ids).size).toBe(4);
+    const [, second] = container.querySelectorAll('svg');
+    const titleId = second.getAttribute('aria-labelledby')!.split(' ')[0];
+    expect(container.querySelector(`[id="${titleId}"]`)!.textContent).toBe('Second');
+  });
+
+  it('renders the optimised SVG without an XML prolog or editor metadata', () => {
+    const container = renderToContainer(<PictogramById id="adr-7a" />);
+    const html = container.innerHTML;
+    expect(html).not.toContain('<?xml');
+    expect(html).not.toMatch(/sodipodi|inkscape:/);
+  });
+
+  it('keeps a viewBox for pictograms whose source SVG had none', () => {
+    const container = renderToContainer(<PictogramById id="division-1-4" width={64} />);
+    const svg = container.querySelector('svg')!;
+    expect(svg.getAttribute('viewBox')).toBe('0 0 103.125 103.125');
+    expect(svg.getAttribute('width')).toBe('64');
   });
 
   it('HTML-escapes title and description props', () => {

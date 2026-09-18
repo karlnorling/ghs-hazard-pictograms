@@ -37,4 +37,17 @@ describe('Ghs01Explosive', () => {
     expect(wrapper.classes()).toContain('my-class');
     expect(wrapper.element.style.opacity).toBe('0.5');
   });
+
+  it('merges a string style attribute with display: contents', () => {
+    const wrapper = mount(Ghs01Explosive, { attrs: { style: 'color: red' } });
+    const style = (wrapper.element as HTMLElement).style;
+    expect(style.display).toBe('contents');
+    expect(style.color).toBe('red');
+  });
+
+  it('gives each instance its own title/desc IDs', () => {
+    const a = mount(Ghs01Explosive);
+    const b = mount(Ghs01Explosive);
+    expect(a.find('title').attributes('id')).not.toBe(b.find('title').attributes('id'));
+  });
 });

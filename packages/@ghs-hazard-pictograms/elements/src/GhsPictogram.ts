@@ -1,64 +1,6 @@
-import { getPictogram } from '@ghs-hazard-pictograms/core';
+import { getPictogram, renderSvg, splitSvg } from '@ghs-hazard-pictograms/core';
 
-const _h = (s: string) =>
-  s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/'/g, '&#39;')
-    .replace(/"/g, '&quot;');
-
-function scopeIds(body: string, prefix: string): string {
-  const ids = new Set<string>();
-  body.replace(/\bid="([^"]+)"/g, (_, id: string) => {
-    ids.add(id);
-    return _;
-  });
-  if (ids.size === 0) return body;
-  let out = body;
-  for (const id of ids) {
-    const esc = id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    out = out
-      .replace(new RegExp(`\\bid="${esc}"`, 'g'), `id="${prefix}-${id}"`)
-      .replace(new RegExp(`url\\(#${esc}\\)`, 'g'), `url(#${prefix}-${id})`)
-      .replace(new RegExp(`href="#${esc}"`, 'g'), `href="#${prefix}-${id}"`);
-  }
-  return out;
-}
-
-interface ParsedSvg {
-  attrs: string;
-  body: string;
-  width: string;
-  height: string;
-}
-
-const _cache = new Map<string, ParsedSvg>();
-
-function parseSvg(svg: string, id: string): ParsedSvg {
-  const viewBoxMatch = svg.match(/viewBox="([^"]+)"/);
-  const widthMatch = svg.match(/<svg[^>]*\swidth="([^"]+)"/);
-  const heightMatch = svg.match(/<svg[^>]*\sheight="([^"]+)"/);
-  const bodyMatch = svg.match(/<svg[^>]*>([\s\S]*)<\/svg>/);
-  const rawWidth = widthMatch ? widthMatch[1] : '772';
-  const rawHeight = heightMatch ? heightMatch[1] : '772';
-  const body = scopeIds(bodyMatch ? bodyMatch[1] : '', id);
-  return {
-    attrs: `xmlns="http://www.w3.org/2000/svg"${viewBoxMatch ? ` viewBox="${viewBoxMatch[1]}"` : ''}`,
-    body,
-    width: rawWidth.replace(/px$/, ''),
-    height: rawHeight.replace(/px$/, ''),
-  };
-}
-
-function getParsedSvg(svg: string, id: string): ParsedSvg {
-  let parsed = _cache.get(id);
-  if (!parsed) {
-    parsed = parseSvg(svg, id);
-    _cache.set(id, parsed);
-  }
-  return parsed;
-}
+let _instances = 0;
 
 /**
  * Generic GHS/ADR pictogram custom element — renders any pictogram by slug ID.
@@ -69,6 +11,7 @@ function getParsedSvg(svg: string, id: string): ParsedSvg {
  * - `description`  — overrides the SVG description (defaults to pictogram description)
  * - `width`        — forwarded to the `<svg>` width attribute
  * - `height`       — forwarded to the `<svg>` height attribute
+ * - `aria-label`   — labels the `<svg>` directly instead of via its `<title>`/`<desc>`
  *
  * @example
  * ```html
@@ -77,40 +20,41 @@ function getParsedSvg(svg: string, id: string): ParsedSvg {
  */
 export class GhsPictogram extends HTMLElement {
   static readonly tagName = 'ghs-pictogram';
-  static readonly observedAttributes = ['pictogram-id', 'title', 'description', 'width', 'height'];
+  static readonly observedAttributes = [
+    'pictogram-id',
+    'title',
+    'description',
+    'width',
+    'height',
+    'aria-label',
+  ];
+
+  private readonly _instance = ++_instances;
 
   connectedCallback(): void {
     this._render();
   }
 
   attributeChangedCallback(): void {
-    this._render();
+    if (this.isConnected) this._render();
   }
 
   private _render(): void {
     const pictogramId = this.getAttribute('pictogram-id');
-    if (!pictogramId) {
-      this.innerHTML = '';
-      return;
-    }
-    const pictogram = getPictogram(pictogramId);
-    if (!pictogram) {
+    const pictogram = pictogramId ? getPictogram(pictogramId) : undefined;
+    if (!pictogramId || !pictogram) {
       this.innerHTML = '';
       return;
     }
 
-    const { attrs, body, width: defaultWidth, height: defaultHeight } = getParsedSvg(pictogram.svg, pictogramId);
-    const resolvedTitle = this.getAttribute('title') ?? pictogram.name;
-    const resolvedDesc = this.getAttribute('description') ?? pictogram.description;
-    const _w = this.hasAttribute('width') ? _h(this.getAttribute('width')!) : defaultWidth;
-    const _ht = this.hasAttribute('height') ? _h(this.getAttribute('height')!) : defaultHeight;
-    const descId = `ghs-desc-${pictogramId}`;
-    const titleId = `ghs-title-${pictogramId}`;
-
-    this.style.display = 'contents';
-    this.innerHTML = `<svg ${attrs} width="${_w}" height="${_ht}" role="img" aria-labelledby="${titleId} ${descId}">
-  <title id="${titleId}">${_h(resolvedTitle)}</title>
-  <desc id="${descId}">${_h(resolvedDesc)}</desc>
-  ${body}</svg>`;
+    if (!this.style.display) this.style.display = 'contents';
+    this.innerHTML = renderSvg(splitSvg(pictogram.svg), {
+      uid: `ghs-${pictogramId}-byid${this._instance}`,
+      title: this.getAttribute('title') ?? pictogram.name,
+      description: this.getAttribute('description') ?? pictogram.description,
+      ariaLabel: this.getAttribute('aria-label') ?? undefined,
+      width: this.getAttribute('width'),
+      height: this.getAttribute('height'),
+    });
   }
 }

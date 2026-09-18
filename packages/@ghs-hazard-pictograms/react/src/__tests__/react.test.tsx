@@ -119,12 +119,37 @@ describe('PictogramProps — SVG content and accessibility', () => {
     expect(descEl?.textContent).toBe('Custom desc');
   });
 
-  it('forwards aria-label to the wrapping span', () => {
+  it('labels the svg directly when aria-label is given', () => {
     const container = renderToContainer(
       React.createElement(ReactComponents.Ghs01Explosive, { 'aria-label': 'Danger' }),
     );
-    const span = container.querySelector('span');
-    expect(span?.getAttribute('aria-label')).toBe('Danger');
+    const svg = container.querySelector('svg');
+    expect(svg?.getAttribute('aria-label')).toBe('Danger');
+    expect(svg?.hasAttribute('aria-labelledby')).toBe(false);
+  });
+
+  it('gives each instance its own title/desc IDs', () => {
+    const container = renderToContainer(
+      React.createElement(
+        React.Fragment,
+        null,
+        React.createElement(ReactComponents.Ghs01Explosive),
+        React.createElement(ReactComponents.Ghs01Explosive),
+      ),
+    );
+    const ids = [...container.querySelectorAll('[id]')].map((el) => el.id);
+    expect(ids).toHaveLength(4);
+    expect(new Set(ids).size).toBe(4);
+  });
+
+  it('every component has a viewBox so it scales with width/height', () => {
+    for (const [name, component] of Object.entries(ReactComponents)) {
+      if (!isReactComponent(component) || name === 'PictogramById') continue;
+      const container = renderToContainer(
+        React.createElement(component as React.ComponentType<{ width: number }>, { width: 48 }),
+      );
+      expect(container.querySelector('svg')?.getAttribute('viewBox')).toBeTruthy();
+    }
   });
 
   it('renders svg with default dimensions when no width/height prop given', () => {

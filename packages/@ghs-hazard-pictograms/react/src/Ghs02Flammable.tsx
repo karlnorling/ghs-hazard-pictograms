@@ -14,7 +14,10 @@ Self-reactive substances and mixtures, types B, C, D, E, F
 Pyrophoric liquids, category 1
 Pyrophoric solids, category 1
 Combustible solids, category 3
-Combustibl`;
+Combustible liquids, category 3
+Self-heating substances and mixtures, categories 1, 2
+Substances and mixtures, which in contact with water, emit flammable gases, categories 1, 2, 3
+Organic peroxides, types B, C, D, E, F`;
 const _DefaultTitle = 'Flammable';
 const _DefaultWidth = `100%`;
 const _DefaultHeight = `100%`;
@@ -23,23 +26,24 @@ const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace
 export const Ghs02Flammable = React.memo<PictogramProps>(({
   'aria-label': ariaLabel,
   className,
-  description = _DefaultDesc,
+  description: resolvedDesc = _DefaultDesc,
   height,
   style,
-  title = _DefaultTitle,
+  title: resolvedTitle = _DefaultTitle,
   width,
 }) => {
-  const descId = `ghs-desc-ghs02-flammable`;
-  const titleId = `ghs-title-ghs02-flammable`;
+  const uid = `ghs-ghs02-flammable-${React.useId().replace(/[^\w-]/g, '')}`;
   const _w = width !== undefined ? _h(String(width)) : _DefaultWidth;
   const _ht = height !== undefined ? _h(String(height)) : _DefaultHeight;
-  const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" aria-labelledby="${titleId} ${descId}">
-  <title id="${titleId}">${_h(title)}</title>
-  <desc id="${descId}">${_h(description)}</desc>
+  const titleId = `${uid}--title`;
+  const descId = `${uid}--desc`;
+  const label = ariaLabel != null ? `aria-label="${_h(String(ariaLabel))}"` : `aria-labelledby="${titleId} ${descId}"`;
+  const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" ${label}>
+  <title id="${titleId}">${_h(resolvedTitle)}</title>
+  <desc id="${descId}">${_h(resolvedDesc)}</desc>
   ${_Body}</svg>`;
   return (
     <span
-      aria-label={ariaLabel}
       className={className}
       dangerouslySetInnerHTML={{ __html: svgHtml }}
       style={{ display: 'contents', ...style }}

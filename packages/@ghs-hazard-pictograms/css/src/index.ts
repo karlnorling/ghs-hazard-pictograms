@@ -79,7 +79,7 @@ export const pictogramCssClasses: Readonly<Record<string, string>> = Object.from
  * ```ts
  * import { getCssClassName } from '@ghs-hazard-pictograms/css';
  * const cls = getCssClassName('ghs01-explosive');
- * // 'ghs-physical_hazards_pictograms_ghs01_explosive_ghs-pictogram-explos'
+ * // 'ghs-ghs01'
  * ```
  */
 export const getCssClassName = (id: string): string | undefined => pictogramCssClasses[id];

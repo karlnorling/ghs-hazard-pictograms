@@ -72,7 +72,8 @@ const _elements: Array<[typeof HTMLElement & { tagName: string }, string]> = [
  *
  * @param prefix — tag-name prefix (default `"ghs"`). Each element is registered
  *   as `{prefix}-{id}`, e.g. `ghs-ghs01-explosive` or `ghs-division-2-3`.
- *   Pass a custom string to avoid conflicts with other libraries.
+ *   Pass a custom string to avoid conflicts with other libraries. May be called
+ *   several times with different prefixes.
  * @example
  * ```ts
  * import { defineCustomElements } from '@ghs-hazard-pictograms/elements';
@@ -82,6 +83,8 @@ const _elements: Array<[typeof HTMLElement & { tagName: string }, string]> = [
 export function defineCustomElements(prefix = 'ghs'): void {
   for (const [cls, defaultTag] of _elements) {
     const tag = prefix === 'ghs' ? defaultTag : `${prefix}-${defaultTag.replace(/^ghs-/, '')}`;
-    if (!customElements.get(tag)) customElements.define(tag, cls);
+    if (customElements.get(tag)) continue;
+    // A constructor can only be registered once, so other prefixes get their own subclass.
+    customElements.define(tag, tag === defaultTag ? cls : class extends cls {});
   }
 }

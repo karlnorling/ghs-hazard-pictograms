@@ -2,10 +2,12 @@
  * generate-source.ts
  *
  * Reads data/scraped.json + assets/svg-map.json and generates:
- *   - src/pictograms.generated.ts        (typed Pictogram registry)
- *   - src/react/PictogramProps.ts        (shared prop interface)
- *   - src/react/{ComponentName}.tsx      (one React FC per pictogram)
- *   - src/react/index.ts                 (barrel re-export)
+ *   - core/src/pictograms.generated.ts   (typed Pictogram registry)
+ *   - react/src/{ComponentName}.tsx      (one React component per pictogram, plus props and index)
+ *   - vue/src/{ComponentName}.ts         (one Vue component per pictogram, plus props and index)
+ *   - elements/src/{ComponentName}.ts    (one custom element per pictogram, plus define helper and index)
+ *
+ * Generated files that no longer correspond to a pictogram are deleted.
  *
  * Run via: yarn generate
  */
@@ -18,6 +20,7 @@ import type {
   Pictogram,
   PictogramCategory,
 } from '../packages/@ghs-hazard-pictograms/core/src/types';
+import { splitSvg, UID_PLACEHOLDER } from '../packages/@ghs-hazard-pictograms/core/src/svg';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -96,6 +99,22 @@ const optimizeSvg = (svg: string): string => {
   const result = optimize(svg, { multipass: true, plugins: ['preset-default'] });
   return result.data;
 };
+
+/**
+ * Adds `viewBox="0 0 {width} {height}"` to the root `<svg>` when it has none.
+ * Without a viewBox the drawing is clipped instead of scaled when a consumer
+ * sets a width or height.
+ */
+const ensureViewBox = (svg: string): string =>
+  svg.replace(/<svg\b([^>]*)>/, (tag, attrs: string) => {
+    if (/\sviewBox="/.test(attrs)) return tag;
+    const width = attrs.match(/\swidth="([\d.]+)(?:px)?"/);
+    const height = attrs.match(/\sheight="([\d.]+)(?:px)?"/);
+    if (!width || !height) {
+      throw new Error(`SVG has neither a viewBox nor a numeric width/height: ${tag}`);
+    }
+    return `<svg${attrs} viewBox="0 0 ${width[1]} ${height[1]}">`;
+  });
 
 // ---------------------------------------------------------------------------
 // Pictogram collection
@@ -233,57 +252,80 @@ const generatePropsFile = (): string =>
     `  title?: string;`,
     `  /** Width applied to the \`<svg>\` element (pixels or any CSS length). */`,
     `  width?: number | string;`,
-    `  /** Overrides \`aria-labelledby\` with a direct label on the wrapping \`<span>\`. */`,
+    `  /** Labels the \`<svg>\` directly, replacing the \`aria-labelledby\` reference to its \`<title>\`/\`<desc>\`. */`,
     `  'aria-label'?: string;`,
     `}`,
     ``,
   ].join('\n');
 
 // ---------------------------------------------------------------------------
-// Code generation — src/react/{ComponentName}.tsx
+// Code generation — shared pieces of every component file
 // ---------------------------------------------------------------------------
 
-interface ReactEntry {
-  /** Trimmed hazard description (max 300 chars). */
+interface ComponentEntry {
+  /** Full hazard description. */
   description: string;
   /** Pictogram slug ID, e.g. "ghs01-explosive". */
   id: string;
   /** Human-readable pictogram name, e.g. "Explosive". */
   name: string;
-  /** SVGO-optimised SVG string. */
+  /** SVGO-optimised SVG string with a guaranteed viewBox. */
   optimizedSvg: string;
 }
 
+/** Escapes a string for embedding inside a template literal. */
+const escTemplate = (s: string): string =>
+  s.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
+
+/**
+ * Returns the module-level constants shared by the React, Vue and element
+ * variants of a pictogram component, plus the template-literal snippet that
+ * inserts the body with its IDs scoped to the instance's `uid`.
+ */
+const componentConstants = (entry: ComponentEntry): { lines: string[]; bodyExpr: string } => {
+  const { attrs, body, height, width } = splitSvg(entry.optimizedSvg);
+  return {
+    lines: [
+      `const _Attrs = \`${escTemplate(attrs)}\`;`,
+      `const _Body = \`${escTemplate(body)}\`;`,
+      `const _DefaultDesc = \`${escTemplate(entry.description)}\`;`,
+      `const _DefaultTitle = '${entry.name.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}';`,
+      `const _DefaultWidth = \`${escTemplate(width)}\`;`,
+      `const _DefaultHeight = \`${escTemplate(height)}\`;`,
+      `const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');`,
+    ],
+    bodyExpr: body.includes(UID_PLACEHOLDER)
+      ? `\${_Body.replaceAll('${UID_PLACEHOLDER}', uid)}`
+      : `\${_Body}`,
+  };
+};
+
+/**
+ * Returns the statements (indented by `indent`) that build `svgHtml` from the
+ * in-scope `uid`, `_w`, `_ht`, `resolvedTitle`, `resolvedDesc` and `ariaLabel`.
+ */
+const svgHtmlLines = (bodyExpr: string, indent: string): string[] =>
+  [
+    `const titleId = \`\${uid}--title\`;`,
+    `const descId = \`\${uid}--desc\`;`,
+    `const label = ariaLabel != null ? \`aria-label="\${_h(String(ariaLabel))}"\` : \`aria-labelledby="\${titleId} \${descId}"\`;`,
+    `const svgHtml = \`<svg \${_Attrs} width="\${_w}" height="\${_ht}" role="img" \${label}>`,
+  ]
+    .map((l) => indent + l)
+    .concat([
+      `  <title id="\${titleId}">\${_h(resolvedTitle)}</title>`,
+      `  <desc id="\${descId}">\${_h(resolvedDesc)}</desc>`,
+      `  ${bodyExpr}</svg>\`;`,
+    ]);
+
+// ---------------------------------------------------------------------------
+// Code generation — src/react/{ComponentName}.tsx
+// ---------------------------------------------------------------------------
+
 /** Returns the contents of one individual React component file. */
-const generateComponentFile = (entry: ReactEntry): string => {
-  const { description, id, name, optimizedSvg } = entry;
-  const componentName = toComponentName(id);
-  const cleanedSvg = cleanSvg(optimizedSvg);
-
-  // Strip the outer <svg> tag so we can reconstruct it with merged attributes.
-  const svgBodyMatch = cleanedSvg.match(/^<svg([^>]*)>([\s\S]*)<\/svg>\s*$/i);
-  const svgAttrs = svgBodyMatch ? svgBodyMatch[1] : '';
-  const svgBody = svgBodyMatch ? svgBodyMatch[2] : cleanedSvg;
-
-  // Escape template-literal special characters.
-  const esc = (s: string): string =>
-    s.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
-
-  // Extract default width/height from the SVG attrs
-  const widthMatch = svgAttrs.match(/\bwidth="([^"]+)"/);
-  const heightMatch = svgAttrs.match(/\bheight="([^"]+)"/);
-  const defaultWidth = widthMatch ? widthMatch[1] : '100%';
-  const defaultHeight = heightMatch ? heightMatch[1] : '100%';
-
-  // Strip width/height from _Attrs — they will always be emitted explicitly
-  const attrsWithoutSize = svgAttrs
-    .replace(/\s*\bwidth="[^"]*"/, '')
-    .replace(/\s*\bheight="[^"]*"/, '')
-    .trim();
-  const escapedAttrs = esc(attrsWithoutSize);
-  const escapedBody = esc(svgBody);
-  const escapedName = name.replace(/'/g, "\\'");
-  const escapedDesc = esc(description.slice(0, 300));
+const generateComponentFile = (entry: ComponentEntry): string => {
+  const componentName = toComponentName(entry.id);
+  const { lines, bodyExpr } = componentConstants(entry);
 
   return [
     `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.`,
@@ -292,34 +334,23 @@ const generateComponentFile = (entry: ReactEntry): string => {
     `import * as React from 'react';`,
     `import type { PictogramProps } from './PictogramProps';`,
     ``,
-    `const _Attrs = \`${escapedAttrs}\`;`,
-    `const _Body = \`${escapedBody}\`;`,
-    `const _DefaultDesc = \`${escapedDesc}\`;`,
-    `const _DefaultTitle = '${escapedName}';`,
-    `const _DefaultWidth = \`${esc(defaultWidth)}\`;`,
-    `const _DefaultHeight = \`${esc(defaultHeight)}\`;`,
-    `const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');`,
+    ...lines,
     ``,
     `export const ${componentName} = React.memo<PictogramProps>(({`,
     `  'aria-label': ariaLabel,`,
     `  className,`,
-    `  description = _DefaultDesc,`,
+    `  description: resolvedDesc = _DefaultDesc,`,
     `  height,`,
     `  style,`,
-    `  title = _DefaultTitle,`,
+    `  title: resolvedTitle = _DefaultTitle,`,
     `  width,`,
     `}) => {`,
-    `  const descId = \`ghs-desc-${id}\`;`,
-    `  const titleId = \`ghs-title-${id}\`;`,
+    `  const uid = \`ghs-${entry.id}-\${React.useId().replace(/[^\\w-]/g, '')}\`;`,
     `  const _w = width !== undefined ? _h(String(width)) : _DefaultWidth;`,
     `  const _ht = height !== undefined ? _h(String(height)) : _DefaultHeight;`,
-    `  const svgHtml = \`<svg \${_Attrs} width="\${_w}" height="\${_ht}" role="img" aria-labelledby="\${titleId} \${descId}">`,
-    `  <title id="\${titleId}">\${_h(title)}</title>`,
-    `  <desc id="\${descId}">\${_h(description)}</desc>`,
-    `  \${_Body}</svg>\`;`,
+    ...svgHtmlLines(bodyExpr, '  '),
     `  return (`,
     `    <span`,
-    `      aria-label={ariaLabel}`,
     `      className={className}`,
     `      dangerouslySetInnerHTML={{ __html: svgHtml }}`,
     `      style={{ display: 'contents', ...style }}`,
@@ -363,7 +394,10 @@ const generateVuePropsFile = (): string =>
     ``,
     `import type { PropType } from 'vue';`,
     ``,
-    `/** Reusable Vue prop definitions shared by every generated GHS pictogram component. */`,
+    `/**`,
+    ` * Reusable Vue prop definitions shared by every generated GHS pictogram component.`,
+    ` * An \`aria-label\` attribute, if given, labels the \`<svg>\` directly instead of its \`<title>\`/\`<desc>\`.`,
+    ` */`,
     `export const pictogramProps = {`,
     `  /** Accessible description injected as \`<desc>\` inside the SVG. Defaults to the Wikipedia hazard description. */`,
     `  description: { type: String as PropType<string> },`,
@@ -382,31 +416,9 @@ const generateVuePropsFile = (): string =>
 // ---------------------------------------------------------------------------
 
 /** Returns the contents of one individual Vue component file. */
-const generateVueComponentFile = (entry: ReactEntry): string => {
-  const { description, id, name, optimizedSvg } = entry;
-  const componentName = toComponentName(id);
-  const cleanedSvg = cleanSvg(optimizedSvg);
-
-  const svgBodyMatch = cleanedSvg.match(/^<svg([^>]*)>([\s\S]*)<\/svg>\s*$/i);
-  const svgAttrs = svgBodyMatch ? svgBodyMatch[1] : '';
-  const svgBody = svgBodyMatch ? svgBodyMatch[2] : cleanedSvg;
-
-  const esc = (s: string): string =>
-    s.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
-
-  const widthMatch = svgAttrs.match(/\bwidth="([^"]+)"/);
-  const heightMatch = svgAttrs.match(/\bheight="([^"]+)"/);
-  const defaultWidth = widthMatch ? widthMatch[1] : '100%';
-  const defaultHeight = heightMatch ? heightMatch[1] : '100%';
-
-  const attrsWithoutSize = svgAttrs
-    .replace(/\s*\bwidth="[^"]*"/, '')
-    .replace(/\s*\bheight="[^"]*"/, '')
-    .trim();
-  const escapedAttrs = esc(attrsWithoutSize);
-  const escapedBody = esc(svgBody);
-  const escapedName = name.replace(/'/g, "\\'");
-  const escapedDesc = esc(description.slice(0, 300));
+const generateVueComponentFile = (entry: ComponentEntry): string => {
+  const componentName = toComponentName(entry.id);
+  const { lines, bodyExpr } = componentConstants(entry);
 
   return [
     `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.`,
@@ -415,13 +427,8 @@ const generateVueComponentFile = (entry: ReactEntry): string => {
     `import { defineComponent, h } from 'vue';`,
     `import { pictogramProps } from './PictogramProps';`,
     ``,
-    `const _Attrs = \`${escapedAttrs}\`;`,
-    `const _Body = \`${escapedBody}\`;`,
-    `const _DefaultDesc = \`${escapedDesc}\`;`,
-    `const _DefaultTitle = '${escapedName}';`,
-    `const _DefaultWidth = \`${esc(defaultWidth)}\`;`,
-    `const _DefaultHeight = \`${esc(defaultHeight)}\`;`,
-    `const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');`,
+    ...lines,
+    `let _instances = 0;`,
     ``,
     `export const ${componentName} = defineComponent({`,
     `  name: '${componentName}',`,
@@ -430,22 +437,15 @@ const generateVueComponentFile = (entry: ReactEntry): string => {
     `    ...pictogramProps,`,
     `  },`,
     `  setup(props, { attrs }) {`,
+    `    const uid = \`ghs-${entry.id}-\${++_instances}\`;`,
     `    return () => {`,
-    `      const descId = \`ghs-desc-${id}\`;`,
-    `      const titleId = \`ghs-title-${id}\`;`,
+    `      const { 'aria-label': ariaLabel, style, ...rest } = attrs;`,
     `      const _w = props.width !== undefined ? _h(String(props.width)) : _DefaultWidth;`,
     `      const _ht = props.height !== undefined ? _h(String(props.height)) : _DefaultHeight;`,
     `      const resolvedTitle = props.title ?? _DefaultTitle;`,
     `      const resolvedDesc = props.description ?? _DefaultDesc;`,
-    `      const svgHtml = \`<svg \${_Attrs} width="\${_w}" height="\${_ht}" role="img" aria-labelledby="\${titleId} \${descId}">`,
-    `  <title id="\${titleId}">\${_h(resolvedTitle)}</title>`,
-    `  <desc id="\${descId}">\${_h(resolvedDesc)}</desc>`,
-    `  \${_Body}</svg>\`;`,
-    `      return h('span', {`,
-    `        ...attrs,`,
-    `        style: { display: 'contents', ...(typeof attrs.style === 'object' ? (attrs.style as Record<string, unknown>) : {}) },`,
-    `        innerHTML: svgHtml,`,
-    `      });`,
+    ...svgHtmlLines(bodyExpr, '      '),
+    `      return h('span', { ...rest, style: [{ display: 'contents' }, style], innerHTML: svgHtml });`,
     `    };`,
     `  },`,
     `});`,
@@ -474,63 +474,36 @@ const generateVueIndex = (componentNames: string[]): string =>
 // ---------------------------------------------------------------------------
 
 /** Returns the contents of one individual custom-element file. */
-const generateElementFile = (entry: ReactEntry): string => {
-  const { description, id, name, optimizedSvg } = entry;
-  const componentName = toComponentName(id);
-  const cleanedSvg = cleanSvg(optimizedSvg);
-
-  const svgBodyMatch = cleanedSvg.match(/^<svg([^>]*)>([\s\S]*)<\/svg>\s*$/i);
-  const svgAttrs = svgBodyMatch ? svgBodyMatch[1] : '';
-  const svgBody = svgBodyMatch ? svgBodyMatch[2] : cleanedSvg;
-
-  const esc = (s: string): string =>
-    s.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
-
-  const widthMatch = svgAttrs.match(/\bwidth="([^"]+)"/);
-  const heightMatch = svgAttrs.match(/\bheight="([^"]+)"/);
-  const defaultWidth = widthMatch ? widthMatch[1] : '100%';
-  const defaultHeight = heightMatch ? heightMatch[1] : '100%';
-
-  const attrsWithoutSize = svgAttrs
-    .replace(/\s*\bwidth="[^"]*"/, '')
-    .replace(/\s*\bheight="[^"]*"/, '')
-    .trim();
-  const escapedAttrs = esc(attrsWithoutSize);
-  const escapedBody = esc(svgBody);
-  const escapedName = name.replace(/'/g, "\\'");
-  const escapedDesc = esc(description.slice(0, 300));
+const generateElementFile = (entry: ComponentEntry): string => {
+  const componentName = toComponentName(entry.id);
+  const { lines, bodyExpr } = componentConstants(entry);
 
   return [
     `// THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.`,
     `// Run 'yarn generate' to regenerate.`,
     ``,
-    `const _Attrs = \`${escapedAttrs}\`;`,
-    `const _Body = \`${escapedBody}\`;`,
-    `const _DefaultDesc = \`${escapedDesc}\`;`,
-    `const _DefaultTitle = '${escapedName}';`,
-    `const _DefaultWidth = \`${esc(defaultWidth)}\`;`,
-    `const _DefaultHeight = \`${esc(defaultHeight)}\`;`,
-    `const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');`,
+    ...lines,
+    `let _instances = 0;`,
     ``,
     `export class ${componentName} extends HTMLElement {`,
-    `  static readonly tagName = 'ghs-${id}';`,
-    `  static readonly observedAttributes = ['title', 'description', 'width', 'height'];`,
+    `  static readonly tagName = 'ghs-${entry.id}';`,
+    `  static readonly observedAttributes = ['title', 'description', 'width', 'height', 'aria-label'];`,
+    ``,
+    `  private readonly _uid = \`ghs-${entry.id}-\${++_instances}\`;`,
     ``,
     `  connectedCallback(): void { this._render(); }`,
-    `  attributeChangedCallback(): void { this._render(); }`,
+    `  attributeChangedCallback(): void { if (this.isConnected) this._render(); }`,
     ``,
     `  private _render(): void {`,
-    `    const descId = \`ghs-desc-${id}\`;`,
-    `    const titleId = \`ghs-title-${id}\`;`,
+    `    const uid = this._uid;`,
     `    const _w = this.hasAttribute('width') ? _h(this.getAttribute('width')!) : _DefaultWidth;`,
     `    const _ht = this.hasAttribute('height') ? _h(this.getAttribute('height')!) : _DefaultHeight;`,
     `    const resolvedTitle = this.getAttribute('title') ?? _DefaultTitle;`,
     `    const resolvedDesc = this.getAttribute('description') ?? _DefaultDesc;`,
-    `    this.style.display = 'contents';`,
-    `    this.innerHTML = \`<svg \${_Attrs} width="\${_w}" height="\${_ht}" role="img" aria-labelledby="\${titleId} \${descId}">`,
-    `  <title id="\${titleId}">\${_h(resolvedTitle)}</title>`,
-    `  <desc id="\${descId}">\${_h(resolvedDesc)}</desc>`,
-    `  \${_Body}</svg>\`;`,
+    `    const ariaLabel = this.getAttribute('aria-label');`,
+    ...svgHtmlLines(bodyExpr, '    '),
+    `    if (!this.style.display) this.style.display = 'contents';`,
+    `    this.innerHTML = svgHtml;`,
     `  }`,
     `}`,
     ``,
@@ -561,7 +534,8 @@ const generateDefineCustomElements = (
     ` *`,
     ` * @param prefix — tag-name prefix (default \`"ghs"\`). Each element is registered`,
     ` *   as \`{prefix}-{id}\`, e.g. \`ghs-ghs01-explosive\` or \`ghs-division-2-3\`.`,
-    ` *   Pass a custom string to avoid conflicts with other libraries.`,
+    ` *   Pass a custom string to avoid conflicts with other libraries. May be called`,
+    ` *   several times with different prefixes.`,
     ` * @example`,
     ` * \`\`\`ts`,
     ` * import { defineCustomElements } from '@ghs-hazard-pictograms/elements';`,
@@ -571,7 +545,9 @@ const generateDefineCustomElements = (
     `export function defineCustomElements(prefix = 'ghs'): void {`,
     `  for (const [cls, defaultTag] of _elements) {`,
     `    const tag = prefix === 'ghs' ? defaultTag : \`\${prefix}-\${defaultTag.replace(/^ghs-/, '')}\`;`,
-    `    if (!customElements.get(tag)) customElements.define(tag, cls);`,
+    `    if (customElements.get(tag)) continue;`,
+    `    // A constructor can only be registered once, so other prefixes get their own subclass.`,
+    `    customElements.define(tag, tag === defaultTag ? cls : class extends cls {});`,
     `  }`,
     `}`,
     ``,
@@ -593,6 +569,20 @@ const generateElementsIndex = (componentNames: string[]): string =>
     ``,
   ].join('\n');
 
+/**
+ * Deletes auto-generated files in `dir` that were not written by this run,
+ * e.g. components for pictograms that no longer exist upstream.
+ */
+const removeStaleGenerated = (dir: string, written: Set<string>): void => {
+  for (const file of fs.readdirSync(dir)) {
+    const full = path.join(dir, file);
+    if (written.has(full) || !fs.statSync(full).isFile()) continue;
+    if (fs.readFileSync(full, 'utf-8').startsWith('// THIS FILE IS AUTO-GENERATED.')) {
+      fs.unlinkSync(full);
+      console.log(`Removed stale: ${full}`);
+    }
+  }
+};
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -632,7 +622,7 @@ const generateSource = async (): Promise<void> => {
   // Deduplicate by SVG key — GHS05 appears in both physical and physical+health sections.
   const seen = new Set<string>();
   const pictograms: Pictogram[] = [];
-  const reactEntries: ReactEntry[] = [];
+  const componentEntries: ComponentEntry[] = [];
 
   for (const { category, pictogram, svgKey } of entries) {
     const { code, name } = parseTitle(pictogram.title);
@@ -651,18 +641,21 @@ const generateSource = async (): Promise<void> => {
     const assets = buildAssets(svgKey ?? `${id}/${id}.svg`);
     const description = (pictogram.copy ?? '').trim();
 
-    pictograms.push({ assets, category, code, description, id, name, svg: svgContent });
-    reactEntries.push({
-      description: description.slice(0, 300),
-      id,
-      name,
-      optimizedSvg: cleanSvg(optimizeSvg(svgContent)),
-    });
+    const optimizedSvg = ensureViewBox(cleanSvg(optimizeSvg(svgContent)));
+
+    pictograms.push({ assets, category, code, description, id, name, svg: optimizedSvg });
+    componentEntries.push({ description, id, name, optimizedSvg });
 
     console.log(`  + ${id} (${category})`);
   }
 
   console.log(`\nGenerating source files for ${pictograms.length} pictograms...`);
+
+  const written = new Set<string>();
+  const write = (file: string, content: string): void => {
+    fs.writeFileSync(file, content, 'utf-8');
+    written.add(file);
+  };
 
   // packages/@ghs-hazard-pictograms/core/src/pictograms.generated.ts
   const pictogramsOut = path.join(
@@ -672,7 +665,7 @@ const generateSource = async (): Promise<void> => {
     'src',
     'pictograms.generated.ts',
   );
-  fs.writeFileSync(pictogramsOut, generatePictogramsFile(pictograms), 'utf-8');
+  write(pictogramsOut, generatePictogramsFile(pictograms));
   console.log(`Written: ${pictogramsOut}`);
 
   // packages/@ghs-hazard-pictograms/react/src/ — individual component files, shared props, and barrel index
@@ -680,54 +673,41 @@ const generateSource = async (): Promise<void> => {
   fs.mkdirSync(reactDir, { recursive: true });
 
   const propsOut = path.join(reactDir, 'PictogramProps.ts');
-  fs.writeFileSync(propsOut, generatePropsFile(), 'utf-8');
+  write(propsOut, generatePropsFile());
   console.log(`Written: ${propsOut}`);
 
   const componentNames: string[] = [];
-  for (const entry of reactEntries) {
+  for (const entry of componentEntries) {
     const componentName = toComponentName(entry.id);
     componentNames.push(componentName);
     const componentOut = path.join(reactDir, `${componentName}.tsx`);
-    fs.writeFileSync(componentOut, generateComponentFile(entry), 'utf-8');
+    write(componentOut, generateComponentFile(entry));
     console.log(`Written: ${componentOut}`);
   }
 
   const reactIndexOut = path.join(reactDir, 'index.ts');
-  fs.writeFileSync(reactIndexOut, generateReactIndex(componentNames), 'utf-8');
+  write(reactIndexOut, generateReactIndex(componentNames));
   console.log(`Written: ${reactIndexOut}`);
-
-  // Remove the legacy monolithic components file if it still exists.
-  const legacyReactOut = path.join(
-    'packages',
-    '@ghs-hazard-pictograms',
-    'react',
-    'src',
-    'components.generated.tsx',
-  );
-  if (fs.existsSync(legacyReactOut)) {
-    fs.unlinkSync(legacyReactOut);
-    console.log(`Removed: ${legacyReactOut}`);
-  }
 
   // packages/@ghs-hazard-pictograms/vue/src/ — individual component files, shared props, and barrel index
   const vueDir = path.join('packages', '@ghs-hazard-pictograms', 'vue', 'src');
   fs.mkdirSync(vueDir, { recursive: true });
 
   const vuePropsOut = path.join(vueDir, 'PictogramProps.ts');
-  fs.writeFileSync(vuePropsOut, generateVuePropsFile(), 'utf-8');
+  write(vuePropsOut, generateVuePropsFile());
   console.log(`Written: ${vuePropsOut}`);
 
   const vueComponentNames: string[] = [];
-  for (const entry of reactEntries) {
+  for (const entry of componentEntries) {
     const componentName = toComponentName(entry.id);
     vueComponentNames.push(componentName);
     const componentOut = path.join(vueDir, `${componentName}.ts`);
-    fs.writeFileSync(componentOut, generateVueComponentFile(entry), 'utf-8');
+    write(componentOut, generateVueComponentFile(entry));
     console.log(`Written: ${componentOut}`);
   }
 
   const vueIndexOut = path.join(vueDir, 'index.ts');
-  fs.writeFileSync(vueIndexOut, generateVueIndex(vueComponentNames), 'utf-8');
+  write(vueIndexOut, generateVueIndex(vueComponentNames));
   console.log(`Written: ${vueIndexOut}`);
 
   // packages/@ghs-hazard-pictograms/elements/src/ — individual element files, defineCustomElements helper, and barrel index
@@ -735,25 +715,23 @@ const generateSource = async (): Promise<void> => {
   fs.mkdirSync(elementsDir, { recursive: true });
 
   const elementEntries: Array<{ id: string; componentName: string }> = [];
-  for (const entry of reactEntries) {
+  for (const entry of componentEntries) {
     const componentName = toComponentName(entry.id);
     elementEntries.push({ id: entry.id, componentName });
     const componentOut = path.join(elementsDir, `${componentName}.ts`);
-    fs.writeFileSync(componentOut, generateElementFile(entry), 'utf-8');
+    write(componentOut, generateElementFile(entry));
     console.log(`Written: ${componentOut}`);
   }
 
   const defineOut = path.join(elementsDir, 'defineCustomElements.ts');
-  fs.writeFileSync(defineOut, generateDefineCustomElements(elementEntries), 'utf-8');
+  write(defineOut, generateDefineCustomElements(elementEntries));
   console.log(`Written: ${defineOut}`);
 
   const elementsIndexOut = path.join(elementsDir, 'index.ts');
-  fs.writeFileSync(
-    elementsIndexOut,
-    generateElementsIndex(elementEntries.map((e) => e.componentName)),
-    'utf-8',
-  );
+  write(elementsIndexOut, generateElementsIndex(elementEntries.map((e) => e.componentName)));
   console.log(`Written: ${elementsIndexOut}`);
+
+  for (const dir of [reactDir, vueDir, elementsDir]) removeStaleGenerated(dir, written);
 
   console.log('\nDone.');
 };

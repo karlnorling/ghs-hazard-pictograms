@@ -80,7 +80,7 @@ interface Pictogram {
 type PictogramCategory =
   | 'physical_hazards'
   | 'health_hazards'
-  | 'physical_and_health_hazards'
+  | 'physical_and_health_hazards' // unused: GHS05 is filed under physical_hazards
   | 'environmental_hazards'
   | 'transport';
 ```

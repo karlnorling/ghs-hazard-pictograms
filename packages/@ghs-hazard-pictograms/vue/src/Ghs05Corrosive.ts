@@ -11,6 +11,7 @@ const _DefaultTitle = 'Corrosive';
 const _DefaultWidth = `724`;
 const _DefaultHeight = `724`;
 const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+let _instances = 0;
 
 export const Ghs05Corrosive = defineComponent({
   name: 'Ghs05Corrosive',
@@ -19,22 +20,21 @@ export const Ghs05Corrosive = defineComponent({
     ...pictogramProps,
   },
   setup(props, { attrs }) {
+    const uid = `ghs-ghs05-corrosive-${++_instances}`;
     return () => {
-      const descId = `ghs-desc-ghs05-corrosive`;
-      const titleId = `ghs-title-ghs05-corrosive`;
+      const { 'aria-label': ariaLabel, style, ...rest } = attrs;
       const _w = props.width !== undefined ? _h(String(props.width)) : _DefaultWidth;
       const _ht = props.height !== undefined ? _h(String(props.height)) : _DefaultHeight;
       const resolvedTitle = props.title ?? _DefaultTitle;
       const resolvedDesc = props.description ?? _DefaultDesc;
-      const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" aria-labelledby="${titleId} ${descId}">
+      const titleId = `${uid}--title`;
+      const descId = `${uid}--desc`;
+      const label = ariaLabel != null ? `aria-label="${_h(String(ariaLabel))}"` : `aria-labelledby="${titleId} ${descId}"`;
+      const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" ${label}>
   <title id="${titleId}">${_h(resolvedTitle)}</title>
   <desc id="${descId}">${_h(resolvedDesc)}</desc>
   ${_Body}</svg>`;
-      return h('span', {
-        ...attrs,
-        style: { display: 'contents', ...(typeof attrs.style === 'object' ? (attrs.style as Record<string, unknown>) : {}) },
-        innerHTML: svgHtml,
-      });
+      return h('span', { ...rest, style: [{ display: 'contents' }, style], innerHTML: svgHtml });
     };
   },
 });

@@ -8,25 +8,32 @@ const _DefaultTitle = 'Class 6.2';
 const _DefaultWidth = `105.186`;
 const _DefaultHeight = `104.586`;
 const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+let _instances = 0;
 
 export class Class62 extends HTMLElement {
   static readonly tagName = 'ghs-class-6-2';
-  static readonly observedAttributes = ['title', 'description', 'width', 'height'];
+  static readonly observedAttributes = ['title', 'description', 'width', 'height', 'aria-label'];
+
+  private readonly _uid = `ghs-class-6-2-${++_instances}`;
 
   connectedCallback(): void { this._render(); }
-  attributeChangedCallback(): void { this._render(); }
+  attributeChangedCallback(): void { if (this.isConnected) this._render(); }
 
   private _render(): void {
-    const descId = `ghs-desc-class-6-2`;
-    const titleId = `ghs-title-class-6-2`;
+    const uid = this._uid;
     const _w = this.hasAttribute('width') ? _h(this.getAttribute('width')!) : _DefaultWidth;
     const _ht = this.hasAttribute('height') ? _h(this.getAttribute('height')!) : _DefaultHeight;
     const resolvedTitle = this.getAttribute('title') ?? _DefaultTitle;
     const resolvedDesc = this.getAttribute('description') ?? _DefaultDesc;
-    this.style.display = 'contents';
-    this.innerHTML = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" aria-labelledby="${titleId} ${descId}">
+    const ariaLabel = this.getAttribute('aria-label');
+    const titleId = `${uid}--title`;
+    const descId = `${uid}--desc`;
+    const label = ariaLabel != null ? `aria-label="${_h(String(ariaLabel))}"` : `aria-labelledby="${titleId} ${descId}"`;
+    const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" ${label}>
   <title id="${titleId}">${_h(resolvedTitle)}</title>
   <desc id="${descId}">${_h(resolvedDesc)}</desc>
   ${_Body}</svg>`;
+    if (!this.style.display) this.style.display = 'contents';
+    this.innerHTML = svgHtml;
   }
 }

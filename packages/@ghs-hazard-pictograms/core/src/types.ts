@@ -7,7 +7,9 @@
  * Category of a GHS or transport hazard pictogram.
  * - `physical_hazards` — GHS01–GHS05 (explosive, flammable, oxidising, compressed gas, corrosive)
  * - `health_hazards` — GHS06–GHS08 (toxic, health hazard, serious health hazard)
- * - `physical_and_health_hazards` — GHS05 Corrosive (listed in both physical and health sections)
+ * - `physical_and_health_hazards` — currently unused. Wikipedia lists GHS05 Corrosive in both the
+ *   physical and the physical-and-health sections; the registry keeps one entry, filed under
+ *   `physical_hazards`, so filtering by this category returns an empty array.
  * - `environmental_hazards` — GHS09 (hazardous to the aquatic environment)
  * - `transport` — UN transport hazard class pictograms (divisions 1.1–9)
  */
@@ -49,6 +51,9 @@ export interface Pictogram {
   id: string;
   /** Human-readable name, e.g. `"Explosive"`. */
   name: string;
-  /** Full inline SVG string (optimised by SVGO). */
+  /**
+   * Full inline SVG string, optimised by SVGO. The root `<svg>` always has a `viewBox`,
+   * so the image scales to any `width`/`height`.
+   */
   svg: string;
 }

@@ -3,7 +3,10 @@
 
 import type { PropType } from 'vue';
 
-/** Reusable Vue prop definitions shared by every generated GHS pictogram component. */
+/**
+ * Reusable Vue prop definitions shared by every generated GHS pictogram component.
+ * An `aria-label` attribute, if given, labels the `<svg>` directly instead of its `<title>`/`<desc>`.
+ */
 export const pictogramProps = {
   /** Accessible description injected as `<desc>` inside the SVG. Defaults to the Wikipedia hazard description. */
   description: { type: String as PropType<string> },

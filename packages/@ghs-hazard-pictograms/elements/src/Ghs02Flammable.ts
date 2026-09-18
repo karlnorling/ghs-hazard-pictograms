@@ -11,30 +11,40 @@ Self-reactive substances and mixtures, types B, C, D, E, F
 Pyrophoric liquids, category 1
 Pyrophoric solids, category 1
 Combustible solids, category 3
-Combustibl`;
+Combustible liquids, category 3
+Self-heating substances and mixtures, categories 1, 2
+Substances and mixtures, which in contact with water, emit flammable gases, categories 1, 2, 3
+Organic peroxides, types B, C, D, E, F`;
 const _DefaultTitle = 'Flammable';
 const _DefaultWidth = `100%`;
 const _DefaultHeight = `100%`;
 const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+let _instances = 0;
 
 export class Ghs02Flammable extends HTMLElement {
   static readonly tagName = 'ghs-ghs02-flammable';
-  static readonly observedAttributes = ['title', 'description', 'width', 'height'];
+  static readonly observedAttributes = ['title', 'description', 'width', 'height', 'aria-label'];
+
+  private readonly _uid = `ghs-ghs02-flammable-${++_instances}`;
 
   connectedCallback(): void { this._render(); }
-  attributeChangedCallback(): void { this._render(); }
+  attributeChangedCallback(): void { if (this.isConnected) this._render(); }
 
   private _render(): void {
-    const descId = `ghs-desc-ghs02-flammable`;
-    const titleId = `ghs-title-ghs02-flammable`;
+    const uid = this._uid;
     const _w = this.hasAttribute('width') ? _h(this.getAttribute('width')!) : _DefaultWidth;
     const _ht = this.hasAttribute('height') ? _h(this.getAttribute('height')!) : _DefaultHeight;
     const resolvedTitle = this.getAttribute('title') ?? _DefaultTitle;
     const resolvedDesc = this.getAttribute('description') ?? _DefaultDesc;
-    this.style.display = 'contents';
-    this.innerHTML = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" aria-labelledby="${titleId} ${descId}">
+    const ariaLabel = this.getAttribute('aria-label');
+    const titleId = `${uid}--title`;
+    const descId = `${uid}--desc`;
+    const label = ariaLabel != null ? `aria-label="${_h(String(ariaLabel))}"` : `aria-labelledby="${titleId} ${descId}"`;
+    const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" ${label}>
   <title id="${titleId}">${_h(resolvedTitle)}</title>
   <desc id="${descId}">${_h(resolvedDesc)}</desc>
   ${_Body}</svg>`;
+    if (!this.style.display) this.style.display = 'contents';
+    this.innerHTML = svgHtml;
   }
 }

@@ -11,7 +11,9 @@ Germ cell mutagenicity, categories 1A, 1B, 2
 Carcinogenicity, categories 1A, 1B, 2
 Reproductive toxicity, categories 1A, 1B, 2
 Specific target organ toxicity following single exposure, categories 1, 2
-Specific target organ toxicity following repeated exposure, c`;
+Specific target organ toxicity following repeated exposure, categories 1, 2
+Aspiration hazard, categories 1, 2
+e.g. chromium, cadmium`;
 const _DefaultTitle = 'Serious Health Hazard';
 const _DefaultWidth = `724`;
 const _DefaultHeight = `724`;
@@ -20,23 +22,24 @@ const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace
 export const Ghs08SeriousHealthHazard = React.memo<PictogramProps>(({
   'aria-label': ariaLabel,
   className,
-  description = _DefaultDesc,
+  description: resolvedDesc = _DefaultDesc,
   height,
   style,
-  title = _DefaultTitle,
+  title: resolvedTitle = _DefaultTitle,
   width,
 }) => {
-  const descId = `ghs-desc-ghs08-serious-health-hazard`;
-  const titleId = `ghs-title-ghs08-serious-health-hazard`;
+  const uid = `ghs-ghs08-serious-health-hazard-${React.useId().replace(/[^\w-]/g, '')}`;
   const _w = width !== undefined ? _h(String(width)) : _DefaultWidth;
   const _ht = height !== undefined ? _h(String(height)) : _DefaultHeight;
-  const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" aria-labelledby="${titleId} ${descId}">
-  <title id="${titleId}">${_h(title)}</title>
-  <desc id="${descId}">${_h(description)}</desc>
+  const titleId = `${uid}--title`;
+  const descId = `${uid}--desc`;
+  const label = ariaLabel != null ? `aria-label="${_h(String(ariaLabel))}"` : `aria-labelledby="${titleId} ${descId}"`;
+  const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" ${label}>
+  <title id="${titleId}">${_h(resolvedTitle)}</title>
+  <desc id="${descId}">${_h(resolvedDesc)}</desc>
   ${_Body}</svg>`;
   return (
     <span
-      aria-label={ariaLabel}
       className={className}
       dangerouslySetInnerHTML={{ __html: svgHtml }}
       style={{ display: 'contents', ...style }}

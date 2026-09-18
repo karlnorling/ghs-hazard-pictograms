@@ -146,7 +146,7 @@ Available sizes: **240, 512, 768, 1024, 2048** px².
 type PictogramCategory =
   | 'physical_hazards' // GHS01–GHS05 (explosive, flammable, oxidising, compressed gas, corrosive)
   | 'health_hazards' // GHS06–GHS08 (toxic, health hazard, serious health hazard)
-  | 'physical_and_health_hazards' // GHS05 Corrosive (listed in both sections)
+  | 'physical_and_health_hazards' // unused: GHS05 is filed under physical_hazards
   | 'environmental_hazards' // GHS09 (hazardous to the aquatic environment)
   | 'transport'; // UN transport hazard class pictograms (divisions 1.1–9)
 ```
