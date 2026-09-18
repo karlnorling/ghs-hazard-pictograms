@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "module": "commonjs",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "paths": {
       "@ghs-hazard-pictograms/core": ["../core/src/index.ts"]
     }

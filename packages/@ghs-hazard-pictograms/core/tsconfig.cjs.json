@@ -2,7 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "moduleResolution": "node",
-    "outDir": "./dist/cjs"
+    "moduleResolution": "bundler",
+    "outDir": "./dist/cjs",
+    "rootDir": "./src"
   }
 }

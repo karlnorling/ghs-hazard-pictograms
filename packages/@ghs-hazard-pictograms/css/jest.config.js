@@ -11,6 +11,7 @@ const config = {
       {
         tsconfig: {
           esModuleInterop: true,
+          types: ['jest'],
           skipLibCheck: true,
           paths: {
             '@ghs-hazard-pictograms/core': ['../core/src/index.ts'],

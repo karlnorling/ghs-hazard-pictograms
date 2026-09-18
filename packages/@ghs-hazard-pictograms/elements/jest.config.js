@@ -11,6 +11,7 @@ const config = {
       {
         tsconfig: {
           esModuleInterop: true,
+          types: ['jest'],
           skipLibCheck: true,
           lib: ['ES2022', 'DOM'],
         },
