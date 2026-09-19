@@ -11,6 +11,7 @@ const _DefaultTitle = 'Division 4.2';
 const _DefaultWidth = `708.251`;
 const _DefaultHeight = `711.986`;
 const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+let _instances = 0;
 
 export const Division42 = defineComponent({
   name: 'Division42',
@@ -19,22 +20,21 @@ export const Division42 = defineComponent({
     ...pictogramProps,
   },
   setup(props, { attrs }) {
+    const uid = `ghs-division-4-2-${++_instances}`;
     return () => {
-      const descId = `ghs-desc-division-4-2`;
-      const titleId = `ghs-title-division-4-2`;
+      const { 'aria-label': ariaLabel, style, ...rest } = attrs;
       const _w = props.width !== undefined ? _h(String(props.width)) : _DefaultWidth;
       const _ht = props.height !== undefined ? _h(String(props.height)) : _DefaultHeight;
       const resolvedTitle = props.title ?? _DefaultTitle;
       const resolvedDesc = props.description ?? _DefaultDesc;
-      const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" aria-labelledby="${titleId} ${descId}">
+      const titleId = `${uid}--title`;
+      const descId = `${uid}--desc`;
+      const label = ariaLabel != null ? `aria-label="${_h(String(ariaLabel))}"` : `aria-labelledby="${titleId} ${descId}"`;
+      const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" ${label}>
   <title id="${titleId}">${_h(resolvedTitle)}</title>
   <desc id="${descId}">${_h(resolvedDesc)}</desc>
   ${_Body}</svg>`;
-      return h('span', {
-        ...attrs,
-        style: { display: 'contents', ...(typeof attrs.style === 'object' ? (attrs.style as Record<string, unknown>) : {}) },
-        innerHTML: svgHtml,
-      });
+      return h('span', { ...rest, style: [{ display: 'contents' }, style], innerHTML: svgHtml });
     };
   },
 });

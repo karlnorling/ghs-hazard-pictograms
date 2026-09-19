@@ -1,5 +1,7 @@
 import {
   getAllPictograms,
+  renderSvg,
+  splitSvg,
   getPictogram,
   getPictogramsByCategory,
   getGHSPictograms,
@@ -113,5 +115,56 @@ describe('pictogram data quality', () => {
         expect(p.assets.webp[size]).toBeTruthy();
       }
     }
+  });
+});
+
+describe('pictogram SVG data', () => {
+  it('returns a copy from getAllPictograms()', () => {
+    const all = getAllPictograms();
+    all.length = 0;
+    expect(getAllPictograms().length).toBeGreaterThan(0);
+  });
+
+  it('every SVG is optimised and has a viewBox', () => {
+    for (const p of getAllPictograms()) {
+      expect(p.svg).not.toContain('<?xml');
+      expect(p.svg).not.toMatch(/sodipodi|inkscape:/);
+      expect(p.svg).toMatch(/^<svg[^>]*\sviewBox="[^"]+"/);
+    }
+  });
+});
+
+describe('SVG helpers', () => {
+  const svg =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="20" viewBox="0 0 10 20">' +
+    '<defs><linearGradient id="g"/></defs><rect fill="url(#g)"/><use href="#g"/></svg>';
+
+  it('splitSvg separates size, attributes and body', () => {
+    const parts = splitSvg(svg);
+    expect(parts.width).toBe('10');
+    expect(parts.height).toBe('20');
+    expect(parts.attrs).toBe('xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 20"');
+  });
+
+  it('renderSvg scopes internal IDs and references to the instance', () => {
+    const html = renderSvg(splitSvg(svg), { uid: 'x1', title: 'T', description: 'D' });
+    expect(html).toContain('id="x1-g"');
+    expect(html).toContain('url(#x1-g)');
+    expect(html).toContain('href="#x1-g"');
+    expect(html).toContain('aria-labelledby="x1--title x1--desc"');
+  });
+
+  it('renderSvg escapes user-supplied values', () => {
+    const html = renderSvg(splitSvg(svg), {
+      uid: 'x',
+      title: '<b>',
+      description: '"',
+      ariaLabel: '"><script>',
+      width: '1" onload="x',
+    });
+    expect(html).not.toContain('<b>');
+    expect(html).not.toContain('<script>');
+    expect(html).toContain('width="1&quot; onload=&quot;x"');
+    expect(html).toContain('aria-label="&quot;&gt;&lt;script&gt;"');
   });
 });

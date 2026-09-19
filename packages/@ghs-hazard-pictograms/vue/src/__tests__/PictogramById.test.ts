@@ -58,14 +58,6 @@ describe('PictogramById', () => {
     expect(wrapper.element.style.opacity).toBe('0.5');
   });
 
-  it('sets aria-label on the wrapping span', () => {
-    const wrapper = mount(PictogramById, {
-      props: { id: 'ghs01-explosive' },
-      attrs: { 'aria-label': 'Explosive hazard' },
-    });
-    expect(wrapper.attributes('aria-label')).toBe('Explosive hazard');
-  });
-
   it('HTML-escapes title and description props', () => {
     const wrapper = mount(PictogramById, {
       props: {
@@ -85,5 +77,32 @@ describe('PictogramById', () => {
     });
     expect(wrapper.findAll('img').length).toBe(0);
     expect(wrapper.findAll('script').length).toBe(0);
+  });
+
+  it('merges a string style attribute with display: contents', () => {
+    const wrapper = mount(PictogramById, {
+      props: { id: 'ghs01-explosive' },
+      attrs: { style: 'color: red' },
+    });
+    const style = (wrapper.element as HTMLElement).style;
+    expect(style.display).toBe('contents');
+    expect(style.color).toBe('red');
+  });
+
+  it('labels the svg directly when aria-label is given', () => {
+    const wrapper = mount(PictogramById, {
+      props: { id: 'ghs01-explosive' },
+      attrs: { 'aria-label': 'Danger' },
+    });
+    const svg = wrapper.find('svg').element;
+    expect(wrapper.element.hasAttribute('aria-label')).toBe(false);
+    expect(svg.getAttribute('aria-label')).toBe('Danger');
+    expect(svg.hasAttribute('aria-labelledby')).toBe(false);
+  });
+
+  it('gives each instance its own title/desc IDs', () => {
+    const a = mount(PictogramById, { props: { id: 'ghs01-explosive' } });
+    const b = mount(PictogramById, { props: { id: 'ghs01-explosive' } });
+    expect(a.find('title').attributes('id')).not.toBe(b.find('title').attributes('id'));
   });
 });

@@ -99,4 +99,27 @@ describe('GhsPictogram', () => {
     expect(el.querySelectorAll('img').length).toBe(0);
     expect(el.querySelectorAll('script').length).toBe(0);
   });
+
+  it('gives each instance its own title/desc IDs', () => {
+    mount({ 'pictogram-id': 'ghs01-explosive' });
+    mount({ 'pictogram-id': 'ghs01-explosive' });
+    const ids = [...document.querySelectorAll('[id]')].map((el) => el.id);
+    expect(ids).toHaveLength(4);
+    expect(new Set(ids).size).toBe(4);
+  });
+
+  it('labels the svg directly when aria-label is given', () => {
+    const el = mount({ 'pictogram-id': 'ghs01-explosive', 'aria-label': 'Danger' });
+    const svg = el.querySelector('svg')!;
+    expect(svg.getAttribute('aria-label')).toBe('Danger');
+    expect(svg.hasAttribute('aria-labelledby')).toBe(false);
+  });
+
+  it('keeps a display value set by the user', () => {
+    const el = document.createElement(TAG) as GhsPictogram;
+    el.style.display = 'inline-block';
+    el.setAttribute('pictogram-id', 'ghs01-explosive');
+    document.body.appendChild(el);
+    expect(el.style.display).toBe('inline-block');
+  });
 });

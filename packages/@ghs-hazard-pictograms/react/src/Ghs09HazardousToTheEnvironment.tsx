@@ -16,23 +16,24 @@ const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace
 export const Ghs09HazardousToTheEnvironment = React.memo<PictogramProps>(({
   'aria-label': ariaLabel,
   className,
-  description = _DefaultDesc,
+  description: resolvedDesc = _DefaultDesc,
   height,
   style,
-  title = _DefaultTitle,
+  title: resolvedTitle = _DefaultTitle,
   width,
 }) => {
-  const descId = `ghs-desc-ghs09-hazardous-to-the-environment`;
-  const titleId = `ghs-title-ghs09-hazardous-to-the-environment`;
+  const uid = `ghs-ghs09-hazardous-to-the-environment-${React.useId().replace(/[^\w-]/g, '')}`;
   const _w = width !== undefined ? _h(String(width)) : _DefaultWidth;
   const _ht = height !== undefined ? _h(String(height)) : _DefaultHeight;
-  const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" aria-labelledby="${titleId} ${descId}">
-  <title id="${titleId}">${_h(title)}</title>
-  <desc id="${descId}">${_h(description)}</desc>
+  const titleId = `${uid}--title`;
+  const descId = `${uid}--desc`;
+  const label = ariaLabel != null ? `aria-label="${_h(String(ariaLabel))}"` : `aria-labelledby="${titleId} ${descId}"`;
+  const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" ${label}>
+  <title id="${titleId}">${_h(resolvedTitle)}</title>
+  <desc id="${descId}">${_h(resolvedDesc)}</desc>
   ${_Body}</svg>`;
   return (
     <span
-      aria-label={ariaLabel}
       className={className}
       dangerouslySetInnerHTML={{ __html: svgHtml }}
       style={{ display: 'contents', ...style }}

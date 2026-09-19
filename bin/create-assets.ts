@@ -181,6 +181,9 @@ const convertImages = async (image: string): Promise<void> => {
 // Download orchestration
 // ---------------------------------------------------------------------------
 
+/** Image file names already handled by {@link processImages} during this run. */
+const processedImages = new Set<string>();
+
 /**
  * Downloads images for a list of Wikimedia file-page URLs into `destDir`,
  * skipping any files that already exist. Converts each downloaded SVG to all
@@ -190,10 +193,13 @@ const convertImages = async (image: string): Promise<void> => {
  * @param images - Array of Wikimedia file-page URLs.
  */
 const processImages = async (destDir: string, images: string[]): Promise<void> => {
-  await fs.promises.mkdir(destDir, { recursive: true });
-
   for (const imgPageUrl of images) {
     const imgName = decodeURIComponent(path.basename(imgPageUrl)).replace(/^File:/, '');
+    // Wikipedia lists some pictograms (e.g. GHS05) in more than one section; keep only the first copy.
+    if (processedImages.has(imgName)) continue;
+    processedImages.add(imgName);
+
+    await fs.promises.mkdir(destDir, { recursive: true });
     const dest = path.join(destDir, imgName);
 
     // Skip if the SVG already exists and is non-empty to avoid re-downloading on re-runs.
@@ -228,7 +234,7 @@ const ASSETS_ROOT = path.join('packages', '@ghs-hazard-pictograms', 'assets', 'a
  * Builds `packages/@ghs-hazard-pictograms/assets/assets/svg-map.json` — a JSON object mapping each SVG's
  * relative path (within the assets directory) to its full SVG content string.
  */
-const createSVGMap = async (): Promise<void> => {
+export const createSVGMap = async (): Promise<void> => {
   const svgMap: Record<string, string> = {};
   const svgFiles = globSync(path.join(ASSETS_ROOT, '**', '*.svg'));
 
@@ -249,7 +255,7 @@ const createSVGMap = async (): Promise<void> => {
  *
  * Also writes `packages/@ghs-hazard-pictograms/sprite/sprite-ids.json` with the list of symbol IDs.
  */
-const createSVGSprite = async (): Promise<void> => {
+export const createSVGSprite = async (): Promise<void> => {
   const spriteDir = path.join('packages', '@ghs-hazard-pictograms', 'sprite');
   await fs.promises.mkdir(spriteDir, { recursive: true });
 
@@ -292,7 +298,7 @@ const createSVGSprite = async (): Promise<void> => {
   console.log(`SVG sprite written to ${spriteFile} (${ids.length} symbols)`);
 
   const idMapFile = path.join(spriteDir, 'sprite-ids.json');
-  await fs.promises.writeFile(idMapFile, JSON.stringify(ids, null, 2), 'utf-8');
+  await fs.promises.writeFile(idMapFile, JSON.stringify(ids, null, 2) + '\n', 'utf-8');
   console.log(`SVG sprite ID map written to ${idMapFile}`);
 };
 
@@ -332,7 +338,7 @@ const shortCssClassName = (key: string): string => {
  * URL paths are relative from the css package to the assets package, which works both
  * in the monorepo (via node_modules symlinks) and when packages are installed separately.
  */
-const createCSSSprite = async (): Promise<void> => {
+export const createCSSSprite = async (): Promise<void> => {
   const cssPkgDir = path.join('packages', '@ghs-hazard-pictograms', 'css');
   await fs.promises.mkdir(cssPkgDir, { recursive: true });
 

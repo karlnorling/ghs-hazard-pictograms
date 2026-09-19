@@ -8,25 +8,32 @@ const _DefaultTitle = 'ADR 7E';
 const _DefaultWidth = `328.846`;
 const _DefaultHeight = `328.846`;
 const _h = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+let _instances = 0;
 
 export class Adr7e extends HTMLElement {
   static readonly tagName = 'ghs-adr-7e';
-  static readonly observedAttributes = ['title', 'description', 'width', 'height'];
+  static readonly observedAttributes = ['title', 'description', 'width', 'height', 'aria-label'];
+
+  private readonly _uid = `ghs-adr-7e-${++_instances}`;
 
   connectedCallback(): void { this._render(); }
-  attributeChangedCallback(): void { this._render(); }
+  attributeChangedCallback(): void { if (this.isConnected) this._render(); }
 
   private _render(): void {
-    const descId = `ghs-desc-adr-7e`;
-    const titleId = `ghs-title-adr-7e`;
+    const uid = this._uid;
     const _w = this.hasAttribute('width') ? _h(this.getAttribute('width')!) : _DefaultWidth;
     const _ht = this.hasAttribute('height') ? _h(this.getAttribute('height')!) : _DefaultHeight;
     const resolvedTitle = this.getAttribute('title') ?? _DefaultTitle;
     const resolvedDesc = this.getAttribute('description') ?? _DefaultDesc;
-    this.style.display = 'contents';
-    this.innerHTML = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" aria-labelledby="${titleId} ${descId}">
+    const ariaLabel = this.getAttribute('aria-label');
+    const titleId = `${uid}--title`;
+    const descId = `${uid}--desc`;
+    const label = ariaLabel != null ? `aria-label="${_h(String(ariaLabel))}"` : `aria-labelledby="${titleId} ${descId}"`;
+    const svgHtml = `<svg ${_Attrs} width="${_w}" height="${_ht}" role="img" ${label}>
   <title id="${titleId}">${_h(resolvedTitle)}</title>
   <desc id="${descId}">${_h(resolvedDesc)}</desc>
   ${_Body}</svg>`;
+    if (!this.style.display) this.style.display = 'contents';
+    this.innerHTML = svgHtml;
   }
 }
