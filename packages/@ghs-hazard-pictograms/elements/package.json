@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/elements",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Accessible Web Components (Custom Elements) for all GHS hazard and ADR/UN transport pictograms — framework-agnostic, zero runtime dependencies",
   "keywords": [
     "accessible",
@@ -63,7 +63,7 @@
     "type-check": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
-    "@ghs-hazard-pictograms/core": "^1.1.0"
+    "@ghs-hazard-pictograms/core": "^1.2.0"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
