@@ -108,6 +108,12 @@ const scrapedData: ScrapedData = {
 // ---------------------------------------------------------------------------
 
 /**
+ * Resolves a Wikipedia link to an absolute URL. Wikipedia used to serve
+ * root-relative `href`s (`/wiki/File:…`) and now serves absolute ones.
+ */
+const toAbsoluteUrl = (href: string): string => new URL(href, 'https://en.wikipedia.org').href;
+
+/**
  * Recursively walks the scraped data tree, filling each section's `data` field
  * by parsing the corresponding HTML table from the Wikipedia page.
  *
@@ -120,8 +126,8 @@ const scrapingData = (
   data: Record<string, unknown>,
 ): Record<string, unknown> => {
   Object.keys(data).forEach((key) => {
-    const section = data[key] as Record<string, unknown>;
-    const { nextSiblingCount, scrapeMethod } = section as ScrapedSection;
+    const section = data[key] as ScrapedSection & Record<string, unknown>;
+    const { nextSiblingCount, scrapeMethod } = section;
     const sectionData = section['data'] as Record<string, ScrapedPictogram> | undefined;
 
     if (!sectionData) {
@@ -150,7 +156,7 @@ const scrapingData = (
         const tr = rows[i];
         const imageAnchor = tr.querySelector('td a[href*="/wiki/File:"]');
         if (imageAnchor) {
-          pendingHref = `https://en.wikipedia.org${imageAnchor.getAttribute('href')}`;
+          pendingHref = toAbsoluteUrl(imageAnchor.getAttribute('href') ?? '');
           pendingCopy = tr.querySelector('td:last-child ul, td:last-child p')?.textContent ?? null;
           continue;
         }
@@ -217,7 +223,7 @@ const scrapingData = (
           pictograms[title] = {
             title,
             copy: copyText,
-            images: [`https://en.wikipedia.org${href}`],
+            images: [toAbsoluteUrl(href)],
           };
         });
       }
