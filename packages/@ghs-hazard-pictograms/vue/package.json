@@ -1,6 +1,6 @@
 {
   "name": "@ghs-hazard-pictograms/vue",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Accessible Vue 3 components for all GHS hazard and ADR/UN transport pictograms — fully typed, zero runtime dependencies beyond Vue",
   "keywords": [
     "accessible",
@@ -65,7 +65,7 @@
     "type-check": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
-    "@ghs-hazard-pictograms/core": "^1.1.0"
+    "@ghs-hazard-pictograms/core": "^1.2.0"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
