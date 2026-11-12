@@ -21,13 +21,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Enable Corepack (Yarn 4)
         run: corepack enable
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24'
           cache: 'yarn'
@@ -85,13 +85,13 @@ jobs:
     steps:
       - name: Generate GitHub App token
         id: app-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.GHS_APP_ID }}
           private-key: ${{ secrets.GHS_APP_PRIVATE_KEY }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           # Full history so changesets can compare package versions across tags.
           fetch-depth: 0
@@ -101,7 +101,7 @@ jobs:
         run: corepack enable
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
@@ -114,7 +114,7 @@ jobs:
         run: yarn compile
 
       - name: Create Version PR or Publish to npm
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
           # Yarn Berry's `yarn npm publish` uses its own HTTP client and does not
           # invoke npm CLI, so it cannot pick up the OIDC token automatically.
