@@ -12,7 +12,6 @@
 #!.yarn/cache
 .pnp.*
 node_modules
-.yarnrc.yml
 # Build output
 dist/
 
