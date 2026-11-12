@@ -25,6 +25,26 @@ START_REF=$(git rev-parse HEAD)
 
 note() { printf '  %s\n' "$1"; }
 
+PR_FIELDS='number,title,createdAt,headRefName,mergeable,mergeStateStatus,statusCheckRollup,files'
+
+# GitHub computes mergeability lazily: the first query for a PR returns
+# mergeable=UNKNOWN and merely *schedules* the computation server-side. A cold
+# sweep that trusts the first answer sees UNKNOWN for every PR and merges
+# nothing, so poll until it resolves.
+fetch_pr() {
+  local pr="$1" attempt data mergeable
+  for attempt in 1 2 3 4 5 6; do
+    data=$(gh pr view "$pr" --repo "$REPO" --json "$PR_FIELDS")
+    mergeable=$(jq -r '.mergeable' <<<"$data")
+    if [[ "$mergeable" != "UNKNOWN" ]]; then
+      printf '%s' "$data"
+      return 0
+    fi
+    sleep 2
+  done
+  printf '%s' "$data"
+}
+
 run() {
   if [[ "$DRY_RUN" == "true" ]]; then
     note "DRY RUN would: $*"
@@ -41,9 +61,14 @@ if [[ -z "$prs" ]]; then
   exit 0
 fi
 
+# Prime the lazy mergeability computation for every PR up front, so that by the
+# time the main loop reaches each one GitHub has usually already answered.
 for pr in $prs; do
-  data=$(gh pr view "$pr" --repo "$REPO" \
-    --json number,title,createdAt,headRefName,mergeable,mergeStateStatus,statusCheckRollup,files)
+  gh pr view "$pr" --repo "$REPO" --json mergeable > /dev/null 2>&1 || true
+done
+
+for pr in $prs; do
+  data=$(fetch_pr "$pr")
 
   title=$(jq -r '.title' <<<"$data")
   mergeable=$(jq -r '.mergeable' <<<"$data")
@@ -66,20 +91,22 @@ for pr in $prs; do
   note "age ${age_hours}h — past the ${MIN_AGE_HOURS}h floor"
 
   # --- Branch freshness -----------------------------------------------------
-  case "$state" in
-    DIRTY)
-      note "CONFLICTED — asking Dependabot to recreate"
-      run gh pr comment "$pr" --repo "$REPO" --body "@dependabot recreate"
-      rebased=$((rebased + 1))
-      continue
-      ;;
-    BEHIND)
-      note "BEHIND main — asking Dependabot to rebase"
-      run gh pr comment "$pr" --repo "$REPO" --body "@dependabot rebase"
-      rebased=$((rebased + 1))
-      continue
-      ;;
-  esac
+  # Conflicts are read from `mergeable`, not `mergeStateStatus`: the former is
+  # the field that reliably resolves, the latter can stay UNKNOWN indefinitely
+  # and is only used here for the BEHIND hint.
+  if [[ "$mergeable" == "CONFLICTING" ]]; then
+    note "CONFLICTED — asking Dependabot to recreate"
+    run gh pr comment "$pr" --repo "$REPO" --body "@dependabot recreate"
+    rebased=$((rebased + 1))
+    continue
+  fi
+
+  if [[ "$state" == "BEHIND" ]]; then
+    note "BEHIND main — asking Dependabot to rebase"
+    run gh pr comment "$pr" --repo "$REPO" --body "@dependabot rebase"
+    rebased=$((rebased + 1))
+    continue
+  fi
 
   # --- Changeset, only when a published package's manifest moved ------------
   changed=$(jq -r '.files[].path' <<<"$data")
