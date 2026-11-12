@@ -75,9 +75,9 @@
     "@types/react-dom": "^19.3.0",
     "jest": "^30.5.2",
     "jest-environment-jsdom": "^30.5.2",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "ts-jest": "^29.4.12",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "ts-jest": "^29.4.15",
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
