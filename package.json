@@ -29,6 +29,7 @@
     "@changesets/cli": "^3.0.3",
     "@manypkg/cli": "^0.25.1",
     "@types/node": "^26.6.6",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "glob": "^14.0.3",
     "lefthook": "^2.2.2",
     "marked": "^18.1.3",
@@ -41,7 +42,7 @@
     "stylelint-config-standard": "^40.0.0",
     "svgo": "^4.1.0",
     "tsx": "^4.23.15",
-    "typescript": "^6.0.3"
+    "typescript": "npm:@typescript/typescript6@^6.0.2"
   },
   "resolutions": {
     "brace-expansion": "^2.1.7",
