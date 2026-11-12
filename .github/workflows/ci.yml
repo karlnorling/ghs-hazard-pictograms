@@ -116,6 +116,10 @@ jobs:
       - name: Create Version PR or Publish to npm
         uses: changesets/action@v2
         with:
+          # v2 takes the token as an input and refuses to run when a mismatched
+          # GITHUB_TOKEN is also present in the environment. Setting the env var
+          # does not configure the action at all, which is how v1 did it.
+          github-token: ${{ steps.app-token.outputs.token }}
           # Yarn Berry's `yarn npm publish` uses its own HTTP client and does not
           # invoke npm CLI, so it cannot pick up the OIDC token automatically.
           # This script uses `npm publish` directly, which handles the OIDC token
@@ -126,8 +130,6 @@ jobs:
           # Version Packages PR. Refresh the lockfile as part of versioning.
           version-script: yarn version-packages
           create-github-releases: true
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - name: Format generated changelogs
         run: |
