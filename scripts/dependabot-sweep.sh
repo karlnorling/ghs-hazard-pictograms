@@ -20,8 +20,10 @@ waiting=0
 held=0
 rebased=0
 
-# Remembered so the changeset step can return here after checking out a PR branch.
-START_REF=$(git rev-parse HEAD)
+# Remembered so the changeset step can return here after checking out a PR
+# branch. Prefer the branch name over a bare SHA, which would leave the repo on
+# a detached HEAD after a local run.
+START_REF=$(git symbolic-ref --short -q HEAD || git rev-parse HEAD)
 
 # This script checks out PR branches and force-returns to START_REF, which
 # would discard uncommitted work. Refuse to run in a dirty tree so a local
