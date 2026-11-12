@@ -29,7 +29,7 @@
     "@changesets/cli": "^3.0.3",
     "@manypkg/cli": "^0.25.1",
     "@types/node": "^24.13.5",
-    "glob": "^13.0.6",
+    "glob": "^14.0.3",
     "lefthook": "^2.1.14",
     "marked": "^18.0.13",
     "node-html-parser": "^9.0.4",
