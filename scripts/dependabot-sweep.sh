@@ -20,8 +20,25 @@ waiting=0
 held=0
 rebased=0
 
-# Remembered so the changeset step can return here after checking out a PR branch.
-START_REF=$(git rev-parse HEAD)
+# Remembered so the changeset step can return here after checking out a PR
+# branch. Prefer the branch name over a bare SHA, which would leave the repo on
+# a detached HEAD after a local run.
+START_REF=$(git symbolic-ref --short -q HEAD || git rev-parse HEAD)
+
+# This script checks out PR branches and force-returns to START_REF, which
+# would discard uncommitted work. Refuse to run in a dirty tree so a local
+# rehearsal cannot destroy in-progress edits.
+if ! git diff-index --quiet HEAD -- 2>/dev/null; then
+  echo "error: working tree has uncommitted changes." >&2
+  echo "       This script force-checks-out branches and would discard them." >&2
+  echo "       Commit or stash first." >&2
+  exit 1
+fi
+
+# Copied aside so the PR-branch checkout cannot shadow it.
+GENERATOR=$(mktemp)
+cp scripts/dependabot-changeset.mjs "$GENERATOR"
+trap 'rm -f "$GENERATOR"' EXIT
 
 note() { printf '  %s\n' "$1"; }
 
@@ -117,26 +134,35 @@ for pr in $prs; do
       | grep -q "dependabot-pr-${pr}.md"; then
       note "changeset already present"
     else
-      note "published package changed — adding a changeset"
-      if [[ "$DRY_RUN" == "true" ]]; then
-        note "DRY RUN would: commit .changeset/dependabot-pr-${pr}.md to $branch"
-      else
-        git fetch origin "$branch"
-        git checkout -B "$branch" "origin/$branch"
-        created_file=$(node scripts/dependabot-changeset.mjs "$pr" $changed)
-        if [[ -n "$created_file" ]]; then
+      note "published manifest touched — checking whether it is consumer-facing"
+      git fetch -q origin "$branch"
+      git checkout -q -B "sweep-probe-$pr" "origin/$branch"
+      # Run the generator from the sweep's own checkout, not the PR branch:
+      # a PR branched before this logic shipped still carries the old script.
+      created_file=$(BASE_REF=origin/main node "$GENERATOR" "$pr" $changed || true)
+      if [[ -n "$created_file" ]]; then
+        if [[ "$DRY_RUN" == "true" ]]; then
+          note "DRY RUN would: commit $created_file to $branch, then merge next sweep"
+          rm -f "$created_file"
+        else
           git add "$created_file"
           git -c user.name='github-actions[bot]' \
               -c user.email='github-actions[bot]@users.noreply.github.com' \
-              commit -m "chore: add changeset for #${pr}"
-          git push origin "HEAD:$branch"
+              commit -q -m "chore: add changeset for #${pr}"
+          git push -q origin "HEAD:$branch"
+          note "changeset pushed, CI will re-run on the new commit"
         fi
-        git checkout --force "$START_REF"
+        git checkout -q --force "$START_REF"
+        git branch -q -D "sweep-probe-$pr" 2>/dev/null || true
+        waiting=$((waiting + 1))
+        continue
       fi
-      # The push restarts CI, so let the next sweep do the merge.
-      note "WAITING — CI will re-run on the new commit"
-      waiting=$((waiting + 1))
-      continue
+      git checkout -q --force "$START_REF"
+      git branch -q -D "sweep-probe-$pr" 2>/dev/null || true
+      # No consumer-facing change, so no changeset and no release. Fall through
+      # to the merge checks rather than parking the PR in WAITING forever,
+      # which is what an unconditional `continue` here would do.
+      note "devDependency-only — no changeset needed, continuing to merge checks"
     fi
   fi
 
