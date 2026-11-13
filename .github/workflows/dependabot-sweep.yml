@@ -60,4 +60,11 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || 'false' }}
           MIN_AGE_HOURS: ${{ inputs.min_age_hours || '168' }}
+          BASE_BRANCH: ${{ github.event.repository.default_branch }}
+          # Optional. Dependabot refuses `@dependabot` commands from a GitHub
+          # App (dependabot-core#9147), so without this the sweep can only
+          # label a conflicted PR for a human. With a fine-grained token that
+          # has pull-requests write, it asks Dependabot to recreate the branch
+          # instead, which fixes conflicts automatically.
+          DEPENDABOT_PAT: ${{ secrets.DEPENDABOT_PAT }}
         run: bash scripts/dependabot-sweep.sh
