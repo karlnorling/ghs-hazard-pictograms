@@ -38,6 +38,17 @@ jobs:
       - name: Workspace integrity check (manypkg)
         run: yarn check
 
+      # GitHub Actions only *warns* when an action is passed an input it does
+      # not declare, so an action major bump that renames inputs fails silently.
+      # That happened here: changesets/action v1 -> v2 renamed every input and
+      # moved the token to an input, which broke publishing on main for four
+      # pushes (#82, #85) because the release job only runs on push to main.
+      # Fails on an undeclared input; deprecations only warn.
+      - name: Audit GitHub Action inputs
+        run: yarn audit-actions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Check formatting (oxfmt)
         run: yarn format:check
 

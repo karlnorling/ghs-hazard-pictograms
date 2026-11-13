@@ -7,6 +7,7 @@
     "apps/*"
   ],
   "scripts": {
+    "audit-actions": "node scripts/audit-action-inputs.mjs",
     "build": "yarn update && yarn compile",
     "build-docs": "yarn workspace @ghs-docs/app build",
     "changeset": "changeset",
@@ -42,7 +43,8 @@
     "stylelint-config-standard": "^40.0.0",
     "svgo": "^4.1.0",
     "tsx": "^4.23.15",
-    "typescript": "npm:@typescript/typescript6@^6.0.2"
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "yaml": "^2.9.1"
   },
   "resolutions": {
     "brace-expansion": "^2.1.7",
