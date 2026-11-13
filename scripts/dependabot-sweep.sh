@@ -38,9 +38,15 @@ if ! git diff-index --quiet HEAD -- 2>/dev/null; then
 fi
 
 # Copied aside so the PR-branch checkout cannot shadow it.
-GENERATOR=$(mktemp)
-cp scripts/dependabot-changeset.mjs "$GENERATOR"
-trap 'rm -f "$GENERATOR"' EXIT
+# Copied into a temp *directory* keeping their real filenames. `node` infers
+# ESM from the .mjs extension, so an extensionless `mktemp` file dies with
+# ERR_UNKNOWN_FILE_EXTENSION -- which an earlier `|| true` silently turned into
+# "no changeset needed".
+SWEEP_TMP=$(mktemp -d)
+cp scripts/dependabot-changeset.mjs scripts/dependabot-release-age.mjs "$SWEEP_TMP/"
+GENERATOR="$SWEEP_TMP/dependabot-changeset.mjs"
+RELEASE_AGE="$SWEEP_TMP/dependabot-release-age.mjs"
+trap 'rm -rf "$SWEEP_TMP"' EXIT
 
 note() { printf '  %s\n' "$1"; }
 
@@ -95,7 +101,7 @@ Someone with push access can comment \`@dependabot recreate\`, or the update can
 Labelled \`$NEEDS_REBASE_LABEL\`. The sweep will keep skipping this PR until it is mergeable."
 }
 
-PR_FIELDS='number,title,createdAt,headRefName,mergeable,mergeStateStatus,statusCheckRollup,files'
+PR_FIELDS='number,title,createdAt,headRefName,mergeable,mergeStateStatus,statusCheckRollup,files,body'
 
 # GitHub computes mergeability lazily: the first query for a PR returns
 # mergeable=UNKNOWN and merely *schedules* the computation server-side. A cold
@@ -144,21 +150,44 @@ for pr in $prs; do
   mergeable=$(jq -r '.mergeable' <<<"$data")
   state=$(jq -r '.mergeStateStatus' <<<"$data")
   created=$(jq -r '.createdAt' <<<"$data")
+  body=$(jq -r '.body // ""' <<<"$data")
 
   echo "PR #$pr — $title"
   note "mergeable=$mergeable state=$state"
 
   # --- Age gate -------------------------------------------------------------
-  # Use the PR's own age as the proxy for release age: Dependabot opens the PR
-  # as soon as it is willing to, so time-since-open is time-since-eligible.
-  age_hours=$(( ( $(date -u +%s) - $(date -u -d "$created" +%s 2>/dev/null \
+  # Gate on how old the released versions are, not on how old the PR is. PR age
+  # was a poor proxy: dependabot.yml's `cooldown` already waited for the release
+  # before opening the PR, so a version update served the floor twice, and the
+  # clock reset to zero every time Dependabot regenerated a grouped PR even
+  # though the releases themselves kept ageing.
+  pr_age_hours=$(( ( $(date -u +%s) - $(date -u -d "$created" +%s 2>/dev/null \
     || date -u -j -f '%Y-%m-%dT%H:%M:%SZ' "$created" +%s) ) / 3600 ))
-  if (( age_hours < MIN_AGE_HOURS )); then
-    note "HELD — ${age_hours}h old, needs ${MIN_AGE_HOURS}h"
-    held=$((held + 1))
-    continue
+
+  if ! release_age=$(printf '%s' "$body" | node "$RELEASE_AGE"); then
+    note "WARNING — release-age helper failed; falling back to PR age"
+    release_age=unknown
   fi
-  note "age ${age_hours}h — past the ${MIN_AGE_HOURS}h floor"
+
+  if [[ "$release_age" == unknown* ]]; then
+    # Could not read target versions from the PR body, or the registry did not
+    # answer. Fall back to PR age rather than merging something unverified.
+    if (( pr_age_hours < MIN_AGE_HOURS )); then
+      note "HELD — release ages unknown, PR is ${pr_age_hours}h old, needs ${MIN_AGE_HOURS}h"
+      held=$((held + 1))
+      continue
+    fi
+    note "release ages unknown; falling back to PR age ${pr_age_hours}h — past the floor"
+  else
+    youngest_hours=${release_age%% *}
+    youngest_pkg=${release_age#* }
+    if (( youngest_hours < MIN_AGE_HOURS )); then
+      note "HELD — youngest release ${youngest_pkg} is ${youngest_hours}h old, needs ${MIN_AGE_HOURS}h"
+      held=$((held + 1))
+      continue
+    fi
+    note "youngest release ${youngest_pkg} is ${youngest_hours}h old — past the ${MIN_AGE_HOURS}h floor"
+  fi
 
   # --- Branch freshness -----------------------------------------------------
   # Conflicts are read from `mergeable`, not `mergeStateStatus`: the former is
@@ -205,7 +234,13 @@ for pr in $prs; do
       git checkout -q -B "sweep-probe-$pr" "origin/$branch"
       # Run the generator from the sweep's own checkout, not the PR branch:
       # a PR branched before this logic shipped still carries the old script.
-      created_file=$(BASE_REF=origin/main node "$GENERATOR" "$pr" $changed || true)
+      if ! created_file=$(BASE_REF=origin/main node "$GENERATOR" "$pr" $changed); then
+        note "ERROR — changeset generator failed; holding rather than merging unverified"
+        git checkout -q --force "$START_REF"
+        git branch -q -D "sweep-probe-$pr" 2>/dev/null || true
+        held=$((held + 1))
+        continue
+      fi
       if [[ -n "$created_file" ]]; then
         if [[ "$DRY_RUN" == "true" ]]; then
           note "DRY RUN would: commit $created_file to $branch, then merge next sweep"
