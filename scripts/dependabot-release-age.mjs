@@ -57,6 +57,21 @@ if (targets.size === 0) {
   process.exit(0);
 }
 
+// Dependabot hard-truncates a PR body at GitHub's 64 KiB limit, and a large
+// group loses update lines off the end -- a 14-update group was observed
+// listing only 11, with "... (truncated)" in the body. Checking only the
+// visible subset would silently pass a PR whose youngest release is one of the
+// invisible ones. So cross-check against the count the title declares, and
+// refuse to answer when they disagree.
+const declared = /\bwith\s+(\d+)\s+updates?\b/i.exec(body);
+if (declared) {
+  const expected = Number(declared[1]);
+  if (targets.size < expected) {
+    console.log('unknown');
+    process.exit(0);
+  }
+}
+
 const publishedAt = (name, version) => {
   const out = execFileSync('npm', ['view', name, 'time', '--json'], {
     encoding: 'utf8',
