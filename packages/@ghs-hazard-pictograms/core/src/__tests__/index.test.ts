@@ -3,6 +3,7 @@ import {
   renderSvg,
   splitSvg,
   getPictogram,
+  getPictogramByCode,
   getPictogramsByCategory,
   getGHSPictograms,
 } from '../index';
@@ -166,5 +167,57 @@ describe('SVG helpers', () => {
     expect(html).not.toContain('<script>');
     expect(html).toContain('width="1&quot; onload=&quot;x"');
     expect(html).toContain('aria-label="&quot;&gt;&lt;script&gt;"');
+  });
+});
+
+describe('getPictogramByCode()', () => {
+  it('finds a GHS pictogram by its code', () => {
+    expect(getPictogramByCode('GHS01')?.id).toBe('ghs01-explosive');
+  });
+
+  it('is case-insensitive and tolerates surrounding whitespace', () => {
+    expect(getPictogramByCode('ghs01')?.id).toBe('ghs01-explosive');
+    expect(getPictogramByCode('  GHS01  ')?.id).toBe('ghs01-explosive');
+  });
+
+  it('finds transport pictograms by their ADR label designation', () => {
+    expect(getPictogramByCode('1.4')?.name).toBe('Division 1.4');
+    expect(getPictogramByCode('2.1')?.name).toBe('Division 2.1');
+    expect(getPictogramByCode('6.2')?.name).toBe('Class 6.2');
+    expect(getPictogramByCode('7A')?.name).toBe('ADR 7A');
+    expect(getPictogramByCode('9')?.name).toBe('Class 9');
+  });
+
+  // Label model No. 1 covers divisions 1.1-1.3, so the code is "1" while the
+  // name keeps the full range.
+  it('maps code "1" to the combined divisions 1.1-1.3 label', () => {
+    const p = getPictogramByCode('1');
+    expect(p?.id).toBe('divisions-1-1-1-3');
+    expect(p?.code).toBe('1');
+  });
+
+  it('returns undefined for an unknown or empty code', () => {
+    expect(getPictogramByCode('GHS99')).toBeUndefined();
+    expect(getPictogramByCode('')).toBeUndefined();
+    expect(getPictogramByCode('   ')).toBeUndefined();
+  });
+});
+
+describe('transport pictogram codes', () => {
+  // These shipped as `code: ""` until the generator learned to read the ADR
+  // designation out of titles like "Division 1.4".
+  it('every transport pictogram carries a code', () => {
+    const transport = getPictogramsByCategory('transport');
+    expect(transport.length).toBeGreaterThan(0);
+    for (const p of transport) expect(p.code).toBeTruthy();
+  });
+
+  it('transport codes are unique and never collide with GHS codes', () => {
+    const codes = getAllPictograms().map((p) => p.code);
+    expect(new Set(codes).size).toBe(codes.length);
+  });
+
+  it('leaves getGHSPictograms() returning exactly the nine GHS pictograms', () => {
+    expect(getGHSPictograms().map((p) => p.code).sort()).toEqual([...GHS_CODES].sort());
   });
 });

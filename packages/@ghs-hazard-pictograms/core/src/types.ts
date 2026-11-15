@@ -43,7 +43,14 @@ export interface Pictogram {
   assets: PictogramAssets;
   /** Pictogram category — see {@link PictogramCategory}. */
   category: PictogramCategory;
-  /** GHS code prefix, e.g. `"GHS01"`. Empty string for transport pictograms without a GHS code. */
+  /**
+   * Official designation. `"GHS01"`–`"GHS09"` for the chemical hazard
+   * pictograms, and the ADR label designation for transport pictograms:
+   * `"1"`, `"1.4"`, `"2.1"`, `"7A"`, `"9"` and so on.
+   *
+   * `"1"` is the label used for divisions 1.1, 1.2 and 1.3 together, which is
+   * why the name says "Divisions 1.1–1.3" while the code is just `"1"`.
+   */
   code: string;
   /** Documentation text from Wikipedia describing the hazard classes covered by this pictogram. */
   description: string;
