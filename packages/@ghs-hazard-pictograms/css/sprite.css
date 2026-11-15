@@ -156,8 +156,22 @@
   background-size: contain;
 }
 
+.ghs-un-adr-plate-blank {
+  background-image: url('../assets/assets/transport_marks/orangeplate/UN_ADR_Plate_-_Blank.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 .ghs-dot-hazmat-marine-pollutant {
   background-image: url('../assets/assets/transport_marks/marinepollutant/DOT_hazmat_-_Marine_Pollutant.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.ghs-2412010-ece-trans-352-vol-ii-battery-mark-fig-5-2-1-9-2 {
+  background-image: url('../assets/assets/transport_marks/lithiumbatterymark/2412010-ECE_Trans_352_Vol.II_battery_mark,_Fig._5.2.1.9.2.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -172,6 +186,20 @@
 
 .ghs-adr-fumigation-warning {
   background-image: url('../assets/assets/transport_marks/fumigationwarning/ADR_Fumigation_warning.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.ghs-adr-hot {
+  background-image: url('../assets/assets/transport_marks/elevatedtemperature/ADR_hot.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.ghs-adr-9a {
+  background-image: url('../assets/assets/transport_labels/class9a/ADR_9A.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;

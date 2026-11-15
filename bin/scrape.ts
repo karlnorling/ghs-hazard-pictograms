@@ -48,7 +48,9 @@ export type ScrapedData = {
   Physical_and_health_hazard_pictograms: ScrapedSection;
   Physical_hazards_pictograms: ScrapedSection;
   Transport_pictograms: ScrapedTransportSection;
-  /** Curated, not scraped — see {@link EXTRAS_FILE}. */
+  /** Curated labels the scraped page omits — see {@link EXTRAS_FILE}. */
+  Transport_labels: ScrapedSection;
+  /** Curated marks, which the scraped page carries none of — see {@link EXTRAS_FILE}. */
   Transport_marks: ScrapedSection;
 };
 
@@ -63,7 +65,7 @@ export type ScrapedData = {
  * listing it here would make the scraper hunt for a Wikipedia section that
  * does not exist. It is merged in by {@link scrape} instead.
  */
-const scrapedData: Omit<ScrapedData, 'Transport_marks'> = {
+const scrapedData: Omit<ScrapedData, 'Transport_labels' | 'Transport_marks'> = {
   Environmental_hazards_pictograms: {
     data: {},
     nextSiblingCount: 1,
@@ -256,14 +258,14 @@ const EXTRAS_FILE = path.join('data', 'extra-pictograms.json');
  * Reads the curated transport marks.
  *
  * ADR separates labels (the numbered class/division diamonds, 5.2.2.2) from
- * marks (5.2.1 and 5.5: marine pollutant, fumigation, limited quantity,
- * orientation arrows). The Wikipedia article this scraper reads lists only the
- * labels, so the marks have to be declared explicitly.
+ * marks (5.2.1, 5.3 and 5.5). The Wikipedia article this scraper reads carries
+ * none of the marks, and omits the 9A lithium battery label, so both are
+ * declared explicitly.
  */
-const readExtras = (): ScrapedSection => {
+const readExtras = (): Pick<ScrapedData, 'Transport_labels' | 'Transport_marks'> => {
   const raw = fs.readFileSync(EXTRAS_FILE, 'utf-8');
-  const parsed = JSON.parse(raw) as { Transport_marks: ScrapedSection };
-  return parsed.Transport_marks;
+  const parsed = JSON.parse(raw) as Pick<ScrapedData, 'Transport_labels' | 'Transport_marks'>;
+  return { Transport_labels: parsed.Transport_labels, Transport_marks: parsed.Transport_marks };
 };
 
 /**
@@ -287,7 +289,7 @@ const scrape = async (): Promise<ScrapedData> => {
     scrapedData as unknown as Record<string, unknown>,
   ) as ScrapedData;
 
-  return { ...scraped, Transport_marks: readExtras() };
+  return { ...scraped, ...readExtras() };
 };
 
 export default scrape;

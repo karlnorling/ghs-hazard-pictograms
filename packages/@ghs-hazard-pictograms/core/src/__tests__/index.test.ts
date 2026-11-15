@@ -230,16 +230,26 @@ describe('transport marks', () => {
   // ADR separates labels (the numbered diamonds, 5.2.2.2) from marks
   // (5.2.1, 5.5). Only the labels are on the Wikipedia page this repo scrapes,
   // so the marks are curated in data/extra-pictograms.json.
-  it('includes the four ADR marks', () => {
+  it('includes every ADR mark that has public-domain artwork', () => {
     const ids = getPictogramsByCategory('transport_marks')
       .map((p) => p.id)
       .sort();
     expect(ids).toEqual([
+      'elevated-temperature',
       'fumigation-warning',
       'limited-quantity',
+      'lithium-battery-mark',
       'marine-pollutant',
+      'orange-plate',
       'package-orientation',
     ]);
+  });
+
+  // The one mark with no public-domain artwork on Commons (ADR 3.5.4.2). This
+  // pins the omission so it is a known gap rather than an oversight.
+  it('does not include the excepted quantity mark', () => {
+    const ids = getPictogramsByCategory('transport_marks').map((p) => p.id);
+    expect(ids).not.toContain('excepted-quantity');
   });
 
   it('marks carry no code, because ADR does not number them', () => {
@@ -260,5 +270,21 @@ describe('transport marks', () => {
     const ghsIds = getGHSPictograms().map((p) => p.id);
     expect(ghsIds).not.toContain('marine-pollutant');
     expect(ghsIds).toHaveLength(9);
+  });
+});
+
+describe('class 9A lithium battery label', () => {
+  // A label, not a mark: it is numbered, so it belongs in `transport` with a
+  // code. New in the 2019 ADR revision and distinct from class 9.
+  it('is a numbered transport label, not a mark', () => {
+    const p = getPictogramByCode('9A');
+    expect(p).toBeDefined();
+    expect(p!.category).toBe('transport');
+    expect(p!.id).toBe('class-9a');
+  });
+
+  it('is separate from class 9', () => {
+    expect(getPictogramByCode('9')!.id).toBe('class-9');
+    expect(getPictogramByCode('9A')!.id).toBe('class-9a');
   });
 });

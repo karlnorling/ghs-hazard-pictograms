@@ -11,10 +11,14 @@ import { Ghs06Toxic } from './Ghs06Toxic';
 import { Ghs07HealthHazardHazardousToTheAtmosphericSystem } from './Ghs07HealthHazardHazardousToTheAtmosphericSystem';
 import { Ghs08SeriousHealthHazard } from './Ghs08SeriousHealthHazard';
 import { Ghs09HazardousToTheEnvironment } from './Ghs09HazardousToTheEnvironment';
+import { Class9a } from './Class9a';
 import { MarinePollutant } from './MarinePollutant';
 import { FumigationWarning } from './FumigationWarning';
 import { LimitedQuantity } from './LimitedQuantity';
 import { PackageOrientation } from './PackageOrientation';
+import { ElevatedTemperature } from './ElevatedTemperature';
+import { OrangePlate } from './OrangePlate';
+import { LithiumBatteryMark } from './LithiumBatteryMark';
 import { Divisions1113 } from './Divisions1113';
 import { Division14 } from './Division14';
 import { Division15 } from './Division15';
@@ -48,10 +52,14 @@ const _elements: Array<[typeof HTMLElement & { tagName: string }, string]> = [
   [Ghs07HealthHazardHazardousToTheAtmosphericSystem, Ghs07HealthHazardHazardousToTheAtmosphericSystem.tagName],
   [Ghs08SeriousHealthHazard, Ghs08SeriousHealthHazard.tagName],
   [Ghs09HazardousToTheEnvironment, Ghs09HazardousToTheEnvironment.tagName],
+  [Class9a, Class9a.tagName],
   [MarinePollutant, MarinePollutant.tagName],
   [FumigationWarning, FumigationWarning.tagName],
   [LimitedQuantity, LimitedQuantity.tagName],
   [PackageOrientation, PackageOrientation.tagName],
+  [ElevatedTemperature, ElevatedTemperature.tagName],
+  [OrangePlate, OrangePlate.tagName],
+  [LithiumBatteryMark, LithiumBatteryMark.tagName],
   [Divisions1113, Divisions1113.tagName],
   [Division14, Division14.tagName],
   [Division15, Division15.tagName],
