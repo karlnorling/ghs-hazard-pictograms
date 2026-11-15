@@ -47,17 +47,17 @@ Every component accepts the same `PictogramProps`:
 
 ## GHS chemical hazard pictograms
 
-| Component                                | GHS code | Hazard                                   |
-| ---------------------------------------- | -------- | ---------------------------------------- |
-| `Ghs01Explosive`                         | GHS01    | Explosive                                |
-| `Ghs02Flammable`                         | GHS02    | Flammable                                |
-| `Ghs03Oxidizing`                         | GHS03    | Oxidizing                                |
-| `Ghs04CompressedGas`                     | GHS04    | Compressed Gas                           |
-| `Ghs05Corrosive`                         | GHS05    | Corrosive                                |
-| `Ghs06Toxic`                             | GHS06    | Toxic                                    |
-| `Ghs07HealthHazardHazardousToOzoneLayer` | GHS07    | Health Hazard / Hazardous to Ozone Layer |
-| `Ghs08SeriousHealthHazard`               | GHS08    | Serious Health Hazard                    |
-| `Ghs09HazardousToTheEnvironment`         | GHS09    | Hazardous to the Environment             |
+| Component                                          | GHS code | Hazard                                              |
+| -------------------------------------------------- | -------- | --------------------------------------------------- |
+| `Ghs01Explosive`                                   | GHS01    | Explosive                                           |
+| `Ghs02Flammable`                                   | GHS02    | Flammable                                           |
+| `Ghs03Oxidizing`                                   | GHS03    | Oxidizing                                           |
+| `Ghs04CompressedGas`                               | GHS04    | Compressed Gas                                      |
+| `Ghs05Corrosive`                                   | GHS05    | Corrosive                                           |
+| `Ghs06Toxic`                                       | GHS06    | Toxic                                               |
+| `Ghs07HealthHazardHazardousToTheAtmosphericSystem` | GHS07    | Health Hazard / Hazardous to the Atmospheric System |
+| `Ghs08SeriousHealthHazard`                         | GHS08    | Serious Health Hazard                               |
+| `Ghs09HazardousToTheEnvironment`                   | GHS09    | Hazardous to the Environment                        |
 
 ## UN transport hazard class pictograms
 
@@ -120,7 +120,7 @@ import {
   Ghs04CompressedGas,
   Ghs05Corrosive,
   Ghs06Toxic,
-  Ghs07HealthHazardHazardousToOzoneLayer,
+  Ghs07HealthHazardHazardousToTheAtmosphericSystem,
   Ghs08SeriousHealthHazard,
   Ghs09HazardousToTheEnvironment,
 } from '@ghs-hazard-pictograms/react';
@@ -132,7 +132,7 @@ const GHS_COMPONENTS = [
   Ghs04CompressedGas,
   Ghs05Corrosive,
   Ghs06Toxic,
-  Ghs07HealthHazardHazardousToOzoneLayer,
+  Ghs07HealthHazardHazardousToTheAtmosphericSystem,
   Ghs08SeriousHealthHazard,
   Ghs09HazardousToTheEnvironment,
 ];

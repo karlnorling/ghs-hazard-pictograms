@@ -212,12 +212,53 @@ describe('transport pictogram codes', () => {
     for (const p of transport) expect(p.code).toBeTruthy();
   });
 
-  it('transport codes are unique and never collide with GHS codes', () => {
-    const codes = getAllPictograms().map((p) => p.code);
+  // Only among pictograms that have a code: ADR numbers its labels but not its
+  // marks, so every `transport_marks` entry shares an empty code by design.
+  it('codes are unique wherever present, and never collide with GHS codes', () => {
+    const codes = getAllPictograms()
+      .map((p) => p.code)
+      .filter(Boolean);
     expect(new Set(codes).size).toBe(codes.length);
   });
 
   it('leaves getGHSPictograms() returning exactly the nine GHS pictograms', () => {
     expect(getGHSPictograms().map((p) => p.code).sort()).toEqual([...GHS_CODES].sort());
+  });
+});
+
+describe('transport marks', () => {
+  // ADR separates labels (the numbered diamonds, 5.2.2.2) from marks
+  // (5.2.1, 5.5). Only the labels are on the Wikipedia page this repo scrapes,
+  // so the marks are curated in data/extra-pictograms.json.
+  it('includes the four ADR marks', () => {
+    const ids = getPictogramsByCategory('transport_marks')
+      .map((p) => p.id)
+      .sort();
+    expect(ids).toEqual([
+      'fumigation-warning',
+      'limited-quantity',
+      'marine-pollutant',
+      'package-orientation',
+    ]);
+  });
+
+  it('marks carry no code, because ADR does not number them', () => {
+    for (const p of getPictogramsByCategory('transport_marks')) {
+      expect(p.code).toBe('');
+    }
+  });
+
+  it('every mark ships real artwork', () => {
+    for (const p of getPictogramsByCategory('transport_marks')) {
+      expect(p.svg).toMatch(/^<svg/);
+      expect(p.svg).toMatch(/<path/);
+      expect(p.assets.svg).toBeTruthy();
+    }
+  });
+
+  it('marks are excluded from the GHS set', () => {
+    const ghsIds = getGHSPictograms().map((p) => p.id);
+    expect(ghsIds).not.toContain('marine-pollutant');
+    expect(ghsIds).toHaveLength(9);
   });
 });

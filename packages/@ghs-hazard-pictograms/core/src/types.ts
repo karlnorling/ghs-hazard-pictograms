@@ -11,14 +11,19 @@
  *   physical and the physical-and-health sections; the registry keeps one entry, filed under
  *   `physical_hazards`, so filtering by this category returns an empty array.
  * - `environmental_hazards` — GHS09 (hazardous to the aquatic environment)
- * - `transport` — UN transport hazard class pictograms (divisions 1.1–9)
+ * - `transport` — UN transport hazard class labels (the numbered diamonds,
+ *   ADR 5.2.2.2: divisions 1.1 through class 9)
+ * - `transport_marks` — ADR transport *marks* rather than labels (5.2.1, 5.5):
+ *   marine pollutant, fumigation warning, limited quantity, orientation
+ *   arrows. Marks are not numbered, so these carry an empty `code`.
  */
 export type PictogramCategory =
   | 'environmental_hazards'
   | 'health_hazards'
   | 'physical_and_health_hazards'
   | 'physical_hazards'
-  | 'transport';
+  | 'transport'
+  | 'transport_marks';
 
 /**
  * Pre-built image asset paths for a pictogram, relative to the package `assets/` directory.
@@ -50,6 +55,9 @@ export interface Pictogram {
    *
    * `"1"` is the label used for divisions 1.1, 1.2 and 1.3 together, which is
    * why the name says "Divisions 1.1–1.3" while the code is just `"1"`.
+   *
+   * Empty for `transport_marks`: ADR numbers its labels but not its marks, so
+   * a marine pollutant mark has no designation to report.
    */
   code: string;
   /** Documentation text from Wikipedia describing the hazard classes covered by this pictogram. */

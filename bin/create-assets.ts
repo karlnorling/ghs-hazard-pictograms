@@ -109,8 +109,18 @@ const downloadImagePage = async (url: string): Promise<string | undefined> => {
     const res = await fetchWithRetry(url);
     const data = await res.text();
     const htmlData = parse(data);
-    const imageSrcUrl = htmlData.querySelector('.fullImageLink a')?.getAttribute('href');
-    return imageSrcUrl ? `https:${imageSrcUrl}` : undefined;
+    const href = htmlData.querySelector('.fullImageLink a')?.getAttribute('href');
+    if (!href) return undefined;
+
+    // en.wikipedia serves a protocol-relative href ("//upload.wikimedia.org/…")
+    // while commons.wikimedia.org serves an absolute one. Blindly prefixing
+    // "https:" produced "https:https://upload.wikimedia.org/…" and every
+    // Commons-hosted file failed to download. Resolving against the page URL
+    // handles absolute, protocol-relative and root-relative hrefs alike.
+    //
+    // The query string Wikimedia appends is analytics (utm_*); stripping it
+    // keeps the saved filename clean.
+    return new URL(href, url).toString().split('?')[0];
   } catch (err) {
     console.error(`  Error fetching image page ${url}:`, (err as Error).message);
     return undefined;

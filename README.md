@@ -111,17 +111,17 @@ All components accept `React.HTMLAttributes<HTMLSpanElement>`.
 
 #### Available React components
 
-| Component                                | Code  | Name                                     |
-| ---------------------------------------- | ----- | ---------------------------------------- |
-| `Ghs01Explosive`                         | GHS01 | Explosive                                |
-| `Ghs02Flammable`                         | GHS02 | Flammable                                |
-| `Ghs03Oxidizing`                         | GHS03 | Oxidizing                                |
-| `Ghs04CompressedGas`                     | GHS04 | Compressed Gas                           |
-| `Ghs05Corrosive`                         | GHS05 | Corrosive                                |
-| `Ghs06Toxic`                             | GHS06 | Toxic                                    |
-| `Ghs07HealthHazardHazardousToOzoneLayer` | GHS07 | Health Hazard / Hazardous to Ozone Layer |
-| `Ghs08SeriousHealthHazard`               | GHS08 | Serious Health Hazard                    |
-| `Ghs09HazardousToTheEnvironment`         | GHS09 | Hazardous to the Environment             |
+| Component                                          | Code  | Name                                                |
+| -------------------------------------------------- | ----- | --------------------------------------------------- |
+| `Ghs01Explosive`                                   | GHS01 | Explosive                                           |
+| `Ghs02Flammable`                                   | GHS02 | Flammable                                           |
+| `Ghs03Oxidizing`                                   | GHS03 | Oxidizing                                           |
+| `Ghs04CompressedGas`                               | GHS04 | Compressed Gas                                      |
+| `Ghs05Corrosive`                                   | GHS05 | Corrosive                                           |
+| `Ghs06Toxic`                                       | GHS06 | Toxic                                               |
+| `Ghs07HealthHazardHazardousToTheAtmosphericSystem` | GHS07 | Health Hazard / Hazardous to the Atmospheric System |
+| `Ghs08SeriousHealthHazard`                         | GHS08 | Serious Health Hazard                               |
+| `Ghs09HazardousToTheEnvironment`                   | GHS09 | Hazardous to the Environment                        |
 
 Plus 18 transport pictogram components.
 

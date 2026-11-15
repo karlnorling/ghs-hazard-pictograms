@@ -191,6 +191,9 @@ const collectEntries = (scraped: ScrapedData, svgMap: Record<string, string>): P
     ['Health_hazards_pictograms', 'health_hazards'],
     ['Physical_and_health_hazard_pictograms', 'physical_and_health_hazards'],
     ['Environmental_hazards_pictograms', 'environmental_hazards'],
+    // ADR marks rather than labels — curated in data/extra-pictograms.json,
+    // since the Wikipedia article this reads lists only the labels.
+    ['Transport_marks', 'transport_marks'],
   ];
 
   for (const [key, cat] of topLevel) {
