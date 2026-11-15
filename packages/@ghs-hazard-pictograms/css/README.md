@@ -42,17 +42,17 @@ Or link it in HTML:
 
 ### GHS chemical hazard pictograms
 
-| Class        | Pictogram                                      |
-| ------------ | ---------------------------------------------- |
-| `.ghs-ghs01` | GHS01 Explosive                                |
-| `.ghs-ghs02` | GHS02 Flammable                                |
-| `.ghs-ghs03` | GHS03 Oxidizing                                |
-| `.ghs-ghs04` | GHS04 Compressed Gas                           |
-| `.ghs-ghs05` | GHS05 Corrosive                                |
-| `.ghs-ghs06` | GHS06 Toxic                                    |
-| `.ghs-ghs07` | GHS07 Health Hazard / Hazardous to Ozone Layer |
-| `.ghs-ghs08` | GHS08 Serious Health Hazard                    |
-| `.ghs-ghs09` | GHS09 Hazardous to the Environment             |
+| Class        | Pictogram                                                 |
+| ------------ | --------------------------------------------------------- |
+| `.ghs-ghs01` | GHS01 Explosive                                           |
+| `.ghs-ghs02` | GHS02 Flammable                                           |
+| `.ghs-ghs03` | GHS03 Oxidizing                                           |
+| `.ghs-ghs04` | GHS04 Compressed Gas                                      |
+| `.ghs-ghs05` | GHS05 Corrosive                                           |
+| `.ghs-ghs06` | GHS06 Toxic                                               |
+| `.ghs-ghs07` | GHS07 Health Hazard / Hazardous to the Atmospheric System |
+| `.ghs-ghs08` | GHS08 Serious Health Hazard                               |
+| `.ghs-ghs09` | GHS09 Hazardous to the Environment                        |
 
 ### UN transport hazard class pictograms
 

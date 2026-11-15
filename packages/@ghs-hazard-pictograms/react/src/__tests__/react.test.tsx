@@ -45,7 +45,7 @@ describe('React components', () => {
       'Ghs04CompressedGas',
       'Ghs05Corrosive',
       'Ghs06Toxic',
-      'Ghs07HealthHazardHazardousToOzoneLayer',
+      'Ghs07HealthHazardHazardousToTheAtmosphericSystem',
       'Ghs08SeriousHealthHazard',
       'Ghs09HazardousToTheEnvironment',
     ] as const;

@@ -8,9 +8,13 @@ import { Ghs03Oxidizing } from './Ghs03Oxidizing';
 import { Ghs04CompressedGas } from './Ghs04CompressedGas';
 import { Ghs05Corrosive } from './Ghs05Corrosive';
 import { Ghs06Toxic } from './Ghs06Toxic';
-import { Ghs07HealthHazardHazardousToOzoneLayer } from './Ghs07HealthHazardHazardousToOzoneLayer';
+import { Ghs07HealthHazardHazardousToTheAtmosphericSystem } from './Ghs07HealthHazardHazardousToTheAtmosphericSystem';
 import { Ghs08SeriousHealthHazard } from './Ghs08SeriousHealthHazard';
 import { Ghs09HazardousToTheEnvironment } from './Ghs09HazardousToTheEnvironment';
+import { MarinePollutant } from './MarinePollutant';
+import { FumigationWarning } from './FumigationWarning';
+import { LimitedQuantity } from './LimitedQuantity';
+import { PackageOrientation } from './PackageOrientation';
 import { Divisions1113 } from './Divisions1113';
 import { Division14 } from './Division14';
 import { Division15 } from './Division15';
@@ -41,9 +45,13 @@ const _elements: Array<[typeof HTMLElement & { tagName: string }, string]> = [
   [Ghs04CompressedGas, Ghs04CompressedGas.tagName],
   [Ghs05Corrosive, Ghs05Corrosive.tagName],
   [Ghs06Toxic, Ghs06Toxic.tagName],
-  [Ghs07HealthHazardHazardousToOzoneLayer, Ghs07HealthHazardHazardousToOzoneLayer.tagName],
+  [Ghs07HealthHazardHazardousToTheAtmosphericSystem, Ghs07HealthHazardHazardousToTheAtmosphericSystem.tagName],
   [Ghs08SeriousHealthHazard, Ghs08SeriousHealthHazard.tagName],
   [Ghs09HazardousToTheEnvironment, Ghs09HazardousToTheEnvironment.tagName],
+  [MarinePollutant, MarinePollutant.tagName],
+  [FumigationWarning, FumigationWarning.tagName],
+  [LimitedQuantity, LimitedQuantity.tagName],
+  [PackageOrientation, PackageOrientation.tagName],
   [Divisions1113, Divisions1113.tagName],
   [Division14, Division14.tagName],
   [Division15, Division15.tagName],

@@ -56,17 +56,17 @@ Or serve it as an external file and reference it by URL:
 
 ### GHS chemical hazard pictograms
 
-| ID                                             | Pictogram                                      |
-| ---------------------------------------------- | ---------------------------------------------- |
-| `ghs01-explosive`                              | GHS01 Explosive                                |
-| `ghs02-flammable`                              | GHS02 Flammable                                |
-| `ghs03-oxidizing`                              | GHS03 Oxidizing                                |
-| `ghs04-compressed-gas`                         | GHS04 Compressed Gas                           |
-| `ghs05-corrosive`                              | GHS05 Corrosive                                |
-| `ghs06-toxic`                                  | GHS06 Toxic                                    |
-| `ghs07-health-hazard-hazardous-to-ozone-layer` | GHS07 Health Hazard / Hazardous to Ozone Layer |
-| `ghs08-serious-health-hazard`                  | GHS08 Serious Health Hazard                    |
-| `ghs09-hazardous-to-the-environment`           | GHS09 Hazardous to the Environment             |
+| ID                                                        | Pictogram                                                 |
+| --------------------------------------------------------- | --------------------------------------------------------- |
+| `ghs01-explosive`                                         | GHS01 Explosive                                           |
+| `ghs02-flammable`                                         | GHS02 Flammable                                           |
+| `ghs03-oxidizing`                                         | GHS03 Oxidizing                                           |
+| `ghs04-compressed-gas`                                    | GHS04 Compressed Gas                                      |
+| `ghs05-corrosive`                                         | GHS05 Corrosive                                           |
+| `ghs06-toxic`                                             | GHS06 Toxic                                               |
+| `ghs07-health-hazard-hazardous-to-the-atmospheric-system` | GHS07 Health Hazard / Hazardous to the Atmospheric System |
+| `ghs08-serious-health-hazard`                             | GHS08 Serious Health Hazard                               |
+| `ghs09-hazardous-to-the-environment`                      | GHS09 Hazardous to the Environment                        |
 
 ### UN transport hazard class pictograms
 

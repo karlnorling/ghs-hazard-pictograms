@@ -36,6 +36,22 @@ export const getPictogram = (id: string): Pictogram | undefined =>
   pictograms.find((p) => p.id === id);
 
 /**
+ * Returns a pictogram by its official code, case-insensitively — `"GHS01"` for
+ * a chemical hazard pictogram, or an ADR label designation such as `"2.1"`,
+ * `"7A"` or `"9"` for a transport one.
+ *
+ * Note that `"1"` is the label covering divisions 1.1, 1.2 and 1.3; divisions
+ * 1.4, 1.5 and 1.6 are separate labels with their own codes.
+ *
+ * Returns `undefined` when no pictogram carries that code.
+ */
+export const getPictogramByCode = (code: string): Pictogram | undefined => {
+  const wanted = code.trim().toUpperCase();
+  if (!wanted) return undefined;
+  return pictograms.find((p) => p.code.toUpperCase() === wanted);
+};
+
+/**
  * Returns all pictograms that belong to the given category.
  * @see {@link PictogramCategory} for valid category values.
  */

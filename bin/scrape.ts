@@ -8,6 +8,8 @@
  * Run indirectly via `yarn update` (bin/update.ts).
  */
 
+import fs from 'fs';
+import path from 'path';
 import { parse } from 'node-html-parser';
 
 // ---------------------------------------------------------------------------
@@ -46,14 +48,22 @@ export type ScrapedData = {
   Physical_and_health_hazard_pictograms: ScrapedSection;
   Physical_hazards_pictograms: ScrapedSection;
   Transport_pictograms: ScrapedTransportSection;
+  /** Curated, not scraped — see {@link EXTRAS_FILE}. */
+  Transport_marks: ScrapedSection;
 };
 
 // ---------------------------------------------------------------------------
 // Scrape configuration
 // ---------------------------------------------------------------------------
 
-/** Initial scrape config — data fields are populated during scraping. */
-const scrapedData: ScrapedData = {
+/**
+ * Initial scrape config — data fields are populated during scraping.
+ *
+ * `Transport_marks` is deliberately absent: it is curated, not scraped, and
+ * listing it here would make the scraper hunt for a Wikipedia section that
+ * does not exist. It is merged in by {@link scrape} instead.
+ */
+const scrapedData: Omit<ScrapedData, 'Transport_marks'> = {
   Environmental_hazards_pictograms: {
     data: {},
     nextSiblingCount: 1,
@@ -239,6 +249,23 @@ const scrapingData = (
 // Public API
 // ---------------------------------------------------------------------------
 
+/** Curated entries that no upstream page carries — see the file's own comment. */
+const EXTRAS_FILE = path.join('data', 'extra-pictograms.json');
+
+/**
+ * Reads the curated transport marks.
+ *
+ * ADR separates labels (the numbered class/division diamonds, 5.2.2.2) from
+ * marks (5.2.1 and 5.5: marine pollutant, fumigation, limited quantity,
+ * orientation arrows). The Wikipedia article this scraper reads lists only the
+ * labels, so the marks have to be declared explicitly.
+ */
+const readExtras = (): ScrapedSection => {
+  const raw = fs.readFileSync(EXTRAS_FILE, 'utf-8');
+  const parsed = JSON.parse(raw) as { Transport_marks: ScrapedSection };
+  return parsed.Transport_marks;
+};
+
 /**
  * Fetches the GHS hazard pictograms Wikipedia page and extracts structured
  * pictogram data for all sections (physical, health, environmental, transport).
@@ -249,13 +276,18 @@ const scrapingData = (
 const scrape = async (): Promise<ScrapedData> => {
   const GHS_HAZARD_URL = 'https://en.wikipedia.org/wiki/GHS_hazard_pictograms';
   const response = await fetch(GHS_HAZARD_URL);
-  if (response.status === 200) {
-    const data = await response.text();
-    const htmlData = parse(data);
-    return scrapingData(htmlData, scrapedData as unknown as Record<string, unknown>) as ScrapedData;
+  if (response.status !== 200) {
+    throw new Error(`Failed to fetch Wikipedia page: ${response.status}`);
   }
 
-  throw new Error(`Failed to fetch Wikipedia page: ${response.status}`);
+  const data = await response.text();
+  const htmlData = parse(data);
+  const scraped = scrapingData(
+    htmlData,
+    scrapedData as unknown as Record<string, unknown>,
+  ) as ScrapedData;
+
+  return { ...scraped, Transport_marks: readExtras() };
 };
 
 export default scrape;

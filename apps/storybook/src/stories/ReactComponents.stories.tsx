@@ -8,7 +8,7 @@ import {
   Ghs04CompressedGas,
   Ghs05Corrosive,
   Ghs06Toxic,
-  Ghs07HealthHazardHazardousToOzoneLayer,
+  Ghs07HealthHazardHazardousToTheAtmosphericSystem,
   Ghs08SeriousHealthHazard,
   Ghs09HazardousToTheEnvironment,
   // Transport hazard pictograms (aliased to avoid name clashes with story exports)
@@ -79,7 +79,7 @@ const GHS_COMPONENTS = [
   { Component: Ghs04CompressedGas, label: 'GHS04 Compressed Gas' },
   { Component: Ghs05Corrosive, label: 'GHS05 Corrosive' },
   { Component: Ghs06Toxic, label: 'GHS06 Toxic' },
-  { Component: Ghs07HealthHazardHazardousToOzoneLayer, label: 'GHS07 Health Hazard' },
+  { Component: Ghs07HealthHazardHazardousToTheAtmosphericSystem, label: 'GHS07 Health Hazard' },
   { Component: Ghs08SeriousHealthHazard, label: 'GHS08 Serious Health Hazard' },
   { Component: Ghs09HazardousToTheEnvironment, label: 'GHS09 Environmental Hazard' },
 ] as const;
@@ -241,7 +241,7 @@ export const Toxic: StoryObj<PictogramProps> = {
 export const HealthHazard: StoryObj<PictogramProps> = {
   name: 'GHS07 Health Hazard',
   ...individualParams,
-  render: (args) => <Ghs07HealthHazardHazardousToOzoneLayer {...args} />,
+  render: (args) => <Ghs07HealthHazardHazardousToTheAtmosphericSystem {...args} />,
 };
 
 export const SeriousHealthHazard: StoryObj<PictogramProps> = {

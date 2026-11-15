@@ -149,6 +149,34 @@
   background-size: contain;
 }
 
+.ghs-1991-united-states-hazmat-label-package-orientation {
+  background-image: url('../assets/assets/transport_marks/packageorientation/1991_-_United_States_Hazmat_Label_-_Package_Orientation.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.ghs-dot-hazmat-marine-pollutant {
+  background-image: url('../assets/assets/transport_marks/marinepollutant/DOT_hazmat_-_Marine_Pollutant.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.ghs-un-adr-limited-quantity-air {
+  background-image: url('../assets/assets/transport_marks/limitedquantity/UN_ADR_-_Limited_Quantity_-_Air.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.ghs-adr-fumigation-warning {
+  background-image: url('../assets/assets/transport_marks/fumigationwarning/ADR_Fumigation_warning.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 .ghs-ghs05 {
   background-image: url('../assets/assets/physical_hazards_pictograms/ghs05_corrosive/GHS-pictogram-acid.svg');
   background-position: center;
@@ -192,7 +220,7 @@
 }
 
 .ghs-ghs07 {
-  background-image: url('../assets/assets/health_hazards_pictograms/ghs07_healthhazard_hazardoustoozonelayer/GHS-pictogram-exclam.svg');
+  background-image: url('../assets/assets/health_hazards_pictograms/ghs07_healthhazard_hazardoustotheatmosphericsystem/GHS-pictogram-exclam.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
