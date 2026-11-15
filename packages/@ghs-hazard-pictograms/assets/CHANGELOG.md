@@ -1,5 +1,18 @@
 # @ghs-hazard-pictograms/assets
 
+## 2.1.0
+
+### Minor Changes
+
+- d2475ee: Add the four ADR transport marks — marine pollutant (5.2.1.6), fumigation
+  warning (5.5.2.3), limited quantity (3.4.7) and package orientation arrows
+  (5.2.1.10) — under a new `transport_marks` category.
+
+  ADR separates labels (the numbered class diamonds) from marks, and only the
+  labels appear on the Wikipedia page this registry is built from, so the marks
+  are curated in `data/extra-pictograms.json`. All four are public domain. Marks
+  carry an empty `code` because ADR does not number them.
+
 ## 2.0.0
 
 ### Major Changes

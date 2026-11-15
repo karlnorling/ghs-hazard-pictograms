@@ -1,5 +1,40 @@
 # @ghs-hazard-pictograms/core
 
+## 2.0.0
+
+### Major Changes
+
+- d2475ee: **Breaking:** GHS07 is renamed from "Health Hazard/Hazardous to Ozone Layer" to
+  "Health Hazard/Hazardous to the Atmospheric System", following the upstream
+  source. Because ids and component names are derived from the name, this renames:
+
+  - id `ghs07-health-hazard-hazardous-to-ozone-layer` →
+    `ghs07-health-hazard-hazardous-to-the-atmospheric-system`
+  - React/Vue `Ghs07HealthHazardHazardousToOzoneLayer` →
+    `Ghs07HealthHazardHazardousToTheAtmosphericSystem`
+  - the matching custom element and sprite id
+
+  `getPictogramByCode('GHS07')` is unaffected and is the stable way to reach this
+  pictogram.
+
+### Minor Changes
+
+- d2475ee: Add the four ADR transport marks — marine pollutant (5.2.1.6), fumigation
+  warning (5.5.2.3), limited quantity (3.4.7) and package orientation arrows
+  (5.2.1.10) — under a new `transport_marks` category.
+
+  ADR separates labels (the numbered class diamonds) from marks, and only the
+  labels appear on the Wikipedia page this registry is built from, so the marks
+  are curated in `data/extra-pictograms.json`. All four are public domain. Marks
+  carry an empty `code` because ADR does not number them.
+
+- c581b5f: Populate `code` for all 21 transport pictograms with their ADR label
+  designation (`"1"`, `"1.4"`, `"2.1"`, `"7A"`, `"9"`, …), and add
+  `getPictogramByCode()` to look up any pictogram by code.
+
+  Transport pictograms previously shipped with `code: ""`, so they could only be
+  found by slug id or by parsing their name. Pictogram ids are unchanged.
+
 ## 1.2.0
 
 ### Minor Changes
