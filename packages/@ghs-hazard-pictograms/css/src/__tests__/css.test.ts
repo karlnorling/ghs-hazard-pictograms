@@ -1,4 +1,4 @@
-import { getCssClassName, pictogramCssClasses } from '../index';
+import { getCssClassName, pictogramCssClasses } from '../index.js';
 import { getGHSPictograms } from '@ghs-hazard-pictograms/core';
 
 describe('getCssClassName()', () => {

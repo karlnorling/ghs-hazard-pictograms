@@ -1,7 +1,7 @@
 import { defineComponent, h } from 'vue';
 import type { PropType } from 'vue';
 import { getPictogram, renderSvg, splitSvg } from '@ghs-hazard-pictograms/core';
-import { pictogramProps } from './PictogramProps';
+import { pictogramProps } from './PictogramProps.js';
 
 let _instances = 0;
 

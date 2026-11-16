@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { Ghs01Explosive } from '../Ghs01Explosive';
+import { Ghs01Explosive } from '../Ghs01Explosive.js';
 
 describe('Ghs01Explosive', () => {
   it('renders a span containing an svg', () => {

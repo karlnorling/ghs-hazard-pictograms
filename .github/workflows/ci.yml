@@ -64,6 +64,9 @@ jobs:
       - name: Compile
         run: yarn compile
 
+      - name: Load the builds in Node (ESM and CommonJS)
+        run: yarn check-builds
+
       - name: Test
         run: yarn test
 

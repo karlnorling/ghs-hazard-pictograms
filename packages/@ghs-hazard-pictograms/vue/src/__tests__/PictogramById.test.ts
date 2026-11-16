@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { PictogramById } from '../PictogramById';
+import { PictogramById } from '../PictogramById.js';
 
 describe('PictogramById', () => {
   it('renders null for an unknown id', () => {

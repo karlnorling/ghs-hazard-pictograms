@@ -1,4 +1,4 @@
-import { GhsPictogram } from '../GhsPictogram';
+import { GhsPictogram } from '../GhsPictogram.js';
 
 const TAG = 'ghs-pictogram-test';
 
