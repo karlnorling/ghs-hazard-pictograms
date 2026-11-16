@@ -12,6 +12,7 @@
     "build-docs": "yarn workspace @ghs-docs/app build",
     "changeset": "changeset",
     "check": "manypkg check",
+    "check-builds": "node scripts/check-esm.mjs",
     "compile": "yarn workspaces foreach -A --topological-dev run compile",
     "docs": "yarn workspace @ghs-docs/app dev",
     "format": "oxfmt --write --ignore-path=.oxfmtignore .",

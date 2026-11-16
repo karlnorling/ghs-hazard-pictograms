@@ -7,13 +7,13 @@
  * @module ghs-hazard-pictograms
  */
 
-import { pictograms } from './pictograms.generated';
-import type { Pictogram, PictogramCategory } from './types';
+import { pictograms } from './pictograms.generated.js';
+import type { Pictogram, PictogramCategory } from './types.js';
 
-export type { Pictogram, PictogramAssets, PictogramCategory } from './types';
-export { pictograms } from './pictograms.generated';
-export { escapeHtml, renderSvg, scopeSvgIds, splitSvg, UID_PLACEHOLDER } from './svg';
-export type { RenderSvgOptions, SvgParts } from './svg';
+export type { Pictogram, PictogramAssets, PictogramCategory } from './types.js';
+export { pictograms } from './pictograms.generated.js';
+export { escapeHtml, renderSvg, scopeSvgIds, splitSvg, UID_PLACEHOLDER } from './svg.js';
+export type { RenderSvgOptions, SvgParts } from './svg.js';
 
 /**
  * Returns every pictogram in the registry (GHS01–GHS09 plus transport classes).

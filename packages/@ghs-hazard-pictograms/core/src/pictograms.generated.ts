@@ -1,7 +1,7 @@
 // THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY.
 // Run 'yarn generate' to regenerate.
 
-import type { Pictogram } from './types';
+import type { Pictogram } from './types.js';
 
 export const pictograms: Pictogram[] = [
   {

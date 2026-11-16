@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
-import * as ReactComponents from '../index';
+import * as ReactComponents from '../index.js';
 
 const renderToContainer = (element: React.ReactElement): HTMLElement => {
   const container = document.createElement('div');

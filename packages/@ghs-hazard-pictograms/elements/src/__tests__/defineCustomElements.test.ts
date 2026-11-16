@@ -1,4 +1,4 @@
-import { defineCustomElements } from '../defineCustomElements';
+import { defineCustomElements } from '../defineCustomElements.js';
 
 describe('defineCustomElements', () => {
   it('registers the default tags and can be called again safely', () => {

@@ -2,7 +2,7 @@
 // Run 'yarn generate' to regenerate.
 
 import { defineComponent, h } from 'vue';
-import { pictogramProps } from './PictogramProps';
+import { pictogramProps } from './PictogramProps.js';
 
 const _Attrs = `xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 91.242 91.244"`;
 const _Body = `<path fill="#fff" stroke="#000" stroke-width=".88" d="M45.624.622 90.623 45.62l-45 45L.625 45.622z"/><path d="M21.395 66.396h48.529L45.611 90.623zm48.448-41.549H21.314L45.623.62zM43.146 55.938v-7.625L36.51 37.828h4.288l4.263 7.163 4.176-7.163h4.21l-6.66 10.51v7.6z"/>`;

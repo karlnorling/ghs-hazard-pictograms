@@ -2,7 +2,7 @@
 // Run 'yarn generate' to regenerate.
 
 import * as React from 'react';
-import type { PictogramProps } from './PictogramProps';
+import type { PictogramProps } from './PictogramProps.js';
 
 const _Attrs = `xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 438 591"`;
 const _Body = `<path d="M0 1h437v590H0z"/><path fill="#fff" d="M28 29h379v535H28z"/><path d="M46 501h345v28H46zm166-325.84-33.333-5.666 7 313.326-34-6.333L117 482.82l2-313.326-31 5.665 60.333-93.999zm133 0-33.333-5.666 7 313.326-34-6.333L250 482.82l2-313.326-31 5.665 60.334-93.999z"/>`;

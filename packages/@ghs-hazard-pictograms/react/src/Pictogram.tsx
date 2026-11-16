@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { getPictogram, renderSvg, splitSvg } from '@ghs-hazard-pictograms/core';
-import type { PictogramProps } from './PictogramProps';
+import type { PictogramProps } from './PictogramProps.js';
 
 /** Props for the generic {@link PictogramById} component. */
 export interface PictogramByIdProps extends PictogramProps {

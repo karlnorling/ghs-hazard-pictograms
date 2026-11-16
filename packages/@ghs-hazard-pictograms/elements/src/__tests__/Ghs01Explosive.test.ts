@@ -1,4 +1,4 @@
-import { Ghs01Explosive } from '../Ghs01Explosive';
+import { Ghs01Explosive } from '../Ghs01Explosive.js';
 
 const TAG = Ghs01Explosive.tagName;
 

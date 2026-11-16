@@ -22,6 +22,8 @@ const config = {
     ],
   },
   moduleNameMapper: {
+    // Source imports end in .js so the ESM build runs in Node; point them back at the .ts files.
+    '^(\\.{1,2}/.*)\\.js$': '$1',
     '^@ghs-hazard-pictograms/core$': '<rootDir>/../core/src/index.ts',
   },
 };
