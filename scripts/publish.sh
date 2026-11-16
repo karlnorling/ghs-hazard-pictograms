@@ -40,6 +40,7 @@ for dir in packages/@ghs-hazard-pictograms/*/; do
   fi
 done
 
-# Create the git tags locally; the action pushes the ones recorded above and
-# opens a GitHub release for each.
-yarn changeset tag
+# No `changeset tag` here: it also appends to CHANGESETS_OUTPUT, which records
+# every tag twice and makes the action create each GitHub release twice (the
+# second fails with already_exists). The action creates the tags itself,
+# through the API, from the events recorded above.
