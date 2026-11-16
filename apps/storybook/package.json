@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "@ghs-hazard-pictograms/assets": "^2.1.0",
-    "@ghs-hazard-pictograms/core": "^2.0.0",
-    "@ghs-hazard-pictograms/elements": "^2.0.0",
-    "@ghs-hazard-pictograms/react": "^2.0.0"
+    "@ghs-hazard-pictograms/core": "^2.0.1",
+    "@ghs-hazard-pictograms/elements": "^2.0.1",
+    "@ghs-hazard-pictograms/react": "^2.0.1"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^10.6.6",

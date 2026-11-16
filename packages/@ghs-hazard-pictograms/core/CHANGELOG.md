@@ -1,5 +1,11 @@
 # @ghs-hazard-pictograms/core
 
+## 2.0.1
+
+### Patch Changes
+
+- 097d651: Fix `ERR_MODULE_NOT_FOUND` when importing the ESM build in Node. Relative imports in `dist/esm` now end in `.js`, as Node's ESM loader requires. Bundlers were unaffected.
+
 ## 2.0.0
 
 ### Major Changes
