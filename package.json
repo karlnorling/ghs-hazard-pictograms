@@ -40,7 +40,7 @@
     "oxlint": "^1.94.0",
     "sharp": "^0.35.5",
     "storybook": "^10.6.7",
-    "stylelint": "^17.16.0",
+    "stylelint": "^18.0.0",
     "stylelint-config-standard": "^40.0.0",
     "svgo": "^4.1.0",
     "tsx": "^4.23.15",
